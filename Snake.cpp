@@ -7,6 +7,7 @@ tuple<int, int> Snake::getClosestPoint(vector<tuple<int, int>> points)
 {
     tuple<int, int> head = this->position.back(); // get the head
     double minDis = pow((get<0>(points[0]) - get<0>(head)), 2) + pow((get<1>(points[0]) - get<1>(head)), 2);
+    cout << "﫟" << endl;
     tuple<int, int> minDisIndex = points[0];
     for (int i = 1; i < points.size(); i++) {
         if (pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2) < minDis) {
@@ -60,6 +61,7 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
     }
 
     tuple<int, int> target = getClosestPoint(points);
+
     cout << "什 target: (" << get<0>(target) << ", " << get<1>(target) << ")" << endl;
     /**
      * Movements:
@@ -78,9 +80,6 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
     if (get<0>(target) - get<0>(head) > 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->down, get<1>(nextPos)))) {
         nextPos = make_tuple(get<0>(nextPos) + this->down, get<1>(nextPos));
     } else if (get<0>(target) - get<0>(head) < 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->up, get<1>(nextPos)))) {
-        cout << "here " << endl;
-        cout << "飯 traffic head: (" << get<0>(head) << ", " << get<1>(head) << ")" << endl;
-        cout << "飯 traffic nextPos: (" << get<0>(nextPos) << ", " << get<1>(nextPos) << ")" << endl;
         nextPos = make_tuple(get<0>(nextPos) + this->up, get<1>(nextPos));
     } else if (get<1>(target) - get<1>(head) > 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->right))) {
         nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->right);

@@ -19,6 +19,17 @@ Map::~Map()
 {
 }
 
+void Map::cleanSnake()
+{
+    for (int i = 0; i < this->map.size(); i++) {
+        for (int j = 0; j < this->map[0].size(); j++) {
+            if (this->map[i][j] == -3) {
+                this->map[i][j] = 0; // FIXME
+            }
+        }
+    }
+}
+
 void Map::showMap()
 {
     cout << " Map size: " << this->map.size() << " x " << this->map[0].size() << endl;
@@ -26,8 +37,6 @@ void Map::showMap()
         for (int j = 0; j < this->map[0].size(); j++) {
             if (this->map[i][j] == -3) {
                 cout << right << setw(5) << "x";
-
-                this->map[i][j] = 0; // FIXME
                 // REF: [map change]
             } else
                 cout << right << setw(5) << this->map[i][j];
@@ -55,11 +64,25 @@ vector<vector<int>> Map::getMap() const
 void Map::updateSnakePos(Snake& snake)
 {
     queue<tuple<int, int>> tmpPos = snake.getStaticPosition();
-
+    this->cleanSnake();
     while (!tmpPos.empty()) {
         this->map[get<0>(tmpPos.front())][get<1>(tmpPos.front())] = -3; //REF: [map change]
         tmpPos.pop();
     }
 
     return;
+}
+
+void Map::updateMap()
+{
+    if (!this->hasPoint()) {
+        srand(time(NULL));
+        tuple<int, int> candyPos = make_tuple(rand() % (this->map.size() - 2) + 1, rand() % (this->map[0].size() - 2) + 1);
+        cout << "Updating..." << endl;
+        while (map[get<0>(candyPos)][get<1>(candyPos)] == -3 || map[get<0>(candyPos)][get<1>(candyPos)] == -1) {
+            candyPos = make_tuple(rand() % (this->map.size() - 1) + 1, rand() % (this->map[0].size() - 1) + 1);
+        }
+        map[get<0>(candyPos)][get<1>(candyPos)] = 1;
+        cout << "Map updated! " << endl;
+    }
 }

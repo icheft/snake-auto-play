@@ -18,14 +18,18 @@ int main()
     map.updateSnakePos(snake);
     map.showMap();
 
-    while (map.hasPoint()) {
+    // while (map.hasPoint()) {
+    for (int i = 0; i < 30; i++) {
         cout << "////////////////////////////////" << endl;
         snake.nextPosition(map.getMap());
+        // cout << "﫟" << endl;
+        map.showMap();
         snake.displayStats();
         map.updateSnakePos(snake);
-        map.showMap();
+        map.updateMap();
         cout << "////////////////////////////////" << endl;
     }
+    // }
 
     // snake.addLength(tuple<int, int>(3, 4));
     // snake.nextPosition(map.getMap());

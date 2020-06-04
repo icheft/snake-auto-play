@@ -1,5 +1,7 @@
 #pragma once
 #include "Snake.h"
+#include <cstdlib>
+#include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <vector>
@@ -9,6 +11,7 @@ class Map
 {
 private:
     vector<vector<int>> map;
+    void cleanSnake();
 
 public:
     Map();
@@ -18,4 +21,5 @@ public:
     bool hasPoint();
 
     void updateSnakePos(Snake& snake);
+    void updateMap();
 };
