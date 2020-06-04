@@ -7,7 +7,7 @@ tuple<int, int> Snake::getClosestPoint(vector<tuple<int, int>> points)
 {
     tuple<int, int> head = this->position.back(); // get the head
     double minDis = pow((get<0>(points[0]) - get<0>(head)), 2) + pow((get<1>(points[0]) - get<1>(head)), 2);
-    cout << "﫟" << endl;
+
     tuple<int, int> minDisIndex = points[0];
     for (int i = 1; i < points.size(); i++) {
         if (pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2) < minDis) {
@@ -62,7 +62,6 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
 
     tuple<int, int> target = getClosestPoint(points);
 
-    cout << "什 target: (" << get<0>(target) << ", " << get<1>(target) << ")" << endl;
     /**
      * Movements:
      * 4 cases:
@@ -113,13 +112,13 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
 void Snake::displayStats() const
 {
     queue<tuple<int, int>> posQ = this->position;
-    cout << "tail {";
-    while (!posQ.empty()) {
-        cout << "(" << get<0>(posQ.front()) << ", " << get<1>(posQ.front()) << ")";
-        if (posQ.front() != posQ.back()) cout << ", ";
-        posQ.pop();
-    }
-    cout << "} head " << endl;
+    // cout << "tail {";
+    // while (!posQ.empty()) {
+    //     cout << "(" << get<0>(posQ.front()) << ", " << get<1>(posQ.front()) << ")";
+    //     if (posQ.front() != posQ.back()) cout << ", ";
+    //     posQ.pop();
+    // }
+    // cout << "} head " << endl;
 }
 
 // Testing
