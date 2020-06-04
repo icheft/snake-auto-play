@@ -18,7 +18,22 @@ int main()
     map.updateSnakePos(snake);
     map.showMap();
 
+    while (map.hasPoint()) {
+        cout << "////////////////////////////////" << endl;
+        snake.nextPosition(map.getMap());
+        snake.displayStats();
+        map.updateSnakePos(snake);
+        map.showMap();
+        cout << "////////////////////////////////" << endl;
+    }
+
     // snake.addLength(tuple<int, int>(3, 4));
+    // snake.nextPosition(map.getMap());
+    // snake.displayStats();
+    // map.updateSnakePos(snake);
+    // map.showMap();
+
+    // snake.nextPosition(map.getMap());
     // snake.displayStats();
     // map.updateSnakePos(snake);
     // map.showMap();

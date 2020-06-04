@@ -13,8 +13,9 @@ private:
 public:
     Map();
     ~Map();
-    void showMap() const;
+    void showMap();
     vector<vector<int>> getMap() const;
+    bool hasPoint();
 
     void updateSnakePos(Snake& snake);
 };

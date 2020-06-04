@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 #include <iostream>
 #include <queue>
 #include <tuple>
@@ -13,17 +14,21 @@ class Snake
 private:
     enum
     {
-        up,
-        down,
-        right,
-        left
+        up = -1,
+        down = 1,
+        right = 1,
+        left = -1
     };
 
     queue<tuple<int, int>> position;
 
     // Add anything else you need
 protected:
+    // helpers
     tuple<int, int> getClosestPoint(vector<tuple<int, int>> points);
+    void addLength(tuple<int, int> nextPos);
+    void moveBody(tuple<int, int> nextPos);
+    bool isBodyPart(tuple<int, int> pos);
 
 public:
     // Don't edit interface
@@ -34,6 +39,5 @@ public:
     void displayStats() const;
 
     // Testing
-    void addLength(tuple<int, int> nextPost);
     queue<tuple<int, int>> getStaticPosition();
 };
