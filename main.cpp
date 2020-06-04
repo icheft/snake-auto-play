@@ -16,10 +16,11 @@ int main()
     snake.displayStats();
 
     map.updateSnakePos(snake);
+    map.updateMap();
     map.showMap();
 
     // while (map.hasPoint()) {
-    for (int i = 0; i < 30; i++) {
+    for (int i = 0; i < 40; i++) {
         cout << "////////////////////////////////" << endl;
         snake.nextPosition(map.getMap());
         // cout << "﫟" << endl;

@@ -5,9 +5,12 @@ Map::Map()
     this->map = {
         { -1, -1, -1, -1, -1, -1, -1 },
         { -1, 0, 0, 0, 0, 0, -1 },
-        { -1, 2, 0, 0, 0, 0, -1 },
         { -1, 0, 0, 0, 0, 0, -1 },
-        { -1, 0, 0, 0, 1, 0, -1 },
+        { -1, 0, 0, 0, 0, 0, -1 },
+        { -1, 0, 0, 0, 0, 0, -1 },
+        { -1, 0, 0, 0, 0, 0, -1 },
+        { -1, 0, 0, 0, 0, 0, -1 },
+        { -1, 0, 0, 0, 0, 0, -1 },
         { -1, 0, 0, 0, 0, 0, -1 },
         { -1, 0, 0, 0, 0, 0, -1 },
         { -1, 0, 0, 0, 0, 0, -1 },
@@ -77,12 +80,16 @@ void Map::updateMap()
 {
     if (!this->hasPoint()) {
         srand(time(NULL));
-        tuple<int, int> candyPos = make_tuple(rand() % (this->map.size() - 2) + 1, rand() % (this->map[0].size() - 2) + 1);
-        cout << "Updating..." << endl;
-        while (map[get<0>(candyPos)][get<1>(candyPos)] == -3 || map[get<0>(candyPos)][get<1>(candyPos)] == -1) {
-            candyPos = make_tuple(rand() % (this->map.size() - 1) + 1, rand() % (this->map[0].size() - 1) + 1);
+
+        int cnt = rand() % 4 + 1;
+        for (int i = 0; i < cnt; i++) {
+            tuple<int, int> candyPos = make_tuple(rand() % (this->map.size() - 2) + 1, rand() % (this->map[0].size() - 2) + 1);
+            cout << "Updating..." << endl;
+            while (map[get<0>(candyPos)][get<1>(candyPos)] == -3 || map[get<0>(candyPos)][get<1>(candyPos)] == -1) {
+                candyPos = make_tuple(rand() % (this->map.size() - 1) + 1, rand() % (this->map[0].size() - 1) + 1);
+            }
+            map[get<0>(candyPos)][get<1>(candyPos)] = 1;
         }
-        map[get<0>(candyPos)][get<1>(candyPos)] = 1;
         cout << "Map updated! " << endl;
     }
 }

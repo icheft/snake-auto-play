@@ -87,6 +87,18 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
         nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->left);
     }
 
+    if (nextPos == head) {
+        if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->down, get<1>(nextPos)))) {
+            nextPos = make_tuple(get<0>(nextPos) + this->down, get<1>(nextPos));
+        } else if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->up, get<1>(nextPos)))) {
+            nextPos = make_tuple(get<0>(nextPos) + this->up, get<1>(nextPos));
+        } else if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->right))) {
+            nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->right);
+        } else if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->left))) {
+            nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->left);
+        }
+    }
+
     // move
 
     if (nextPos == target) {
