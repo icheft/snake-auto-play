@@ -127,7 +127,7 @@ void Snake::displayStats() const
         if (posQ.front() != posQ.back()) cout << ", ";
         posQ.pop();
     }
-    cout << "} head " << endl;
+    cout << "} head" << endl;
 }
 
 // Testing
