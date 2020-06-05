@@ -8,3 +8,6 @@ src/
 COLORS*
 colors*
 Colors*
+
+## macOS ##
+.vscode/
