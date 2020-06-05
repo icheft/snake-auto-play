@@ -59,7 +59,8 @@ int main(int argc, char* argv[])
             map.updateMap();
             cout << "////////////////////////////////" << endl;
 
-            usleep(100000);
+            // usleep(100000);
+            usleep(50000);
             printf("\033c");
         }
     } else if (arg == "-f" || arg == "--frames") {
