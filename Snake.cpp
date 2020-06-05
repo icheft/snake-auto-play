@@ -49,6 +49,7 @@ Snake::Snake(queue<tuple<int, int>> startPosition)
     this->position = startPosition;
 
     // length
+    this->length = 0;
     queue<tuple<int, int>> posQ = this->position;
     while (!posQ.empty()) {
         this->length++;

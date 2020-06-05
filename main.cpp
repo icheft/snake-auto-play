@@ -3,13 +3,12 @@
 
 int main()
 {
-    Map map;
+    Map map(2);
     map.showMap();
 
     queue<tuple<int, int>> initPos;
-    tuple<int, int> pos;
-    pos = make_tuple(2, 2);
-    initPos.push(pos);
+
+    initPos.push(tuple<int, int>(2, 2));
     initPos.push(tuple<int, int>(2, 3));
     initPos.push(tuple<int, int>(2, 4));
     Snake snake(initPos);
@@ -42,8 +41,8 @@ int main()
         // if (continueOpt != EOF) printf("\033c");
         // else
         //     break;
-        // cin.ignore();
-        // printf("\033c");
+        cin.ignore();
+        printf("\033c");
     }
     // }
 

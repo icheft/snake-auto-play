@@ -34,6 +34,7 @@ private:
 
 public:
     Map();
+    Map(int level);
     ~Map();
     void showMap();
     vector<vector<int>> getMap() const;
