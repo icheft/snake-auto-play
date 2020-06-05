@@ -85,13 +85,13 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
      */
     tuple<int, int> head = this->position.back();
     tuple<int, int> nextPos = head;
-    if (get<0>(target) - get<0>(head) > 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->down, get<1>(nextPos)))) {
+    if (get<0>(target) - get<0>(head) > 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->down, get<1>(nextPos))) && map[get<0>(nextPos) + this->down][get<1>(nextPos)] != -1) {
         nextPos = make_tuple(get<0>(nextPos) + this->down, get<1>(nextPos));
-    } else if (get<0>(target) - get<0>(head) < 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->up, get<1>(nextPos)))) {
+    } else if (get<0>(target) - get<0>(head) < 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->up, get<1>(nextPos))) && map[get<0>(nextPos) + this->up][get<1>(nextPos)] != -1) {
         nextPos = make_tuple(get<0>(nextPos) + this->up, get<1>(nextPos));
-    } else if (get<1>(target) - get<1>(head) > 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->right))) {
+    } else if (get<1>(target) - get<1>(head) > 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->right)) && map[get<0>(nextPos)][get<1>(nextPos) + this->right] != -1) {
         nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->right);
-    } else if (get<1>(target) - get<1>(head) < 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->left))) {
+    } else if (get<1>(target) - get<1>(head) < 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->left)) && map[get<0>(nextPos)][get<1>(nextPos) + this->left] != -1) {
         nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->left);
     }
 

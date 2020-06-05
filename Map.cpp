@@ -105,6 +105,28 @@ Map::Map(int level)
             { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
         };
         break;
+    case 6:
+        this->map = {
+            { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 },
+            { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1 },
+            { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1 },
+            { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1 },
+            { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1 },
+            { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1 },
+            { -1, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, -1 },
+            { -1, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, -1 },
+            { -1, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, -1 },
+            { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1 },
+            { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1 },
+            { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1 },
+            { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1 },
+            { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1 },
+            { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1 },
+            { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1 },
+            { -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1 },
+            { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }
+        };
+        break;
 
     default:
         this->map = {
@@ -141,18 +163,19 @@ void Map::cleanSnake()
 
 void Map::showMap()
 {
+    const int spaceSize = 4;
     cout << " Map size: " << this->map.size() << " x " << this->map[0].size() << endl;
     for (int i = 0; i < this->map.size(); i++) {
         for (int j = 0; j < this->map[0].size(); j++) {
             if (this->map[i][j] == -3) {
-                cout << right << GREEN << "x" << RESET << "\t";
+                cout << right << string(spaceSize, ' ') << GREEN << "x" << RESET;
                 // REF: [map change]
             } else if (this->map[i][j] == -1) {
-                cout << right << BOLDBLACK << this->map[i][j] << RESET << "\t";
+                cout << right << string(spaceSize - 1, ' ') << BOLDBLACK << this->map[i][j] << RESET;
             } else if (this->map[i][j] != 0) {
-                cout << right << BOLDYELLOW << this->map[i][j] << RESET << "\t";
+                cout << right << string(spaceSize, ' ') << BOLDYELLOW << this->map[i][j] << RESET;
             } else
-                cout << right << this->map[i][j] << "\t";
+                cout << right << string(spaceSize, ' ') << this->map[i][j];
         }
         cout << endl;
     }
