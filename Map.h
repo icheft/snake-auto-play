@@ -4,6 +4,7 @@
 #include <ctime>
 #include <iomanip>
 #include <iostream>
+#include <string>
 #include <vector>
 
 #define RESET "\033[0m"
