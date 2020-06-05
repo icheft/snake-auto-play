@@ -32,6 +32,15 @@ protected:
     void moveBody(tuple<int, int> nextPos);
     bool isBodyPart(tuple<int, int> pos);
 
+    /*
+        return n if not
+        return l if should go left
+        return r if should go right
+        return u if should go up
+        return d if should go down
+    */
+    char hasTwoWays(vector<vector<int>>& map);
+
 public:
     // Don't edit interface
     Snake(queue<tuple<int, int>> startPosition);

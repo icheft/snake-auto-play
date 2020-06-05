@@ -10,6 +10,9 @@ Trying out the `Hamiltonian` Cycle and `Graph` Search on the `AI` branch.
 + [ ] Hamiltonian Cycle
 + [ ] Graph search 
 
+`Judge By Openness`: 
+If at one point, the Snake has only two possible ways to go, it means that the snake should always go for the one with more spaces.
+
 ## DSAP期末競賽
 > The following section is copied entirely from the specimen given by the professor. @icheft does not possess any permission upon distributing them. If you are the author of the document and you don't want it to be published, please let me know, and I will remove the content.
 

@@ -42,6 +42,10 @@ bool Snake::isBodyPart(tuple<int, int> pos)
     return false;
 }
 
+char Snake::hasTwoWays(vector<vector<int>>& map)
+{
+}
+
 // public
 Snake::Snake(queue<tuple<int, int>> startPosition)
 {
@@ -86,6 +90,7 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
      */
     tuple<int, int> head = this->position.back();
     tuple<int, int> nextPos = head;
+
     if (get<0>(target) - get<0>(head) > 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->down, get<1>(nextPos)))) {
         nextPos = make_tuple(get<0>(nextPos) + this->down, get<1>(nextPos));
     } else if (get<0>(target) - get<0>(head) < 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->up, get<1>(nextPos)))) {
