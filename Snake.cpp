@@ -21,6 +21,7 @@ tuple<int, int> Snake::getClosestPoint(vector<tuple<int, int>> points)
 
 void Snake::addLength(tuple<int, int> nextPos)
 {
+    this->length++;
     this->position.push(nextPos);
 }
 
@@ -46,6 +47,13 @@ Snake::Snake(queue<tuple<int, int>> startPosition)
 {
     // Implement by yourself
     this->position = startPosition;
+
+    // length
+    queue<tuple<int, int>> posQ = this->position;
+    while (!posQ.empty()) {
+        this->length++;
+        posQ.pop();
+    }
 }
 
 queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
@@ -88,13 +96,13 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
     }
 
     if (nextPos == head) {
-        if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->down, get<1>(nextPos)))) {
+        if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->down, get<1>(nextPos))) && map[get<0>(nextPos) + this->down][get<1>(nextPos)] != -1) {
             nextPos = make_tuple(get<0>(nextPos) + this->down, get<1>(nextPos));
-        } else if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->up, get<1>(nextPos)))) {
+        } else if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->up, get<1>(nextPos))) && map[get<0>(nextPos) + this->up][get<1>(nextPos)] != -1) {
             nextPos = make_tuple(get<0>(nextPos) + this->up, get<1>(nextPos));
-        } else if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->right))) {
+        } else if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->right)) && map[get<0>(nextPos)][get<1>(nextPos) + this->right] != -1) {
             nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->right);
-        } else if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->left))) {
+        } else if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->left)) && map[get<0>(nextPos)][get<1>(nextPos) + this->left] != -1) {
             nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->left);
         }
     }
@@ -113,6 +121,7 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
 void Snake::displayStats() const
 {
     queue<tuple<int, int>> posQ = this->position;
+    cout << "[" << this->length << "]-";
     cout << "tail {";
     while (!posQ.empty()) {
         cout << "(" << get<0>(posQ.front()) << ", " << get<1>(posQ.front()) << ")";
@@ -127,4 +136,9 @@ void Snake::displayStats() const
 queue<tuple<int, int>> Snake::getStaticPosition()
 {
     return this->position;
+}
+
+int Snake::getLength() const
+{
+    return this->length;
 }

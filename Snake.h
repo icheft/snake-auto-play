@@ -23,6 +23,8 @@ private:
     queue<tuple<int, int>> position;
 
     // Add anything else you need
+    int length;
+
 protected:
     // helpers
     tuple<int, int> getClosestPoint(vector<tuple<int, int>> points);
@@ -40,4 +42,5 @@ public:
 
     // Testing
     queue<tuple<int, int>> getStaticPosition();
+    int getLength() const;
 };
