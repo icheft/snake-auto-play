@@ -42,18 +42,98 @@ bool Snake::isBodyPart(tuple<int, int> pos)
     return false;
 }
 
+int Snake::checkLeft()
+{
+    queue<tuple<int, int>> posQ = this->position;
+    tuple<int, int> head = this->position.back();
+    int cnt = 0;
+    while (!posQ.empty()) {
+        if ((get<1>(head) - get<1>(posQ.front())) > 0) {
+            cnt++;
+        }
+        posQ.pop();
+    }
+    return cnt;
+}
+int Snake::checkRight()
+{
+    queue<tuple<int, int>> posQ = this->position;
+    tuple<int, int> head = this->position.back();
+    int cnt = 0;
+    while (!posQ.empty()) {
+        if ((get<1>(head) - get<1>(posQ.front())) < 0) {
+            cnt++;
+        }
+        posQ.pop();
+    }
+    return cnt;
+}
+
+int Snake::checkUp()
+{
+    queue<tuple<int, int>> posQ = this->position;
+    tuple<int, int> head = this->position.back();
+    int cnt = 0;
+    while (!posQ.empty()) {
+        if ((get<0>(head) - get<0>(posQ.front())) > 0) {
+            cnt++;
+        }
+        posQ.pop();
+    }
+    return cnt;
+}
+int Snake::checkDown()
+{
+    queue<tuple<int, int>> posQ = this->position;
+    tuple<int, int> head = this->position.back();
+    int cnt = 0;
+    while (!posQ.empty()) {
+        if ((get<0>(head) - get<0>(posQ.front())) < 0) {
+            cnt++;
+        }
+        posQ.pop();
+    }
+    return cnt;
+}
+
 char Snake::hasTwoWays(vector<vector<int>>& map)
 {
     tuple<int, int> head = this->position.back();
 
-    if (this->isBodyPart(tuple<int, int>(get<0>(head) + this->down, get<1>(head)))) {
-        nextPos = make_tuple(get<0>(nextPos) + this->down, get<1>(nextPos));
-    } else if (get<0>(target) - get<0>(head) < 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->up, get<1>(nextPos)))) {
-        nextPos = make_tuple(get<0>(nextPos) + this->up, get<1>(nextPos));
-    } else if (get<1>(target) - get<1>(head) > 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->right))) {
-        nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->right);
-    } else if (get<1>(target) - get<1>(head) < 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->left))) {
-        nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->left);
+    if ((this->isBodyPart(tuple<int, int>(get<0>(head) + this->down, get<1>(head))) && this->isBodyPart(tuple<int, int>(get<0>(head) + this->up, get<1>(head)))) || (map[get<0>(head) + this->down][get<1>(head)] == -1 && this->isBodyPart(tuple<int, int>(get<0>(head) + this->up, get<1>(head))))) {
+        if (map[get<0>(head)][get<1>(head) + this->left] != -1 && map[get<0>(head)][get<1>(head) + this->right] != -1) {
+            if (checkRight() > checkLeft()) return 'l';
+            else
+                return 'r';
+        } else {
+            return 'n';
+        }
+    } else if ((this->isBodyPart(tuple<int, int>(get<0>(head) + this->up, get<1>(head))) && this->isBodyPart(tuple<int, int>(get<0>(head) + this->down, get<1>(head)))) || (map[get<0>(head) + this->up][get<1>(head)] == -1 && this->isBodyPart(tuple<int, int>(get<0>(head) + this->down, get<1>(head))))) {
+        if (map[get<0>(head)][get<1>(head) + this->left] != -1 && map[get<0>(head)][get<1>(head) + this->right] != -1) {
+            if (checkRight() > checkLeft()) return 'l';
+            else
+                return 'r';
+        } else {
+            return 'n';
+        }
+    } else if ((this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->right)) && this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->left))) || (map[get<0>(head)][get<1>(head) + this->right] == -1 && this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->left)))) {
+        if (map[get<0>(head) + this->up][get<1>(head)] != -1 && map[get<0>(head) + this->down][get<1>(head)] != -1) {
+            if (checkDown() > checkUp()) return 'u';
+            else
+                return 'd';
+        } else {
+            return 'n';
+        }
+    } else if ((this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->left)) && this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->right))) || (map[get<0>(head)][get<1>(head) + this->left] == -1 && this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->right)))) {
+        if (map[get<0>(head) + this->up][get<1>(head)] != -1 && map[get<0>(head) + this->down][get<1>(head)] != -1) {
+            if (checkDown() > checkUp()) return 'u';
+            else
+                return 'd';
+        } else {
+            return 'n';
+        }
+    } else {
+        return 'n';
     }
 }
 
@@ -99,28 +179,40 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
      *  target_col - col < 0
      *     move left
      */
+
     tuple<int, int> head = this->position.back();
     tuple<int, int> nextPos = head;
-
-    if (get<0>(target) - get<0>(head) > 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->down, get<1>(nextPos)))) {
-        nextPos = make_tuple(get<0>(nextPos) + this->down, get<1>(nextPos));
-    } else if (get<0>(target) - get<0>(head) < 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->up, get<1>(nextPos)))) {
-        nextPos = make_tuple(get<0>(nextPos) + this->up, get<1>(nextPos));
-    } else if (get<1>(target) - get<1>(head) > 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->right))) {
-        nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->right);
-    } else if (get<1>(target) - get<1>(head) < 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->left))) {
+    char opt = hasTwoWays(map);
+    if (opt == 'l') {
         nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->left);
-    }
+    } else if (opt == 'r') {
+        nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->right);
+    } else if (opt == 'u') {
+        nextPos = make_tuple(get<0>(nextPos) + this->up, get<1>(nextPos));
+    } else if (opt == 'd') {
+        nextPos = make_tuple(get<0>(nextPos) + this->down, get<1>(nextPos));
+    } else {
 
-    if (nextPos == head) {
-        if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->down, get<1>(nextPos))) && map[get<0>(nextPos) + this->down][get<1>(nextPos)] != -1) {
+        if (get<0>(target) - get<0>(head) > 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->down, get<1>(nextPos))) && map[get<0>(nextPos) + this->down][get<1>(nextPos)] != -1) {
             nextPos = make_tuple(get<0>(nextPos) + this->down, get<1>(nextPos));
-        } else if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->up, get<1>(nextPos))) && map[get<0>(nextPos) + this->up][get<1>(nextPos)] != -1) {
+        } else if (get<0>(target) - get<0>(head) < 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->up, get<1>(nextPos))) && map[get<0>(nextPos) + this->up][get<1>(nextPos)] != -1) {
             nextPos = make_tuple(get<0>(nextPos) + this->up, get<1>(nextPos));
-        } else if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->right)) && map[get<0>(nextPos)][get<1>(nextPos) + this->right] != -1) {
+        } else if (get<1>(target) - get<1>(head) > 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->right)) && map[get<0>(nextPos)][get<1>(nextPos) + this->right] != -1) {
             nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->right);
-        } else if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->left)) && map[get<0>(nextPos)][get<1>(nextPos) + this->left] != -1) {
+        } else if (get<1>(target) - get<1>(head) < 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->left)) && map[get<0>(nextPos)][get<1>(nextPos) + this->left] != -1) {
             nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->left);
+        }
+
+        if (nextPos == head) {
+            if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->down, get<1>(nextPos))) && map[get<0>(nextPos) + this->down][get<1>(nextPos)] != -1) {
+                nextPos = make_tuple(get<0>(nextPos) + this->down, get<1>(nextPos));
+            } else if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->up, get<1>(nextPos))) && map[get<0>(nextPos) + this->up][get<1>(nextPos)] != -1) {
+                nextPos = make_tuple(get<0>(nextPos) + this->up, get<1>(nextPos));
+            } else if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->right)) && map[get<0>(nextPos)][get<1>(nextPos) + this->right] != -1) {
+                nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->right);
+            } else if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->left)) && map[get<0>(nextPos)][get<1>(nextPos) + this->left] != -1) {
+                nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->left);
+            }
         }
     }
 

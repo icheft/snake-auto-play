@@ -32,6 +32,11 @@ protected:
     void moveBody(tuple<int, int> nextPos);
     bool isBodyPart(tuple<int, int> pos);
 
+    int checkLeft();
+    int checkRight();
+    int checkUp();
+    int checkDown();
+
     /*
         return n if not
         return l if should go left
