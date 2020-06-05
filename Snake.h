@@ -9,6 +9,15 @@
 
 using namespace std;
 
+enum Direction
+{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+    NONE
+};
+
 class Snake
 {
 private:
@@ -24,6 +33,7 @@ private:
 
     // Add anything else you need
     int length;
+    Direction direction;
 
 protected:
     // helpers
