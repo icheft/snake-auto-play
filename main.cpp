@@ -18,17 +18,32 @@ int main()
     map.updateSnakePos(snake);
     map.updateMap();
     map.showMap();
+    int preLen = snake.getLength();
 
     // while (map.hasPoint()) {
-    for (int i = 0; i < 40; i++) {
+    while (snake.getLength() <= 40) {
         cout << "////////////////////////////////" << endl;
+        snake.displayStats();
         snake.nextPosition(map.getMap());
         // cout << "﫟" << endl;
         map.showMap();
-        snake.displayStats();
-        map.updateSnakePos(snake);
+        if (!map.updateSnakePos(snake)) {
+            cout << "Y ﮙ U EAT YOURSELF" << endl;
+            cout << "////////////////////////////////" << endl;
+            break;
+        }
         map.updateMap();
         cout << "////////////////////////////////" << endl;
+
+        // for debugging purpose
+        // commenting the lines below will give a whole look of the result
+        // char continueOpt;
+        // cin >> continueOpt;
+        // if (continueOpt != EOF) printf("\033c");
+        // else
+        //     break;
+        // cin.ignore();
+        // printf("\033c");
     }
     // }
 

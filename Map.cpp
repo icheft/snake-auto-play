@@ -11,9 +11,6 @@ Map::Map()
         { -1, 0, 0, 0, 0, 0, -1 },
         { -1, 0, 0, 0, 0, 0, -1 },
         { -1, 0, 0, 0, 0, 0, -1 },
-        { -1, 0, 0, 0, 0, 0, -1 },
-        { -1, 0, 0, 0, 0, 0, -1 },
-        { -1, 0, 0, 0, 0, 0, -1 },
         { -1, -1, -1, -1, -1, -1, -1 }
     };
 }
@@ -39,10 +36,14 @@ void Map::showMap()
     for (int i = 0; i < this->map.size(); i++) {
         for (int j = 0; j < this->map[0].size(); j++) {
             if (this->map[i][j] == -3) {
-                cout << right << setw(5) << "x";
+                cout << right << GREEN << "x" << RESET << "\t";
                 // REF: [map change]
+            } else if (this->map[i][j] == -1) {
+                cout << right << BOLDBLACK << this->map[i][j] << RESET << "\t";
+            } else if (this->map[i][j] != 0) {
+                cout << right << BOLDYELLOW << this->map[i][j] << RESET << "\t";
             } else
-                cout << right << setw(5) << this->map[i][j];
+                cout << right << this->map[i][j] << "\t";
         }
         cout << endl;
     }
@@ -64,16 +65,18 @@ vector<vector<int>> Map::getMap() const
     return this->map;
 }
 
-void Map::updateSnakePos(Snake& snake)
+bool Map::updateSnakePos(Snake& snake)
 {
     queue<tuple<int, int>> tmpPos = snake.getStaticPosition();
     this->cleanSnake();
     while (!tmpPos.empty()) {
-        this->map[get<0>(tmpPos.front())][get<1>(tmpPos.front())] = -3; //REF: [map change]
+        if (this->map[get<0>(tmpPos.front())][get<1>(tmpPos.front())] == -3) return false;
+        else
+            this->map[get<0>(tmpPos.front())][get<1>(tmpPos.front())] = -3; //REF: [map change]
         tmpPos.pop();
     }
 
-    return;
+    return true;
 }
 
 void Map::updateMap()
