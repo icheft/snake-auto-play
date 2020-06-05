@@ -5,6 +5,11 @@ Freshman programming project, which requires students to write a program to auti
 ## How to Use
 The source code for submission is located at the `submission` branch. The `master` branch is for development use and it provides more information about the project. 
 
+## Ideas
+Trying out the `Hamiltonian` Cycle and `Graph` Search on the `AI` branch.
++ [ ] Hamiltonian Cycle
++ [ ] Graph search 
+
 ## DSAP期末競賽
 > The following section is copied entirely from the specimen given by the professor. @icheft does not possess any permission upon distributing them. If you are the author of the document and you don't want it to be published, please let me know, and I will remove the content.
 
