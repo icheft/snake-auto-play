@@ -18,6 +18,53 @@ tuple<int, int> Snake::getClosestPoint(vector<tuple<int, int>> points)
 
     return minDisIndex;
 }
+int Snake::check(char pos)
+{
+}
+
+int Snake::check(char pos, char secondPos)
+{
+    int cnt = 0;
+    if (pos == 'l' && secondPos == 'd') {
+        queue<tuple<int, int>> posQ = this->position;
+        tuple<int, int> head = this->position.back();
+        while (!posQ.empty()) {
+            if ((get<1>(head) - get<1>(posQ.front())) > 0 && (get<0>(head) - get<0>(posQ.front())) < 0) {
+                cnt++;
+            }
+            posQ.pop();
+        }
+    } else if (pos == 'l' && secondPos == 'u') {
+        queue<tuple<int, int>> posQ = this->position;
+        tuple<int, int> head = this->position.back();
+        while (!posQ.empty()) {
+            if ((get<1>(head) - get<1>(posQ.front())) > 0 && (get<0>(head) - get<0>(posQ.front())) > 0) {
+                cnt++;
+            }
+            posQ.pop();
+        }
+
+    } else if (pos == 'r' && secondPos == 'd') {
+        queue<tuple<int, int>> posQ = this->position;
+        tuple<int, int> head = this->position.back();
+        while (!posQ.empty()) {
+            if ((get<1>(head) - get<1>(posQ.front())) < 0 && (get<0>(head) - get<0>(posQ.front())) < 0) {
+                cnt++;
+            }
+            posQ.pop();
+        }
+    } else if (pos == 'r' && secondPos == 'u') {
+        queue<tuple<int, int>> posQ = this->position;
+        tuple<int, int> head = this->position.back();
+        while (!posQ.empty()) {
+            if ((get<1>(head) - get<1>(posQ.front())) < 0 && (get<0>(head) - get<0>(posQ.front())) > 0) {
+                cnt++;
+            }
+            posQ.pop();
+        }
+    }
+    return cnt;
+}
 
 void Snake::addLength(tuple<int, int> nextPos)
 {
@@ -100,28 +147,48 @@ char Snake::hasTwoWays(vector<vector<int>>& map)
 {
     tuple<int, int> head = this->position.back();
 
-    if (this->direction == Direction::DOWN && ((this->isBodyPart(tuple<int, int>(get<0>(head) + this->down, get<1>(head))) && this->isBodyPart(tuple<int, int>(get<0>(head) + this->up, get<1>(head)))) || (map[get<0>(head) + this->down][get<1>(head)] == -1 && this->isBodyPart(tuple<int, int>(get<0>(head) + this->up, get<1>(head)))))) {
-        if (map[get<0>(head)][get<1>(head) + this->left] != -1 && map[get<0>(head)][get<1>(head) + this->right] != -1) {
-            if (checkRight() > checkLeft()) return 'l';
-            else if (checkRight() < checkLeft())
-                return 'r';
-            else
+    if (this->direction == Direction::DOWN && ((this->isBodyPart(tuple<int, int>(get<0>(head) + this->down, get<1>(head))) && this->isBodyPart(tuple<int, int>(get<0>(head) + this->up, get<1>(head)))) || (map[get<0>(head) + this->down][get<1>(head)] == -1 && this->isBodyPart(tuple<int, int>(get<0>(head) + this->down, get<1>(head)))))) {
+        if (((map[get<0>(head)][get<1>(head) + this->left] != -1 && map[get<0>(head)][get<1>(head) + this->left] != -3) && (map[get<0>(head)][get<1>(head) + this->right] != -1 && map[get<0>(head)][get<1>(head) + this->right] != -3))) {
+            if (map[get<0>(head) + this->down][get<1>(head)] != -1) {
+                if (checkRight() > checkLeft()) {
+                    if (check('r', 'u') == 0 || check('r', 'd') == 0)
+                        return 'r';
+                    else
+                        return 'l';
+                } else if (checkRight() < checkLeft()) {
+                    if (check('l', 'u') == 0 || check('l', 'd') == 0)
+                        return 'l';
+                    else
+                        return 'r';
+                } else
+                    return 'n';
+            } else
                 return 'n';
         } else {
             return 'n';
         }
     } else if (this->direction == Direction::UP && ((this->isBodyPart(tuple<int, int>(get<0>(head) + this->up, get<1>(head))) && this->isBodyPart(tuple<int, int>(get<0>(head) + this->down, get<1>(head)))) || (map[get<0>(head) + this->up][get<1>(head)] == -1 && this->isBodyPart(tuple<int, int>(get<0>(head) + this->down, get<1>(head)))))) {
-        if (map[get<0>(head)][get<1>(head) + this->left] != -1 && map[get<0>(head)][get<1>(head) + this->right] != -1) {
-            if (checkRight() > checkLeft()) return 'l';
-            else if (checkRight() < checkLeft())
-                return 'r';
-            else
+        if (((map[get<0>(head)][get<1>(head) + this->left] != -1 && map[get<0>(head)][get<1>(head) + this->left] != -3) && (map[get<0>(head)][get<1>(head) + this->right] != -1 && map[get<0>(head)][get<1>(head) + this->right] != -3))) {
+            if (map[get<0>(head) + this->up][get<1>(head)] != -1) {
+                if (checkRight() > checkLeft()) {
+                    if (check('r', 'u') == 0 || check('r', 'd') == 0)
+                        return 'r';
+                    else
+                        return 'l';
+                } else if (checkRight() < checkLeft()) {
+                    if (check('l', 'u') == 0 || check('l', 'd') == 0)
+                        return 'l';
+                    else
+                        return 'r';
+                } else
+                    return 'n';
+            } else
                 return 'n';
         } else {
             return 'n';
         }
     } else if (this->direction == Direction::RIGHT && ((this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->right)) && this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->left))) || (map[get<0>(head)][get<1>(head) + this->right] == -1 && this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->left))))) {
-        if (map[get<0>(head) + this->up][get<1>(head)] != -1 && map[get<0>(head) + this->down][get<1>(head)] != -1) {
+        if (((map[get<0>(head) + this->up][get<1>(head)] != -1 && map[get<0>(head) + this->up][get<1>(head)] != -3) && (map[get<0>(head) + this->down][get<1>(head)] != -1 && map[get<0>(head) + this->down][get<1>(head)] != -3))) {
             if (checkDown() > checkUp()) return 'u';
             else if (checkDown() < checkUp())
                 return 'd';
@@ -131,7 +198,7 @@ char Snake::hasTwoWays(vector<vector<int>>& map)
             return 'n';
         }
     } else if (this->direction == Direction::LEFT && ((this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->left)) && this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->right))) || (map[get<0>(head)][get<1>(head) + this->left] == -1 && this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->right))))) {
-        if (map[get<0>(head) + this->up][get<1>(head)] != -1 && map[get<0>(head) + this->down][get<1>(head)] != -1) {
+        if (((map[get<0>(head) + this->up][get<1>(head)] != -1 && map[get<0>(head) + this->up][get<1>(head)] != -3) && (map[get<0>(head) + this->down][get<1>(head)] != -1 && map[get<0>(head) + this->down][get<1>(head)] != -3))) {
             if (checkDown() > checkUp()) return 'u';
             else if (checkDown() < checkUp())
                 return 'd';
@@ -143,6 +210,38 @@ char Snake::hasTwoWays(vector<vector<int>>& map)
     } else {
         return 'n';
     }
+}
+
+void Snake::showMap(vector<vector<int>> map)
+{
+    queue<tuple<int, int>> tmpPos = this->getStaticPosition();
+    // this->cleanSnake();
+    while (!tmpPos.empty()) {
+        if (map[get<0>(tmpPos.front())][get<1>(tmpPos.front())] == -3) return;
+        else
+            map[get<0>(tmpPos.front())][get<1>(tmpPos.front())] = -3; //REF: [map change]
+        tmpPos.pop();
+    }
+    this->displayStats();
+    const int spaceSize = 4;
+    cout << " Map size: " << map.size() << " x " << map[0].size() << endl;
+    cout << string(spaceSize, ' ') << map[0][0] << endl;
+    for (int i = 0; i < map.size(); i++) {
+        for (int j = 0; j < map[0].size(); j++) {
+            if (map[i][j] == -3) {
+                cout << string(spaceSize, ' ') << GREEN << "x" << RESET;
+                // REF: [map change]
+            } else if (map[i][j] == -1) {
+                cout << string(spaceSize - 1, ' ') << BOLDBLACK << map[i][j] << RESET;
+            } else if (map[i][j] != 0) {
+                cout << string(spaceSize, ' ') << BOLDYELLOW << map[i][j] << RESET;
+            } else
+                cout << string(spaceSize, ' ') << map[i][j];
+        }
+        cout << endl;
+    }
+
+    // cin.ignore();
 }
 
 // public
@@ -187,10 +286,16 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
      *  target_col - col < 0
      *     move left
      */
+    vector<vector<int>> tmpMap = map;
+    queue<tuple<int, int>> tmpPos = this->getStaticPosition();
+    while (!tmpPos.empty()) {
+        tmpMap[get<0>(tmpPos.front())][get<1>(tmpPos.front())] = -3; //REF: [map change]
+        tmpPos.pop();
+    }
 
     tuple<int, int> head = this->position.back();
     tuple<int, int> nextPos = head;
-    char opt = hasTwoWays(map);
+    char opt = hasTwoWays(tmpMap);
     if (opt == 'l') {
         nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->left);
         this->direction = Direction::LEFT;
@@ -215,11 +320,14 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
             nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->right);
             this->direction = Direction::RIGHT;
         } else if (get<1>(target) - get<1>(head) < 0 && !this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->left)) && map[get<0>(nextPos)][get<1>(nextPos) + this->left] != -1) {
+            if (this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->left))) {
+            }
             nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->left);
             this->direction = Direction::LEFT;
         }
 
         if (nextPos == head) {
+            cout << "==" << endl;
             if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->down, get<1>(nextPos))) && map[get<0>(nextPos) + this->down][get<1>(nextPos)] != -1) {
                 nextPos = make_tuple(get<0>(nextPos) + this->down, get<1>(nextPos));
                 this->direction = Direction::DOWN;
@@ -242,7 +350,8 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
         this->addLength(target);
     } else
         this->moveBody(nextPos);
-
+    // this->displayStats();
+    // this->showMap(map);
     return this->position;
 }
 
