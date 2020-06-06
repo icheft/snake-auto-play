@@ -369,8 +369,7 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
         this->addLength(target);
     } else
         this->moveBody(nextPos);
-    // this->displayStats();
-    // this->showMap(map);
+
     return this->position;
 }
 
