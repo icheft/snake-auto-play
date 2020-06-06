@@ -189,20 +189,41 @@ char Snake::hasTwoWays(vector<vector<int>>& map)
         }
     } else if (this->direction == Direction::RIGHT && ((this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->right)) && this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->left))) || (map[get<0>(head)][get<1>(head) + this->right] == -1 && this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->left))))) {
         if (((map[get<0>(head) + this->up][get<1>(head)] != -1 && map[get<0>(head) + this->up][get<1>(head)] != -3) && (map[get<0>(head) + this->down][get<1>(head)] != -1 && map[get<0>(head) + this->down][get<1>(head)] != -3))) {
-            if (checkDown() > checkUp()) return 'u';
-            else if (checkDown() < checkUp())
-                return 'd';
-            else
+            if (map[get<0>(head)][get<1>(head) + this->right] != -1) {
+                if (checkDown() < checkUp()) {
+                    if (check('r', 'u') == 0 || check('l', 'u') == 0)
+                        return 'u';
+                    else
+                        return 'd';
+                } else if (checkDown() > checkUp()) {
+                    if (check('r', 'd') == 0 || check('l', 'd') == 0)
+                        return 'd';
+                    else
+                        return 'u';
+                } else
+                    return 'n';
+            } else
                 return 'n';
+
         } else {
             return 'n';
         }
     } else if (this->direction == Direction::LEFT && ((this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->left)) && this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->right))) || (map[get<0>(head)][get<1>(head) + this->left] == -1 && this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->right))))) {
         if (((map[get<0>(head) + this->up][get<1>(head)] != -1 && map[get<0>(head) + this->up][get<1>(head)] != -3) && (map[get<0>(head) + this->down][get<1>(head)] != -1 && map[get<0>(head) + this->down][get<1>(head)] != -3))) {
-            if (checkDown() > checkUp()) return 'u';
-            else if (checkDown() < checkUp())
-                return 'd';
-            else
+            if (map[get<0>(head)][get<1>(head) + this->left] != -1) {
+                if (checkDown() < checkUp()) {
+                    if (check('r', 'u') == 0 || check('l', 'u') == 0)
+                        return 'u';
+                    else
+                        return 'd';
+                } else if (checkDown() > checkUp()) {
+                    if (check('r', 'd') == 0 || check('l', 'd') == 0)
+                        return 'd';
+                    else
+                        return 'u';
+                } else
+                    return 'n';
+            } else
                 return 'n';
         } else {
             return 'n';
