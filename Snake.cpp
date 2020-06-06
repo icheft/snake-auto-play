@@ -327,7 +327,6 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
         }
 
         if (nextPos == head) {
-            cout << "==" << endl;
             if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->down, get<1>(nextPos))) && map[get<0>(nextPos) + this->down][get<1>(nextPos)] != -1) {
                 nextPos = make_tuple(get<0>(nextPos) + this->down, get<1>(nextPos));
                 this->direction = Direction::DOWN;
