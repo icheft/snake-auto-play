@@ -59,7 +59,10 @@ int main(int argc, char* argv[])
             map.updateMap();
             cout << "////////////////////////////////" << endl;
 
+<<<<<<< HEAD
             // usleep(100000);
+=======
+>>>>>>> master
             usleep(50000);
             printf("\033c");
         }
