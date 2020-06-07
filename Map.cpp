@@ -196,7 +196,7 @@ void Map::cleanSnake()
 
 void Map::showMap()
 {
-    const int spaceSize = 4;
+    const int spaceSize = 2;
     cout << " Map size: " << this->map.size() << " x " << this->map[0].size() << endl;
     for (int i = 0; i < this->map.size(); i++) {
         for (int j = 0; j < this->map[0].size(); j++) {
