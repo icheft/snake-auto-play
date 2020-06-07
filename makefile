@@ -23,18 +23,18 @@ test:
 
 grade:
 	@echo [ 17%] Ready to compile.
-	@echo [ 23%] g++ -std=c++11 Grading/Main.cpp Grading/Snake.cpp -o Grading/snake.out
-	@g++ -std=c++11 Grading/Main.cpp Grading/Snake.cpp -o Grading/snake.out
+	@echo [ 23%] g++ -std=c++11 Grading/Main.cpp Grading/Snake.cpp -o Grading/grade.out
+	@g++ -std=c++11 Grading/Main.cpp Grading/Snake.cpp -o Grading/grade.out
 	@echo [ 70%]  Almost done.
-	@echo [100%]  Cheers. Success! Built target Grading/snake.out.
+	@echo [100%]  Cheers. Success! Built target Grading/grade.out.
 	@echo
-	@echo $(man)
+	@echo You should go to the Grading/ directory and type out ./grade.out to run the program.
 	@echo
 	@echo 💬 \(Or type \"make\" to see the my own version of the snake.\)
 
 
 clean:
 	@echo [ 70%]  Cleaning objects.
-	@rm -f Grading/snake.out
+	@rm -f Grading/grade.out
 	@rm -f snake.out
 	@echo [100%] Done.
