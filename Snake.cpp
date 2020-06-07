@@ -161,6 +161,8 @@ char Snake::hasTwoWays(vector<vector<int>>& map)
             } else
                 return 'n';
         } else {
+            // 看是不是死巷子
+            // BUG
             return 'n';
         }
     } else if (this->direction == Direction::UP && ((this->isBodyPart(tuple<int, int>(get<0>(head) + this->up, get<1>(head))) && this->isBodyPart(tuple<int, int>(get<0>(head) + this->down, get<1>(head)))) || (map[get<0>(head) + this->up][get<1>(head)] == -1 && this->isBodyPart(tuple<int, int>(get<0>(head) + this->down, get<1>(head)))))) {
