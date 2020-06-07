@@ -18,10 +18,29 @@ tuple<int, int> Snake::getClosestPoint(vector<tuple<int, int>> points)
 
     return minDisIndex;
 }
-int Snake::check(char pos)
+
+void Snake::addLength(tuple<int, int> nextPos)
 {
+    this->length++;
+    this->position.push(nextPos);
 }
 
+void Snake::moveBody(tuple<int, int> nextPos)
+{
+    this->position.pop();
+    this->position.push(nextPos);
+}
+
+bool Snake::isBodyPart(tuple<int, int> pos)
+{
+    queue<tuple<int, int>> posQ = this->position;
+    while (!posQ.empty()) {
+        if (pos == posQ.front()) return true;
+        else
+            posQ.pop();
+    }
+    return false;
+}
 int Snake::check(char pos, char secondPos)
 {
     int cnt = 0;
@@ -64,29 +83,6 @@ int Snake::check(char pos, char secondPos)
         }
     }
     return cnt;
-}
-
-void Snake::addLength(tuple<int, int> nextPos)
-{
-    this->length++;
-    this->position.push(nextPos);
-}
-
-void Snake::moveBody(tuple<int, int> nextPos)
-{
-    this->position.pop();
-    this->position.push(nextPos);
-}
-
-bool Snake::isBodyPart(tuple<int, int> pos)
-{
-    queue<tuple<int, int>> posQ = this->position;
-    while (!posQ.empty()) {
-        if (pos == posQ.front()) return true;
-        else
-            posQ.pop();
-    }
-    return false;
 }
 
 int Snake::checkLeft()
@@ -231,38 +227,6 @@ char Snake::hasTwoWays(vector<vector<int>>& map)
     } else {
         return 'n';
     }
-}
-
-void Snake::showMap(vector<vector<int>> map)
-{
-    queue<tuple<int, int>> tmpPos = this->getStaticPosition();
-    // this->cleanSnake();
-    while (!tmpPos.empty()) {
-        if (map[get<0>(tmpPos.front())][get<1>(tmpPos.front())] == -3) return;
-        else
-            map[get<0>(tmpPos.front())][get<1>(tmpPos.front())] = -3; //REF: [map change]
-        tmpPos.pop();
-    }
-    this->displayStats();
-    const int spaceSize = 4;
-    cout << "Map size: " << map.size() << " x " << map[0].size() << endl;
-    cout << string(spaceSize, ' ') << map[0][0] << endl;
-    for (int i = 0; i < map.size(); i++) {
-        for (int j = 0; j < map[0].size(); j++) {
-            if (map[i][j] == -3) {
-                cout << string(spaceSize, ' ') << GREEN << "x" << RESET;
-                // REF: [map change]
-            } else if (map[i][j] == -1) {
-                cout << string(spaceSize - 1, ' ') << BOLDBLACK << map[i][j] << RESET;
-            } else if (map[i][j] != 0) {
-                cout << string(spaceSize, ' ') << BOLDYELLOW << map[i][j] << RESET;
-            } else
-                cout << string(spaceSize, ' ') << map[i][j];
-        }
-        cout << endl;
-    }
-
-    // cin.ignore();
 }
 
 // public

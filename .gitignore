@@ -4,14 +4,8 @@ IM\ 1010\ Final\ Project\ Submission\ Template
 *.zip
 src/
 Grading/
+archive/
 
-<<<<<<< HEAD
-
-# colors
-COLORS.h
-colors.h
-Colors.h
-=======
 # ignore color settings
 COLORS*
 colors*
@@ -19,4 +13,3 @@ Colors*
 
 ## macOS ##
 .vscode/
->>>>>>> master
