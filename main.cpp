@@ -2,26 +2,29 @@
 #include "Snake.h"
 #include <unistd.h>
 
+void displayManMsg(char* program_name)
+{
+    cerr << "Usage: " << program_name << " <LEVEL> <-OPTION>" << endl;
+    cout << "Options:\n"
+         << "\t-h,--help\t\tShow this help message\n"
+         << "\t-a,--animation\t\tShow animation in terminal\n"
+         << "\t-f,--frames\t\tShow the process in a series of frames, hitting enter to go through\n"
+         << "\t-l,--list\t\tShow the entire process all in one"
+         << endl;
+}
+
 int main(int argc, char* argv[])
 {
+    if (argc == 1) {
+        displayManMsg(argv[0]);
+        return 1;
+    }
     string arg = argv[1];
     if (argc == 2 && ((arg == "-h") || (arg == "--help"))) {
-        cerr << "Usage: " << argv[0] << "<LEVEL> <-OPTION>" << endl;
-        cout << "Options:\n"
-             << "\t-h,--help\t\tShow this help message\n"
-             << "\t-a,--animation\t\tShow animation in terminal\n"
-             << "\t-f,--frames\t\tShow the process in a series of frames, hitting enter to go through\n"
-             << "\t-l,--list\t\tShow the entire process all in one\n"
-             << endl;
+        displayManMsg(argv[0]);
         return 1;
     } else if (argc < 3) { // We expect 3 arguments: the program name, the source path and the destination path
-        cerr << "Usage: " << argv[0] << " <LEVEL> <-OPTION>" << endl;
-        cout << "Options:\n"
-             << "\t-h,--help\t\tShow this help message\n"
-             << "\t-a,--animation\t\tShow animation in terminal\n"
-             << "\t-f,--frames\t\tShow the process in a series of frames, hitting enter to go through\n"
-             << "\t-l,--list\t\tShow the entire process all in one\n"
-             << endl;
+        displayManMsg(argv[0]);
         return 1;
     }
 
