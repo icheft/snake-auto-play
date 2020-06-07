@@ -4,6 +4,7 @@ IM\ 1010\ Final\ Project\ Submission\ Template
 *.zip
 src/
 Grading/
+archive/
 
 # ignore color settings
 COLORS*
