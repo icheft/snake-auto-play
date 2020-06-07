@@ -1,6 +1,8 @@
 # IM 1010 Final Project
 
-Freshman programming project, which requires students to write a program to autimate the gameplay of the classic snake game.
+Freshman programming project, which requires students to write a program to automate the game-play of the classic snake game.
+
+Score board (valid till `6/30`): [Google Spreadsheets](https://docs.google.com/spreadsheets/d/1HMSCgr-nVCXWSMN4p2LGBpA37_oNNgKhwXVlKn1BqTw/edit).
 
 ## How to Use
 The source code for submission is located at the `submission` branch. The `master` branch is for development use and it provides more information about the project. 
@@ -9,11 +11,12 @@ The source code for submission is located at the `submission` branch. The `maste
 Trying out the `Hamiltonian` Cycle and `Graph` Search on the `AI` branch.
 + [ ] Hamiltonian Cycle
 + [ ] Graph search 
++ [ ] Shortest path (so that the snake will zigzag to the food/point)
 
 `Judge By Openness`: 
 If at one point, the Snake has only two possible ways to go, it means that the snake should always go for the one with more spaces.
 
-應該要紀錄目前行走記錄方向。
++ [x] 應該要紀錄目前行走記錄方向。(using `enum`)
 
 
 ## DSAP期末競賽
