@@ -1,8 +1,35 @@
 # IM 1010 Final Project
 
+<style>
+.button {
+  width: 80px;
+  height: 20px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #000;
+  background-color: #f2f7ff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+.button:hover {
+  background-color: rgba(7,162,204);
+  box-shadow: 0px 8px 10px rgba(7, 162, 204, 0.4);
+  color: #fff;
+  transform: translateY(-3px);
+}
+</style>
+
 Freshman programming project, which requires students to write a program to automate the game-play of the classic snake game.
 
-Score board (valid till `6/30`): [Google Spreadsheets](https://docs.google.com/spreadsheets/d/1HMSCgr-nVCXWSMN4p2LGBpA37_oNNgKhwXVlKn1BqTw/edit).
++ Score board (valid till `6/30`): [Google Spreadsheets](https://docs.google.com/spreadsheets/d/1HMSCgr-nVCXWSMN4p2LGBpA37_oNNgKhwXVlKn1BqTw/edit).
++ Submission on COOL:  <a href="https://cool.ntu.edu.tw/courses/765/assignments/14537"><button class="button">Submit</button></a>
 
 ## How to Use
 The source code for submission is located at the `submission` branch. The `master` branch is for development use and it provides more information about the project. 
