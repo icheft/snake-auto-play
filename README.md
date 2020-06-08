@@ -10,6 +10,10 @@ Freshman programming project, which requires students to write a program to auto
 ## How to Use
 The source code for submission is located at the `submission` branch. The `master` branch is for development use and it provides more information about the project. 
 
+Type `make` to see result using the files in the main directory. To see result in `Grading/` directory, type `make grade`.
+
+To clean up the executable files, type `make clean`.
+
 ## Ideas
 Trying out the `Hamiltonian` Cycle and `Graph` Search on the `AI` branch.
 + [ ] Hamiltonian Cycle
