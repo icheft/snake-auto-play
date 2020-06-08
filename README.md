@@ -6,6 +6,17 @@ Freshman programming project, which requires students to write a program to auto
 + Score board (valid till `6/30`): [Google Spreadsheets](https://docs.google.com/spreadsheets/d/1HMSCgr-nVCXWSMN4p2LGBpA37_oNNgKhwXVlKn1BqTw/edit)
 + Submission on COOL:  [Shortcut](https://cool.ntu.edu.tw/courses/765/assignments/14537)
 
+## Records
+| MAPs      | 🥇   | 🥈   | 🥉   |
+| --------- | --- | --- | --- |
+| 🌍 `map 1` | 23  | 16  | 15  |
+| 🌍 `map 2` | 31  | 26  | 22  |
+| 🌍 `map 3` | 34  | 20  | 10  |
+| 🌍 `map 4` | 34  | 29  | 20  |
+| 🌍 `map 5` | 33  | 28  | 23  |
+| 🌍 `map 6` | 23  | 20  | 16  |
+| 🌍 `map 7` | 90  | 74  | 66  |
+
 
 ## How to Use
 The source code for submission is located at the `submission` branch. The `master` branch is for development use and it provides more information about the project. 
@@ -22,6 +33,15 @@ Trying out the `Hamiltonian` Cycle and `Graph` Search on the `AI` branch.
 
 Other ideas I've thought of so far are:
 + [ ] Can overwrite that `tmpMap` and show the best route to the food by replacing all the unused elements to `-1` so that the snake won't run into any of them.
+
+
++ [ ] If there are blocks above, but the area of `2x2` (still a question) at the bottom remains empty, the snake can go that way
+    ![Image](https://i.imgur.com/dP7m2q9.png)
+    <p style="font-size: 12px">🔺 If implemented, when the above situation happens, the snake should go right instead of going left (according to the algorithm now, the snake will go `left` since on the right hand side, there are more blocks occupied and on the right hand side, the <code>u</code> and <code>l</code> is empty).</p>
+
+    ![Image](https://i.imgur.com/JCPNxtQ.png)
+    <p style="font-size: 12px">🔺 Still, this has to be solved, probably 2x2 isn't a good idea. In the situation above, the snake should go up instead of down. </p>
++ [ ] 算出蛇在哪個部位轉折的 (有兩段轉折才需要坐後面的判斷)。如果由 `UP` to `RIGHT`，則遇到身體時，需要 go `UP`。(Need to check if this logic fits all though)
 
 
 
