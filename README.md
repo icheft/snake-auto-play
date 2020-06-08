@@ -11,11 +11,11 @@ Freshman programming project, which requires students to write a program to auto
 | --------- | --- | --- | --- |
 | 🌍 `map 1` | 23  | 16  | 15  |
 | 🌍 `map 2` | 31  | 26  | 22  |
-| 🌍 `map 3` | 34  | 20  | 10  |
+| 🌍 `map 3` | 34  | 34  | 30  | 20 | 10 |
 | 🌍 `map 4` | 34  | 29  | 20  |
 | 🌍 `map 5` | 33  | 28  | 23  |
 | 🌍 `map 6` | 41  | 32  | 23  | 20 | 16 |
-| 🌍 `map 7` | 93 |  90  | 74  | 66  |
+| 🌍 `map 7` | 93  | 90  | 74  | 66 |
 
 
 ## How to Use
@@ -44,7 +44,10 @@ Other ideas I've thought of so far are:
 + [ ] 算出蛇在哪個部位轉折的 (有兩段轉折才需要坐後面的判斷)。如果由 `UP` to `RIGHT`，則遇到身體時，需要 go `UP`。(Need to check if this logic fits all though)
 + [ ] 算到第二個轉折點的面積。
 
-+ [ ] 上下左右順序調整（？
++ [ ] 上下左右順序調整（？ (現在是下上右左)
+
++ [ ] 往尾巴那邊走
++ [ ] When you hit the wall, always go to where you are from
 
 
 
