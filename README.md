@@ -16,6 +16,11 @@ Trying out the `Hamiltonian` Cycle and `Graph` Search on the `AI` branch.
 + [ ] Graph search 
 + [ ] Shortest path (so that the snake will zigzag to the food/point)
 
+Other ideas I've thought of so far are:
++ [ ] Can overwrite that `tmpMap` and show the best route to the food by replacing all the unused elements to `-1` so that the snake won't run into any of them.
+
+
+
 `Judge By Openness`: 
 If at one point, the Snake has only two possible ways to go, it means that the snake should always go for the one with more spaces.
 
