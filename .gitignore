@@ -3,7 +3,11 @@ IM\ 1010\ Final\ Project\ Submission\ Template
 *.out
 *.zip
 src/
-Grading/
+Grading/COLORS.h
+Grading/*.out
+Grading/Snake*
+*ex*
+
 archive/
 
 # ignore color settings
