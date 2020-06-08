@@ -14,7 +14,7 @@ Freshman programming project, which requires students to write a program to auto
 | 🌍 `map 3` | 34  | 20  | 10  |
 | 🌍 `map 4` | 34  | 29  | 20  |
 | 🌍 `map 5` | 33  | 28  | 23  |
-| 🌍 `map 6` | 23  | 20  | 16  |
+| 🌍 `map 6` | 41  | 32  | 23  | 20 | 16 |
 | 🌍 `map 7` | 90  | 74  | 66  |
 
 
