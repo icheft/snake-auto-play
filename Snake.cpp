@@ -175,10 +175,8 @@ Direction Snake::getTailDirectionWhenCollision(Direction headDir)
                 tuple<int, int> nextPos = tmpPos.front();
                 if (headDir == Direction::UP || headDir == Direction::DOWN) {
                     if (nextPos - pinPoint == make_tuple(0, 1)) {
-                        cout << "left" << endl;
                         return Direction::LEFT;
                     } else if (nextPos - pinPoint == make_tuple(0, -1)) {
-                        cout << "right" << endl;
                         return Direction::RIGHT;
                     }
                 } else {
@@ -192,10 +190,8 @@ Direction Snake::getTailDirectionWhenCollision(Direction headDir)
                 tuple<int, int> nextPos = tmpPos.front();
                 if (headDir == Direction::UP || headDir == Direction::DOWN) {
                     if (nextPos - pinPoint == make_tuple(0, 1)) {
-                        cout << "left" << endl;
                         return Direction::LEFT;
                     } else if (nextPos - pinPoint == make_tuple(0, -1)) {
-                        cout << "right" << endl;
                         return Direction::RIGHT;
                     } else if (prePos - pinPoint == make_tuple(0, 1)) {
                         return Direction::RIGHT;
