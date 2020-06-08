@@ -33,6 +33,9 @@ private:
     vector<vector<int>> map;
     void cleanSnake();
 
+    tuple<int, int> headPos;
+    tuple<int, int> tailPos;
+
 public:
     Map();
     Map(int level);

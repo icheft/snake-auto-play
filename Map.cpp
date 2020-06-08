@@ -254,7 +254,11 @@ void Map::showMap()
     cout << " Map size: " << this->map.size() << " x " << this->map[0].size() << endl;
     for (int i = 0; i < this->map.size(); i++) {
         for (int j = 0; j < this->map[0].size(); j++) {
-            if (this->map[i][j] == -3) {
+            if (i == get<0>(this->headPos) && j == get<1>(this->headPos)) {
+                cout << right << string(spaceSize, ' ') << RED << "x" << RESET;
+            } else if (i == get<0>(this->tailPos) && j == get<1>(this->tailPos)) {
+                cout << right << string(spaceSize, ' ') << BLUE << "x" << RESET;
+            } else if (this->map[i][j] == -3) {
                 cout << right << string(spaceSize, ' ') << GREEN << "x" << RESET;
                 // REF: [map change]
             } else if (this->map[i][j] == -1) {
@@ -287,6 +291,9 @@ vector<vector<int>> Map::getMap() const
 bool Map::updateSnakePos(Snake& snake)
 {
     queue<tuple<int, int>> tmpPos = snake.getStaticPosition();
+    this->headPos = tmpPos.back();
+    this->tailPos = tmpPos.front();
+
     this->cleanSnake();
     while (!tmpPos.empty()) {
         if (this->map[get<0>(tmpPos.front())][get<1>(tmpPos.front())] == -3) return false;
