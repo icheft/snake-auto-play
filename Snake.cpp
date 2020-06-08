@@ -2,6 +2,18 @@
 
 // Add anything else you need
 
+template <typename T>
+tuple<T, T> operator+(tuple<T, T> const& t1, tuple<T, T> const& t2)
+{
+    return make_tuple(get<0>(t1) + get<0>(t2), get<1>(t1) + get<1>(t2));
+}
+
+template <typename T>
+tuple<T, T> operator-(tuple<T, T> const& t1, tuple<T, T> const& t2)
+{
+    return make_tuple(get<0>(t1) - get<0>(t2), get<1>(t1) - get<1>(t2));
+}
+
 // protected
 tuple<int, int> Snake::getClosestPoint(vector<tuple<int, int>> points)
 {
@@ -139,96 +151,110 @@ int Snake::checkDown()
     return cnt;
 }
 
-char Snake::hasTwoWays(vector<vector<int>>& map)
+Direction Snake::getTailDirectionWhenCollision(Direction headDir)
 {
     tuple<int, int> head = this->position.back();
-
-    if (this->direction == Direction::DOWN && ((this->isBodyPart(tuple<int, int>(get<0>(head) + this->down, get<1>(head))) && this->isBodyPart(tuple<int, int>(get<0>(head) + this->up, get<1>(head)))) || (map[get<0>(head) + this->down][get<1>(head)] == -1 && this->isBodyPart(tuple<int, int>(get<0>(head) + this->down, get<1>(head)))))) {
-        if (((map[get<0>(head)][get<1>(head) + this->left] != -1 && map[get<0>(head)][get<1>(head) + this->left] != -3) && (map[get<0>(head)][get<1>(head) + this->right] != -1 && map[get<0>(head)][get<1>(head) + this->right] != -3))) {
-            if (map[get<0>(head) + this->down][get<1>(head)] != -1) {
-                if (checkRight() > checkLeft()) {
-                    if (check('r', 'u') == 0 || check('r', 'd') == 0)
-                        return 'r';
-                    else
-                        return 'l';
-                } else if (checkRight() < checkLeft()) {
-                    if (check('l', 'u') == 0 || check('l', 'd') == 0)
-                        return 'l';
-                    else
-                        return 'r';
-                } else
-                    return 'n';
-            } else
-                return 'n';
-        } else {
-            // 看是不是死巷子
-            // BUG
-            return 'n';
-        }
-    } else if (this->direction == Direction::UP && ((this->isBodyPart(tuple<int, int>(get<0>(head) + this->up, get<1>(head))) && this->isBodyPart(tuple<int, int>(get<0>(head) + this->down, get<1>(head)))) || (map[get<0>(head) + this->up][get<1>(head)] == -1 && this->isBodyPart(tuple<int, int>(get<0>(head) + this->down, get<1>(head)))))) {
-        if (((map[get<0>(head)][get<1>(head) + this->left] != -1 && map[get<0>(head)][get<1>(head) + this->left] != -3) && (map[get<0>(head)][get<1>(head) + this->right] != -1 && map[get<0>(head)][get<1>(head) + this->right] != -3))) {
-            if (map[get<0>(head) + this->up][get<1>(head)] != -1) {
-                if (checkRight() > checkLeft()) {
-                    if (check('r', 'u') == 0 || check('r', 'd') == 0)
-                        return 'r';
-                    else
-                        return 'l';
-                } else if (checkRight() < checkLeft()) {
-                    if (check('l', 'u') == 0 || check('l', 'd') == 0)
-                        return 'l';
-                    else
-                        return 'r';
-                } else
-                    return 'n';
-            } else
-                return 'n';
-        } else {
-            return 'n';
-        }
-    } else if (this->direction == Direction::RIGHT && ((this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->right)) && this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->left))) || (map[get<0>(head)][get<1>(head) + this->right] == -1 && this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->left))))) {
-        if (((map[get<0>(head) + this->up][get<1>(head)] != -1 && map[get<0>(head) + this->up][get<1>(head)] != -3) && (map[get<0>(head) + this->down][get<1>(head)] != -1 && map[get<0>(head) + this->down][get<1>(head)] != -3))) {
-            if (map[get<0>(head)][get<1>(head) + this->right] != -1) {
-                if (checkDown() < checkUp()) {
-                    if (check('r', 'u') == 0 || check('l', 'u') == 0)
-                        return 'u';
-                    else
-                        return 'd';
-                } else if (checkDown() > checkUp()) {
-                    if (check('r', 'd') == 0 || check('l', 'd') == 0)
-                        return 'd';
-                    else
-                        return 'u';
-                } else
-                    return 'n';
-            } else
-                return 'n';
-
-        } else {
-            return 'n';
-        }
-    } else if (this->direction == Direction::LEFT && ((this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->left)) && this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->right))) || (map[get<0>(head)][get<1>(head) + this->left] == -1 && this->isBodyPart(tuple<int, int>(get<0>(head), get<1>(head) + this->right))))) {
-        if (((map[get<0>(head) + this->up][get<1>(head)] != -1 && map[get<0>(head) + this->up][get<1>(head)] != -3) && (map[get<0>(head) + this->down][get<1>(head)] != -1 && map[get<0>(head) + this->down][get<1>(head)] != -3))) {
-            if (map[get<0>(head)][get<1>(head) + this->left] != -1) {
-                if (checkDown() < checkUp()) {
-                    if (check('r', 'u') == 0 || check('l', 'u') == 0)
-                        return 'u';
-                    else
-                        return 'd';
-                } else if (checkDown() > checkUp()) {
-                    if (check('r', 'd') == 0 || check('l', 'd') == 0)
-                        return 'd';
-                    else
-                        return 'u';
-                } else
-                    return 'n';
-            } else
-                return 'n';
-        } else {
-            return 'n';
-        }
-    } else {
-        return 'n';
+    tuple<int, int> pinPoint = head;
+    if (headDir == Direction::UP) {
+        pinPoint = make_tuple(get<0>(pinPoint) + this->up, get<1>(pinPoint));
+    } else if (headDir == Direction::DOWN) {
+        pinPoint = make_tuple(get<0>(pinPoint) + this->down, get<1>(pinPoint));
+    } else if (headDir == Direction::LEFT) {
+        pinPoint = make_tuple(get<0>(pinPoint), get<1>(pinPoint) + this->left);
+    } else if (headDir == Direction::RIGHT) {
+        pinPoint = make_tuple(get<0>(pinPoint), get<1>(pinPoint) + this->right);
     }
+
+    queue<tuple<int, int>> tmpPos = this->getStaticPosition();
+    tuple<int, int> prePos = tmpPos.front();
+
+    while (!tmpPos.empty()) {
+        if (tmpPos.front() == pinPoint) {
+            tmpPos.pop();
+            if (prePos == pinPoint) {
+                tuple<int, int> nextPos = tmpPos.front();
+                if (headDir == Direction::UP || headDir == Direction::DOWN) {
+                    if (nextPos - pinPoint == make_tuple(0, 1)) {
+                        cout << "left" << endl;
+                        return Direction::LEFT;
+                    } else if (nextPos - pinPoint == make_tuple(0, -1)) {
+                        cout << "right" << endl;
+                        return Direction::RIGHT;
+                    }
+                } else {
+                    if (nextPos - pinPoint == make_tuple(1, 0)) {
+                        return Direction::UP;
+                    } else if (nextPos - pinPoint == make_tuple(-1, 0)) {
+                        return Direction::DOWN;
+                    }
+                }
+            } else {
+                tuple<int, int> nextPos = tmpPos.front();
+                if (headDir == Direction::UP || headDir == Direction::DOWN) {
+                    if (nextPos - pinPoint == make_tuple(0, 1)) {
+                        cout << "left" << endl;
+                        return Direction::LEFT;
+                    } else if (nextPos - pinPoint == make_tuple(0, -1)) {
+                        cout << "right" << endl;
+                        return Direction::RIGHT;
+                    } else if (prePos - pinPoint == make_tuple(0, 1)) {
+                        return Direction::RIGHT;
+                    } else if (prePos - pinPoint == make_tuple(0, -1)) {
+                        return Direction::LEFT;
+                    }
+                } else {
+                    if (nextPos - pinPoint == make_tuple(1, 0)) {
+                        return Direction::UP;
+                    } else if (nextPos - pinPoint == make_tuple(-1, 0)) {
+                        return Direction::DOWN;
+                    } else if (prePos - pinPoint == make_tuple(-1, 0)) {
+                        return Direction::UP;
+                    } else if (prePos - pinPoint == make_tuple(1, 0)) {
+                        return Direction::DOWN;
+                    }
+                }
+            }
+
+            break;
+        } else {
+            prePos = tmpPos.front();
+            tmpPos.pop();
+        }
+    }
+    return Direction::NONE;
+}
+
+Direction Snake::hasTwoWays(vector<vector<int>>& map)
+{
+    tuple<int, int> head = this->position.back();
+    Direction result = Direction::NONE;
+    if (this->direction == Direction::UP) {
+        if (map[get<0>(head) + this->up][get<1>(head)] == -3) {
+            if ((map[get<0>(head)][get<1>(head) + this->left] != -3 && map[get<0>(head)][get<1>(head) + this->left] != -1) && (map[get<0>(head)][get<1>(head) + this->right] != -3 && map[get<0>(head)][get<1>(head) + this->right] != -1)) {
+                result = this->getTailDirectionWhenCollision(Direction::UP);
+            }
+        }
+    } else if (this->direction == Direction::DOWN) {
+        if (map[get<0>(head) + this->down][get<1>(head)] == -3) {
+            if ((map[get<0>(head)][get<1>(head) + this->left] != -3 && map[get<0>(head)][get<1>(head) + this->left] != -1) && (map[get<0>(head)][get<1>(head) + this->right] != -3 && map[get<0>(head)][get<1>(head) + this->right] != -1)) {
+                result = this->getTailDirectionWhenCollision(Direction::DOWN);
+            }
+        }
+    } else if (this->direction == Direction::LEFT) {
+        if (map[get<0>(head)][get<1>(head) + this->left] == -3) {
+            if ((map[get<0>(head) + this->up][get<1>(head)] != -3 && map[get<0>(head) + this->up][get<1>(head)] != -1) && (map[get<0>(head) + this->down][get<1>(head)] != -3 && map[get<0>(head) + this->down][get<1>(head)] != -1)) {
+                result = this->getTailDirectionWhenCollision(Direction::LEFT);
+            }
+        }
+    } else if (this->direction == Direction::RIGHT) {
+        if (map[get<0>(head)][get<1>(head) + this->right] == -3) {
+            if ((map[get<0>(head) + this->up][get<1>(head)] != -3 && map[get<0>(head) + this->up][get<1>(head)] != -1) && (map[get<0>(head) + this->down][get<1>(head)] != -3 && map[get<0>(head) + this->down][get<1>(head)] != -1)) {
+                result = this->getTailDirectionWhenCollision(Direction::RIGHT);
+            }
+        }
+    }
+
+    return result;
 }
 
 // public
@@ -281,17 +307,17 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
 
     tuple<int, int> head = this->position.back();
     tuple<int, int> nextPos = head;
-    char opt = hasTwoWays(tmpMap);
-    if (opt == 'l') {
+    Direction opt = hasTwoWays(tmpMap);
+    if (opt == Direction::LEFT) {
         nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->left);
         this->direction = Direction::LEFT;
-    } else if (opt == 'r') {
+    } else if (opt == Direction::RIGHT) {
         nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->right);
         this->direction = Direction::RIGHT;
-    } else if (opt == 'u') {
+    } else if (opt == Direction::UP) {
         nextPos = make_tuple(get<0>(nextPos) + this->up, get<1>(nextPos));
         this->direction = Direction::UP;
-    } else if (opt == 'd') {
+    } else if (opt == Direction::DOWN) {
         nextPos = make_tuple(get<0>(nextPos) + this->down, get<1>(nextPos));
         this->direction = Direction::DOWN;
     } else {
