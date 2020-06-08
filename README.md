@@ -43,6 +43,8 @@ Other ideas I've thought of so far are:
     <p style="font-size: 12px">🔺 Still, this has to be solved, probably 2x2 isn't a good idea. In the situation above, the snake should go up instead of down. </p>
 + [ ] 算出蛇在哪個部位轉折的 (有兩段轉折才需要坐後面的判斷)。如果由 `UP` to `RIGHT`，則遇到身體時，需要 go `UP`。(Need to check if this logic fits all though)
 
++ [ ] 上下左右順序調整（？
+
 
 
 `Judge By Openness`: 
