@@ -43,13 +43,16 @@ int main(int argc, char* argv[])
     map.updateSnakePos(snake);
     map.updateMap();
     map.showMap();
-    int preLen = snake.getLength();
+
+    int step = 0;
 
     // while (map.hasPoint()) {
     arg = argv[2];
     if (arg == "-a" || arg == "--animation") {
         while (true) {
             cout << "////////////////////////////////" << endl;
+            step++;
+            cout << step << " steps" << endl;
             snake.displayStats();
             snake.nextPosition(map.getMap());
             // cout << "﫟" << endl;
@@ -68,6 +71,8 @@ int main(int argc, char* argv[])
     } else if (arg == "-f" || arg == "--frames") {
         while (true) {
             cout << "////////////////////////////////" << endl;
+            step++;
+            cout << step << " steps" << endl;
             snake.displayStats();
             snake.nextPosition(map.getMap());
             // cout << "﫟" << endl;
@@ -94,6 +99,8 @@ int main(int argc, char* argv[])
     } else if (arg == "-l" || arg == "--list") {
         while (true) {
             cout << "////////////////////////////////" << endl;
+            step++;
+            cout << step << " steps" << endl;
             snake.displayStats();
             snake.nextPosition(map.getMap());
             // cout << "﫟" << endl;
