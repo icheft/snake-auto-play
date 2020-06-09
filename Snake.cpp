@@ -151,6 +151,87 @@ int Snake::checkDown()
     return cnt;
 }
 
+Direction Snake::getWallJudge(tuple<int, int> headPos, vector<vector<int>>& map)
+{
+    int cnt1 = 0;
+    int cnt2 = 0;
+
+    if (this->direction == Direction::UP) {
+        for (int i = get<1>(headPos) - 1; i > 0; i--) {
+            if (map[1][i] != -3 && map[1][i] != -1) {
+                cnt1++;
+            } else
+                break;
+        }
+        for (int i = get<1>(headPos) + 1; i < map[0].size(); ++i) {
+            if (map[1][i] != -3 && map[1][i] != -1) {
+                cnt2++;
+            } else
+                break;
+        }
+
+    } else if (this->direction == Direction::DOWN) {
+        for (int i = get<1>(headPos) - 1; i > 0; i--) {
+            if (map[map.size() - 2][i] != -3 && map[map.size() - 2][i] != -1) {
+                cnt1++;
+            } else
+                break;
+        }
+        for (int i = get<1>(headPos) + 1; i < map[0].size(); ++i) {
+            if (map[map.size() - 2][i] != -3 && map[map.size() - 2][i] != -1) {
+                cnt2++;
+            } else
+                break;
+        }
+    } else if (this->direction == Direction::LEFT) {
+        for (int i = get<0>(headPos) - 1; i > 0; i--) {
+            if (map[i][1] != -3 && map[i][1] != -1) {
+                cnt1++;
+            } else
+                break;
+        }
+        for (int i = get<0>(headPos) + 1; i < map.size(); ++i) {
+            if (map[i][1] != -3 && map[i][1] != -1) {
+                cnt2++;
+            } else
+                break;
+        }
+
+    } else if (this->direction == Direction::RIGHT) {
+        for (int i = get<0>(headPos) - 1; i > 0; i--) {
+            if (map[i][map[0].size() - 2] != -3 && map[i][map[0].size() - 2] != -1) {
+                cnt1++;
+            } else
+                break;
+        }
+        for (int i = get<0>(headPos) + 1; i < map.size(); ++i) {
+            if (map[i][map[0].size() - 2] != -3 && map[i][map[0].size() - 2] != -1) {
+                cnt2++;
+            } else
+                break;
+        }
+    }
+
+    if (this->direction == Direction::DOWN || this->direction == Direction::UP) {
+        if (cnt1 + cnt2 == map[0].size() - 2 - 1) return Direction::NONE;
+        else if (cnt1 > cnt2) {
+            return Direction::LEFT;
+        } else if (cnt1 < cnt2) {
+            return Direction::RIGHT;
+        } else
+            return Direction::NONE;
+    } else if (this->direction == Direction::LEFT || this->direction == Direction::RIGHT) {
+        if (cnt1 + cnt2 == map.size() - 2 - 1) return Direction::NONE;
+        else if (cnt1 > cnt2) {
+            return Direction::UP;
+        } else if (cnt1 < cnt2) {
+            return Direction::DOWN;
+        } else
+            return Direction::NONE;
+    }
+    return Direction::NONE;
+}
+
 Direction Snake::getTailDirectionWhenCollision(Direction headDir)
 {
     tuple<int, int> head = this->position.back();
@@ -229,11 +310,19 @@ Direction Snake::hasTwoWays(vector<vector<int>>& map)
             if ((map[get<0>(head)][get<1>(head) + this->left] != -3 && map[get<0>(head)][get<1>(head) + this->left] != -1) && (map[get<0>(head)][get<1>(head) + this->right] != -3 && map[get<0>(head)][get<1>(head) + this->right] != -1)) {
                 result = this->getTailDirectionWhenCollision(Direction::UP);
             }
+        } else if (map[get<0>(head) + this->up][get<1>(head)] == -1) {
+            if ((map[get<0>(head)][get<1>(head) + this->left] != -3 && map[get<0>(head)][get<1>(head) + this->left] != -1) && (map[get<0>(head)][get<1>(head) + this->right] != -3 && map[get<0>(head)][get<1>(head) + this->right] != -1)) {
+                result = this->getWallJudge(head, map);
+            }
         }
     } else if (this->direction == Direction::DOWN) {
         if (map[get<0>(head) + this->down][get<1>(head)] == -3) {
             if ((map[get<0>(head)][get<1>(head) + this->left] != -3 && map[get<0>(head)][get<1>(head) + this->left] != -1) && (map[get<0>(head)][get<1>(head) + this->right] != -3 && map[get<0>(head)][get<1>(head) + this->right] != -1)) {
                 result = this->getTailDirectionWhenCollision(Direction::DOWN);
+            }
+        } else if (map[get<0>(head) + this->down][get<1>(head)] == -1) {
+            if ((map[get<0>(head)][get<1>(head) + this->left] != -3 && map[get<0>(head)][get<1>(head) + this->left] != -1) && (map[get<0>(head)][get<1>(head) + this->right] != -3 && map[get<0>(head)][get<1>(head) + this->right] != -1)) {
+                result = this->getWallJudge(head, map);
             }
         }
     } else if (this->direction == Direction::LEFT) {
@@ -241,11 +330,19 @@ Direction Snake::hasTwoWays(vector<vector<int>>& map)
             if ((map[get<0>(head) + this->up][get<1>(head)] != -3 && map[get<0>(head) + this->up][get<1>(head)] != -1) && (map[get<0>(head) + this->down][get<1>(head)] != -3 && map[get<0>(head) + this->down][get<1>(head)] != -1)) {
                 result = this->getTailDirectionWhenCollision(Direction::LEFT);
             }
+        } else if (map[get<0>(head)][get<1>(head) + this->left] == -3) {
+            if ((map[get<0>(head) + this->up][get<1>(head)] != -3 && map[get<0>(head) + this->up][get<1>(head)] != -1) && (map[get<0>(head) + this->down][get<1>(head)] != -3 && map[get<0>(head) + this->down][get<1>(head)] != -1)) {
+                result = this->getWallJudge(head, map);
+            }
         }
     } else if (this->direction == Direction::RIGHT) {
         if (map[get<0>(head)][get<1>(head) + this->right] == -3) {
             if ((map[get<0>(head) + this->up][get<1>(head)] != -3 && map[get<0>(head) + this->up][get<1>(head)] != -1) && (map[get<0>(head) + this->down][get<1>(head)] != -3 && map[get<0>(head) + this->down][get<1>(head)] != -1)) {
                 result = this->getTailDirectionWhenCollision(Direction::RIGHT);
+            }
+        } else if (map[get<0>(head)][get<1>(head) + this->right] == -3) {
+            if ((map[get<0>(head) + this->up][get<1>(head)] != -3 && map[get<0>(head) + this->up][get<1>(head)] != -1) && (map[get<0>(head) + this->down][get<1>(head)] != -3 && map[get<0>(head) + this->down][get<1>(head)] != -1)) {
+                result = this->getWallJudge(head, map);
             }
         }
     }

@@ -15,8 +15,8 @@ Freshman programming project, which requires students to write a program to auto
 | 🌍 `map 4`                   | 52  | 42                                            | 34  | 33                           | 29  | 20  | 15  |
 | 🌍 `map 5`                   | 55  | 45                                            | 44  | 33                           | 28  | 25  | 23  | 21  |
 | 🌍 `map 6`                   | 50  | 49                                            | 41  | 32                           | 28  | 27  | 23  | 20  | 16  |
-| 🌍 `map 7`                   | 151 | 142 ![Image](https://i.imgur.com/J0Db3qH.png) | 122 | 120 (fixed)                  | 120 | 117 | 114 | 113 | 104 | 93                           | 90                            | 84                            | 74  | 66      | 63  |
-| 🌍 `map 8`                   | 235 | 231                                           | 182 | 216                          | 176 | 176 | 163 | 162 | 161 | 160                          | 154 (run into 1-col dead-end) | 151 (run into 1-col dead-end) | 130 | 121 120 | 110 | 105 | 87 |
+| 🌍 `map 7`                   | 151 | 142 ![Image](https://i.imgur.com/J0Db3qH.png) | 122 | 120 (fixed)                  | 120 | 117 | 114 | 113 | 104 | 93                           | 90  | 84  | 74  | 66                            | 63                            |
+| 🌍 `map 8`                   | 235 | 231                                           | 215 |                              | 186 | 182 | 216 | 176 | 176 | 163                          | 162 | 161 | 160 | 154 (run into 1-col dead-end) | 151 (run into 1-col dead-end) | 130 | 121 120 | 110 | 105 | 87 |
 
 
 ## How to Use

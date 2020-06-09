@@ -58,6 +58,7 @@ protected:
         return d if should go down
     */
     Direction hasTwoWays(vector<vector<int>>& map);
+    Direction getWallJudge(tuple<int, int> headPos, vector<vector<int>>& map);
     Direction getTailDirectionWhenCollision(Direction dir);
 
 public:
