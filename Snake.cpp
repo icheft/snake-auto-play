@@ -330,7 +330,7 @@ Direction Snake::hasTwoWays(vector<vector<int>>& map)
             if ((map[get<0>(head) + this->up][get<1>(head)] != -3 && map[get<0>(head) + this->up][get<1>(head)] != -1) && (map[get<0>(head) + this->down][get<1>(head)] != -3 && map[get<0>(head) + this->down][get<1>(head)] != -1)) {
                 result = this->getTailDirectionWhenCollision(Direction::LEFT);
             }
-        } else if (map[get<0>(head)][get<1>(head) + this->left] == -3) {
+        } else if (map[get<0>(head)][get<1>(head) + this->left] == -1) {
             if ((map[get<0>(head) + this->up][get<1>(head)] != -3 && map[get<0>(head) + this->up][get<1>(head)] != -1) && (map[get<0>(head) + this->down][get<1>(head)] != -3 && map[get<0>(head) + this->down][get<1>(head)] != -1)) {
                 result = this->getWallJudge(head, map);
             }
@@ -340,7 +340,7 @@ Direction Snake::hasTwoWays(vector<vector<int>>& map)
             if ((map[get<0>(head) + this->up][get<1>(head)] != -3 && map[get<0>(head) + this->up][get<1>(head)] != -1) && (map[get<0>(head) + this->down][get<1>(head)] != -3 && map[get<0>(head) + this->down][get<1>(head)] != -1)) {
                 result = this->getTailDirectionWhenCollision(Direction::RIGHT);
             }
-        } else if (map[get<0>(head)][get<1>(head) + this->right] == -3) {
+        } else if (map[get<0>(head)][get<1>(head) + this->right] == -1) {
             if ((map[get<0>(head) + this->up][get<1>(head)] != -3 && map[get<0>(head) + this->up][get<1>(head)] != -1) && (map[get<0>(head) + this->down][get<1>(head)] != -3 && map[get<0>(head) + this->down][get<1>(head)] != -1)) {
                 result = this->getWallJudge(head, map);
             }
