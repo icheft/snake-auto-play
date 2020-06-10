@@ -54,6 +54,7 @@ int main(int argc, char* argv[])
 
     Snake snake(initPos);
     snake.displayStats();
+    int preLen = snake.getLength();
 
     map.updateSnakePos(snake);
     map.updateMap();
@@ -77,7 +78,10 @@ int main(int argc, char* argv[])
                 cout << "////////////////////////////////" << endl;
                 break;
             }
-            map.updateMap();
+            if (preLen != snake.getLength()) {
+                map.updateMap();
+                preLen = snake.getLength();
+            }
             cout << "////////////////////////////////" << endl;
 
             usleep(50000);
@@ -97,7 +101,10 @@ int main(int argc, char* argv[])
                 cout << "////////////////////////////////" << endl;
                 break;
             }
-            map.updateMap();
+            if (preLen != snake.getLength()) {
+                map.updateMap();
+                preLen = snake.getLength();
+            }
             cout << "////////////////////////////////" << endl;
 
             // for debugging purpose
@@ -125,7 +132,10 @@ int main(int argc, char* argv[])
                 cout << "////////////////////////////////" << endl;
                 break;
             }
-            map.updateMap();
+            if (preLen != snake.getLength()) {
+                map.updateMap();
+                preLen = snake.getLength();
+            }
             cout << "////////////////////////////////" << endl;
         }
     }
@@ -144,7 +154,10 @@ int main(int argc, char* argv[])
                 cout << "////////////////////////////////" << endl;
                 break;
             }
-            map.updateMap();
+            if (preLen != snake.getLength()) {
+                map.updateMap();
+                preLen = snake.getLength();
+            }
             cout << "////////////////////////////////" << endl;
         }
     }
