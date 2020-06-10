@@ -5,7 +5,8 @@ man = " Usage: ./snake.out <LEVEL> <-OPTION>\n"\
         			"\t-h,--help               Show this help message\n"\
         			"\t-a,--animation          Show animation in terminal\n"\
         			"\t-f,--frames             Show the process in a series of frames, hitting enter to go through\n"\
-        			"\t-l,--list               Show the entire process all in one"
+        			"\t-l,--list               Show the entire process all in one\n"\
+        			"\t-s,--simple             Show the entire process all in one, but only stats are shown"
 
 run: test
 

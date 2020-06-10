@@ -10,6 +10,7 @@ void displayManMsg(char* program_name)
          << "\t-a,--animation\t\tShow animation in terminal\n"
          << "\t-f,--frames\t\tShow the process in a series of frames, hitting enter to go through\n"
          << "\t-l,--list\t\tShow the entire process all in one"
+         << "\t-s,--simple\t\tShow the entire process all in one, but only stats are shown"
          << endl;
 }
 
@@ -106,6 +107,25 @@ int main(int argc, char* argv[])
             // cout << "﫟" << endl;
             map.showMap();
             if (!map.updateSnakePos(snake)) {
+                cout << "Y ﮙ U EAT YOURSELF" << endl;
+                cout << "////////////////////////////////" << endl;
+                break;
+            }
+            map.updateMap();
+            cout << "////////////////////////////////" << endl;
+        }
+    }
+
+    else if (arg == "-s" || arg == "--simple") {
+        while (true) {
+            cout << "////////////////////////////////" << endl;
+            step++;
+            cout << step << " steps" << endl;
+            snake.displayStats();
+            snake.nextPosition(map.getMap());
+            // cout << "﫟" << endl;
+            if (!map.updateSnakePos(snake)) {
+                map.showMap();
                 cout << "Y ﮙ U EAT YOURSELF" << endl;
                 cout << "////////////////////////////////" << endl;
                 break;
