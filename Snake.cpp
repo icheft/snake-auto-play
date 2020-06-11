@@ -155,16 +155,17 @@ Direction Snake::getWallJudge(tuple<int, int> headPos, vector<vector<int>>& map)
 {
     int cnt1 = 0;
     int cnt2 = 0;
+    int obs = 0;
 
     if (this->direction == Direction::UP) {
         for (int i = get<1>(headPos) - 1; i > 0; i--) {
-            if (map[1][i] != -3 && map[1][i] != -1) {
+            if (map[get<0>(headPos)][i] != -3 && map[get<0>(headPos)][i] != -1) {
                 cnt1++;
             } else
                 break;
         }
         for (int i = get<1>(headPos) + 1; i < map[0].size(); ++i) {
-            if (map[1][i] != -3 && map[1][i] != -1) {
+            if (map[get<0>(headPos)][i] != -3 && map[get<0>(headPos)][i] != -1) {
                 cnt2++;
             } else
                 break;
@@ -172,26 +173,26 @@ Direction Snake::getWallJudge(tuple<int, int> headPos, vector<vector<int>>& map)
 
     } else if (this->direction == Direction::DOWN) {
         for (int i = get<1>(headPos) - 1; i > 0; i--) {
-            if (map[map.size() - 2][i] != -3 && map[map.size() - 2][i] != -1) {
+            if (map[get<0>(headPos)][i] != -3 && map[get<0>(headPos)][i] != -1) {
                 cnt1++;
             } else
                 break;
         }
         for (int i = get<1>(headPos) + 1; i < map[0].size(); ++i) {
-            if (map[map.size() - 2][i] != -3 && map[map.size() - 2][i] != -1) {
+            if (map[get<0>(headPos)][i] != -3 && map[get<0>(headPos)][i] != -1) {
                 cnt2++;
             } else
                 break;
         }
     } else if (this->direction == Direction::LEFT) {
         for (int i = get<0>(headPos) - 1; i > 0; i--) {
-            if (map[i][1] != -3 && map[i][1] != -1) {
+            if (map[i][get<1>(headPos)] != -3 && map[i][get<1>(headPos)] != -1) {
                 cnt1++;
             } else
                 break;
         }
         for (int i = get<0>(headPos) + 1; i < map.size(); ++i) {
-            if (map[i][1] != -3 && map[i][1] != -1) {
+            if (map[i][get<1>(headPos)] != -3 && map[i][get<1>(headPos)] != -1) {
                 cnt2++;
             } else
                 break;
@@ -199,13 +200,13 @@ Direction Snake::getWallJudge(tuple<int, int> headPos, vector<vector<int>>& map)
 
     } else if (this->direction == Direction::RIGHT) {
         for (int i = get<0>(headPos) - 1; i > 0; i--) {
-            if (map[i][map[0].size() - 2] != -3 && map[i][map[0].size() - 2] != -1) {
+            if (map[i][get<1>(headPos)] != -3 && map[i][get<1>(headPos)] != -1) {
                 cnt1++;
             } else
                 break;
         }
         for (int i = get<0>(headPos) + 1; i < map.size(); ++i) {
-            if (map[i][map[0].size() - 2] != -3 && map[i][map[0].size() - 2] != -1) {
+            if (map[i][get<1>(headPos)] != -3 && map[i][get<1>(headPos)] != -1) {
                 cnt2++;
             } else
                 break;
@@ -213,7 +214,13 @@ Direction Snake::getWallJudge(tuple<int, int> headPos, vector<vector<int>>& map)
     }
 
     if (this->direction == Direction::DOWN || this->direction == Direction::UP) {
-        if (cnt1 + cnt2 == map[0].size() - 2 - 1) return Direction::NONE;
+        for (int i = 1; i < map[0].size(); ++i) {
+            if (map[get<0>(headPos)][i] == -1) {
+                obs++;
+            } else
+                break;
+        }
+        if (cnt1 + cnt2 + obs == map[0].size() - 2 - 1) return Direction::NONE;
         else if (cnt1 > cnt2) {
             return Direction::LEFT;
         } else if (cnt1 < cnt2) {
@@ -221,7 +228,13 @@ Direction Snake::getWallJudge(tuple<int, int> headPos, vector<vector<int>>& map)
         } else
             return Direction::NONE;
     } else if (this->direction == Direction::LEFT || this->direction == Direction::RIGHT) {
-        if (cnt1 + cnt2 == map.size() - 2 - 1) return Direction::NONE;
+        for (int i = 1; i < map.size(); ++i) {
+            if (map[i][get<1>(headPos)] == -1) {
+                obs++;
+            }
+        }
+
+        if (cnt1 + cnt2 + obs == map.size() - 2 - 1) return Direction::NONE;
         else if (cnt1 > cnt2) {
             return Direction::UP;
         } else if (cnt1 < cnt2) {
