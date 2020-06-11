@@ -1,4 +1,5 @@
-#define _CRT_SECURE_NO_WARNINGS
+﻿#define _CRT_SECURE_NO_WARNINGS
+
 #include <cmath>
 #include <cstring>
 #include <fstream>
@@ -12,28 +13,30 @@
 
 using namespace std;
 
-void loadmaps(vector<vector<int>> map[101])
+const int NUM_MAP = 200;
+
+void loadmaps(vector<vector<int>> map[NUM_MAP + 1])
 {
     //    vector<vector<int>> map[101]; //maps
     fstream file;
     char buffer[150];
     string fname;
-    for (int i = 1; i < 101; i++) {
+    for (int i = 1; i < NUM_MAP + 1; i++) {
         if (i < 10)
             fname = "00" + to_string(i);
         else if (i < 100)
             fname = "0" + to_string(i);
         else
             fname = to_string(i);
-        file.open("./map/maps/map_" + fname, ios::in);
+        file.open("map/maps/map_" + fname, ios::in);
         if (!file) {
             cout << "no file" << endl;
         } else {
             do {
                 vector<int> tempv;
                 file.getline(buffer, sizeof(buffer));
-                const char* d = " "; //���Ψ̾�
-                char* row; //�x�s�C�����ε��G
+                const char* d = " "; //分割依據
+                char* row; //儲存每次分割結果
                 row = strtok(buffer, d);
                 while (row) {
                     string s = row;
@@ -48,190 +51,153 @@ void loadmaps(vector<vector<int>> map[101])
     }
 }
 
-//(�Ҧ��a��,�U�@�i�a��,�D����m)
-vector<vector<int>> generate_map(vector<vector<int>> map[101], int mapindex, queue<tuple<int, int>> snack)
+//(所有地圖,下一張地圖,蛇的位置)
+vector<vector<int>> generate_map(vector<vector<int>> map[NUM_MAP + 1], int mapindex, queue<tuple<int, int>> snack)
 {
+    vector<tuple<int, int>> positionList;
+    vector<int> scoreList;
     tuple<int, int> position;
+    vector<vector<int>> tempMap = map[mapindex];
+
     int row, col;
     int flag3 = 0;
     int flag5 = 0;
     int flag7 = 0;
     int flagall = 0;
 
-    //�M��a�ϱo���I��m
-    for (int m = 0; m < 50; m++) {
-        for (int n = 0; n < 50; n++) {
-            if (map[mapindex][m][n] == 1) {
+    //尋找地圖得分點位置
+    for (int m = 0; m < map[mapindex].size(); m++) {
+        for (int n = 0; n < map[mapindex][m].size(); n++) {
+            if (map[mapindex][m][n] != 0 && map[mapindex][m][n] != 0) {
                 row = m;
                 col = n;
-                position = make_tuple(m, n);
+                positionList.push_back(make_tuple(m, n));
+                scoreList.push_back(map[mapindex][m][n]);
             }
         }
     }
 
-    //�P�_�o���I���S���b�D���W
-    int flag = 0;
-    queue<tuple<int, int>> tempsnack = snack;
-    while (!tempsnack.empty() && flag == 0) {
-        if (tempsnack.front() == position) {
-            flag = 1;
+    for (size_t h = 0; h < positionList.size(); h++) {
+        position = positionList[h];
+        //判斷得分點有沒有在蛇身上
+
+        int flag = 0;
+
+        queue<tuple<int, int>> tempsnack = snack;
+
+        while (!tempsnack.empty() && flag == 0) {
+            if (tempsnack.front() == position) {
+                flag = 1;
+            }
+            tempsnack.pop();
         }
-        tempsnack.pop();
-    }
-    if (flag == 0)
-        return map[mapindex];
-    else {
-        //      3*3��s�o���I
-        for (int i = row - 1; i < row + 2; i++) {
-            if (i > 0 && i < 49 && flag3 == 0) {
-                for (int j = col - 1; j < col + 2; j++) {
-                    if (j > 0 && j < 49 && flag3 == 0) {
-                        tempsnack = snack;
-                        flag = 0;
-                        position = make_tuple(i, j);
-                        //�C�@���I��D����m����A�����
-                        while (!tempsnack.empty() && flag == 0) {
-                            if (tempsnack.front() == position) {
-                                flag = 1;
+
+        if (flag == 0)
+            continue;
+
+        else {
+            //      3*3找新得分點
+            for (int i = row - 1; i < row + 2; i++) {
+                if (i > 0 && i < 49 && flag3 == 0) {
+                    for (int j = col - 1; j < col + 2; j++) {
+                        if (j > 0 && j < 49 && flag3 == 0) {
+                            tempsnack = snack;
+                            flag = 0;
+                            position = make_tuple(i, j);
+                            //每一個點跟蛇的位置比較，有找到
+                            while (!tempsnack.empty() && flag == 0) {
+                                if (tempsnack.front() == position) {
+                                    flag = 1;
+                                }
+                                tempsnack.pop();
                             }
-                            tempsnack.pop();
+                            if (flag == 0) {
+                                flag3 = 1; //在3*3中找到可以放點的地方
+                                row = i; //新點index
+                                col = j;
+                                break;
+                            }
                         }
-                        if (flag == 0) {
-                            flag3 = 1; //�b3*3�����i�H���I���a��
-                            row = i; //�s�Iindex
-                            col = j;
+                        if (flag3 == 1)
                             break;
+                    }
+                }
+                if (flag3 == 1) {
+                    break;
+                }
+            }
+            if (flag3 == 1) { //3*3找到
+                tempMap[row][col] = scoreList[h];
+            } else if (flag3 == 0 && flag5 == 0) { //5*5找得分點
+                for (int i = row - 2; i < row + 3; i++) {
+                    if (i > 0 && i < 49 && flag5 == 0) {
+                        for (int j = col - 2; j < col + 3; j++) {
+                            if (j > 0 && j < 49 && flag5 == 0) {
+                                tempsnack = snack;
+                                flag = 0;
+                                position = make_tuple(i, j);
+                                //每一個點跟蛇的位置比較，有找到
+                                while (!tempsnack.empty() && flag == 0) {
+                                    if (tempsnack.front() == position) {
+                                        flag = 1;
+                                    }
+                                    tempsnack.pop();
+                                }
+                                if (flag == 0) {
+                                    flag5 = 1; //在5*5中找到可以放點的地方
+                                    row = i;
+                                    col = j;
+                                    break;
+                                }
+                            }
+                            if (flag5 == 1)
+                                break;
                         }
                     }
-                    if (flag3 == 1)
+                    if (flag5 == 1) {
                         break;
-                }
-            }
-            if (flag3 == 1) {
-                break;
-            }
-        }
-        if (flag3 == 1) { //3*3���
-            vector<vector<int>> newmap;
-            for (int i = 0; i < 50; i++) {
-                vector<int> tempv;
-                for (int j = 0; j < 50; j++) {
-                    if (i == 0 || i == 49) {
-                        tempv.push_back(-1);
-                    } else {
-                        if (i == row && j == col) {
-                            tempv.push_back(1);
-                        } else if (j == 0 || j == 49)
-                            tempv.push_back(-1);
-                        else
-                            tempv.push_back(0);
                     }
                 }
-                newmap.push_back(tempv);
             }
-            return newmap;
-        } else if (flag3 == 0 && flag5 == 0) { //5*5��o���I
-            for (int i = row - 2; i < row + 3; i++) {
-                if (i > 0 && i < 49 && flag5 == 0) {
-                    for (int j = col - 2; j < col + 3; j++) {
-                        if (j > 0 && j < 49 && flag5 == 0) {
-                            tempsnack = snack;
-                            flag = 0;
-                            position = make_tuple(i, j);
-                            //�C�@���I��D����m����A�����
-                            while (!tempsnack.empty() && flag == 0) {
-                                if (tempsnack.front() == position) {
-                                    flag = 1;
+            if (flag5 == 1) { //5*5找到
+                tempMap[row][col] = scoreList[h];
+            } else if (flag3 == 0 && flag5 == 0 && flagall == 0) {
+                for (int i = 0; i < 50; i++) {
+                    if (i > 0 && i < 49 && flagall == 0) {
+                        for (int j = 0; j < 50; j++) {
+                            if (j > 0 && j < 49 && flagall == 0) {
+                                tempsnack = snack;
+                                flag = 0;
+                                position = make_tuple(i, j);
+                                //每一個點跟蛇的位置比較，有找到
+                                while (!tempsnack.empty() && flag == 0) {
+                                    if (tempsnack.front() == position) {
+                                        flag = 1;
+                                    }
+                                    tempsnack.pop();
                                 }
-                                tempsnack.pop();
-                            }
-                            if (flag == 0) {
-                                flag5 = 1; //�b5*5�����i�H���I���a��
-                                row = i;
-                                col = j;
-                                break;
-                            }
-                        }
-                        if (flag5 == 1)
-                            break;
-                    }
-                }
-                if (flag5 == 1) {
-                    break;
-                }
-            }
-        }
-        if (flag5 == 1) { //5*5���
-            vector<vector<int>> newmap;
-            for (int i = 0; i < 50; i++) {
-                vector<int> tempv;
-                for (int j = 0; j < 50; j++) {
-                    if (i == 0 || i == 49) {
-                        tempv.push_back(-1);
-                    } else {
-                        if (i == row && j == col) {
-                            tempv.push_back(1);
-                        } else if (j == 0 || j == 49)
-                            tempv.push_back(-1);
-                        else
-                            tempv.push_back(0);
-                    }
-                }
-                newmap.push_back(tempv);
-            }
-            return newmap;
-        } else if (flag3 == 0 && flag5 == 0 && flagall == 0) {
-            for (int i = 0; i < 50; i++) {
-                if (i > 0 && i < 49 && flagall == 0) {
-                    for (int j = 0; j < 50; j++) {
-                        if (j > 0 && j < 49 && flagall == 0) {
-                            tempsnack = snack;
-                            flag = 0;
-                            position = make_tuple(i, j);
-                            //�C�@���I��D����m����A�����
-                            while (!tempsnack.empty() && flag == 0) {
-                                if (tempsnack.front() == position) {
-                                    flag = 1;
+                                if (flag == 0) {
+                                    flag5 = 1; //在5*5中找到可以放點的地方
+                                    row = i;
+                                    col = j;
+                                    break;
                                 }
-                                tempsnack.pop();
                             }
-                            if (flag == 0) {
-                                flag5 = 1; //�b5*5�����i�H���I���a��
-                                row = i;
-                                col = j;
+                            if (flagall == 1)
                                 break;
-                            }
                         }
-                        if (flagall == 1)
-                            break;
+                    }
+                    if (flagall == 1) {
+                        break;
                     }
                 }
-                if (flagall == 1) {
-                    break;
-                }
             }
-        }
-        if (flagall == 1) {
-            vector<vector<int>> newmap;
-            for (int i = 0; i < 50; i++) {
-                vector<int> tempv;
-                for (int j = 0; j < 50; j++) {
-                    if (i == 0 || i == 49) {
-                        tempv.push_back(-1);
-                    } else {
-                        if (i == row && j == col) {
-                            tempv.push_back(1);
-                        } else if (j == 0 || j == 49)
-                            tempv.push_back(-1);
-                        else
-                            tempv.push_back(0);
-                    }
-                }
-                newmap.push_back(tempv);
+            if (flagall == 1) {
+                tempMap[row][col] = scoreList[h];
             }
-            return newmap;
         }
     }
+    return tempMap;
 }
 
 queue<tuple<int, int>> get_start_position()
@@ -272,54 +238,54 @@ int main(int argc, char* argv[])
     Snake snake(new_pos);
 
     /*///
-#pragma region TmpMap
+	#pragma region TmpMap
 	vector<vector<int>> v1 = {
-		{-1, -1, -1, -1, -1, -1, -1, -1, -1},
-		{-1,  0,  0,  0,  0,  1,  0,  0, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  0, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  0, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  0, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  0, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  0, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  0, -1},
-		{-1, -1, -1, -1, -1, -1, -1, -1, -1}
+	{-1, -1, -1, -1, -1, -1, -1, -1, -1},
+	{-1,  0,  0,  0,  0,  1,  0,  0, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  0, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  0, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  0, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  0, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  0, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  0, -1},
+	{-1, -1, -1, -1, -1, -1, -1, -1, -1}
 	};
 
 	vector<vector<int>> v2 = {
-		{-1, -1, -1, -1, -1, -1, -1, -1, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  2, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  0, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  0, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  0, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  0, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  0, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  0, -1},
-		{-1, -1, -1, -1, -1, -1, -1, -1, -1}
+	{-1, -1, -1, -1, -1, -1, -1, -1, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  2, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  0, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  0, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  0, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  0, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  0, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  0, -1},
+	{-1, -1, -1, -1, -1, -1, -1, -1, -1}
 	};
 
 	vector<vector<int>> v3 = {
-		{-1, -1, -1, -1, -1, -1, -1, -1, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  0, -1},
-		{-1,  0,  0,  0,  0,  1,  0,  0, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  0, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  0, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  0, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  0, -1},
-		{-1,  0,  0,  0,  0,  0,  0,  0, -1},
-		{-1, -1, -1, -1, -1, -1, -1, -1, -1}
+	{-1, -1, -1, -1, -1, -1, -1, -1, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  0, -1},
+	{-1,  0,  0,  0,  0,  1,  0,  0, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  0, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  0, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  0, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  0, -1},
+	{-1,  0,  0,  0,  0,  0,  0,  0, -1},
+	{-1, -1, -1, -1, -1, -1, -1, -1, -1}
 	};
 
-#pragma endregion
+	#pragma endregion
 	vector<vector<int>> whole_map[3] = { v1, v2, v3 };
 	///*/
 
-    vector<vector<int>> whole_map[101]; //1~100�s�@�ʱi�a��
-    loadmaps(whole_map); //�q�ɮפ�Ū���a�ϸ��
+    vector<vector<int>> whole_map[NUM_MAP + 1]; //1~100存一百張地圖
+    loadmaps(whole_map); //從檔案中讀取地圖資料
 
     int cur_map_index = 1;
     vector<vector<int>> map = generate_map(whole_map, cur_map_index, new_pos);
 
-    int step_limit = 10000;
+    int step_limit = 8000;
     int point = 0;
     cout << get<0>(new_pos.back()) << ", " << get<1>(new_pos.back()) << "|" << point << "\n";
 
@@ -329,29 +295,27 @@ int main(int argc, char* argv[])
 
         int new_head_x = get<0>(new_pos.back());
         int new_head_y = get<1>(new_pos.back());
+        cout << i << ": " << get<0>(new_pos.back()) << ", " << get<1>(new_pos.back()) << "|" << map[new_head_x][new_head_y] << "$" << point << "\n";
 
-        // usleep(30000);
         if (point >= 99) {
             snake.showMap(map);
-            cin.ignore();
+            usleep(30000);
+            // printf("\033c");
+            // cin.ignore();
         }
-        // printf("\033c");
-        cout << i << ": " << get<0>(new_pos.back()) << ", " << get<1>(new_pos.back()) << "|" << map[new_head_x][new_head_y] << "$" << point << "\n";
 
         // Walk one step
         int one_step_limit = 1;
         one_step_limit -= abs(get<0>(ori_pos.back()) - new_head_x);
         one_step_limit -= abs(get<1>(ori_pos.back()) - new_head_y);
         if (one_step_limit != 0) {
-            cout << " "
-                 << " A: Invalid step... " << get<0>(new_pos.back()) << ", " << get<1>(new_pos.back()) << "\n";
+            cout << argv[1] << " A: Invalid step... " << get<0>(new_pos.back()) << ", " << get<1>(new_pos.back()) << "\n";
             break;
         }
 
         // Hit wall
         if (map[new_head_x][new_head_y] == -1) {
-            cout << " "
-                 << " B: GAME OVER! Hit wall... " << get<0>(new_pos.back()) << ", " << get<1>(new_pos.back()) << "\n";
+            cout << argv[1] << " B: GAME OVER! Hit wall... " << get<0>(new_pos.back()) << ", " << get<1>(new_pos.back()) << "\n";
             break;
         }
 
@@ -360,8 +324,7 @@ int main(int argc, char* argv[])
         bool ifGameOver = false;
         for (int i = 0; i < new_pos.size() - 1; i++) {
             if (get<0>(tmp_queue.front()) == new_head_x && get<1>(tmp_queue.front()) == new_head_y) {
-                cout << " "
-                     << " C: GAME OVER! Hit yourself... " << get<0>(new_pos.back()) << ", " << get<1>(new_pos.back()) << "\n";
+                cout << argv[1] << " C: GAME OVER! Hit yourself... " << get<0>(new_pos.back()) << ", " << get<1>(new_pos.back()) << "\n";
                 ifGameOver = true;
                 break;
             }
@@ -375,8 +338,7 @@ int main(int argc, char* argv[])
         // Count point and check eat longer
         if (map[new_head_x][new_head_y] > 0) {
             if (new_pos.size() != ori_pos.size() + 1) {
-                cout << " "
-                     << " D: Invalid eat length... " << get<0>(new_pos.back()) << ", " << get<1>(new_pos.back()) << "\n";
+                cout << argv[1] << " D: Invalid eat length... " << get<0>(new_pos.back()) << ", " << get<1>(new_pos.back()) << "\n";
                 break;
             }
 
@@ -384,18 +346,16 @@ int main(int argc, char* argv[])
             map = generate_map(whole_map, ++cur_map_index, new_pos);
         } else {
             if (new_pos.size() != ori_pos.size()) {
-                cout << " "
-                     << " E: Invalid length... " << get<0>(new_pos.back()) << ", " << get<1>(new_pos.back()) << "\n";
+                cout << argv[1] << " E: Invalid length... " << get<0>(new_pos.back()) << ", " << get<1>(new_pos.back()) << "\n";
                 break;
             }
         }
-        if (cur_map_index > 100) {
+        if (cur_map_index > NUM_MAP) {
             break;
         }
     }
-    cout << " "
-         << " | Final: " << get<0>(new_pos.back()) << ", " << get<1>(new_pos.back()) << "$" << point << "\n";
+    cout << argv[1] << " | Final: " << get<0>(new_pos.back()) << ", " << get<1>(new_pos.back()) << "$" << point << "\n";
 
-    system("pause");
+    // system("pause");
     return 0;
 }

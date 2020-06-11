@@ -24,8 +24,8 @@ test:
 
 grade:
 	@echo [ 17%] Ready to compile.
-	@echo [ 23%] g++ -std=c++11 Grading/Main.cpp Grading/Snake.cpp -o Grading/grade.out
-	@g++ -std=c++11 Grading/Main.cpp Grading/Snake.cpp -o Grading/grade.out
+	@echo [ 23%] g++ -std=c++11 Grading/main.cpp Grading/Snake.cpp -o Grading/grade.out
+	@g++ -std=c++11 Grading/main.cpp Grading/Snake.cpp -o Grading/grade.out
 	@echo [ 70%]  Almost done.
 	@echo [100%]  Cheers. Success! Built target Grading/grade.out.
 	@echo
