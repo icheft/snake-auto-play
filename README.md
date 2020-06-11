@@ -7,17 +7,17 @@ Freshman programming project, which requires students to write a program to auto
 + Submission on COOL:  [Shortcut](https://cool.ntu.edu.tw/courses/765/assignments/14537)
 
 ## Records
-| MAPs                        | 🥇   | 🥈                             | 🥉                             |
-| --------------------------- | --- | ----------------------------- | ----------------------------- |
-| 🌍 `map 1` (11x7) (full: 45) | 42  | 33                            | 27 (run into 1-col dead-end)  | 23  | 19  | 16  | 15 | 13 (run into 1-col dead-end) |
-| 🌍 `map 2`                   | 46  | 41                            | 33                            | 31  | 26  | 22  |
-| 🌍 `map 3`                   | 34  | 34                            | 30                            | 23  | 20  | 10  |
-| 🌍 `map 4`                   | 52  | 42                            | 34                            | 33  | 29  | 20  | 15 |
-| 🌍 `map 5`                   | 55  | 44                            | 33                            | 28  | 25  | 23  | 21 |
-| 🌍 `map 6`                   | 50  | 49                            | 41                            | 32  | 28  | 27  | 23 | 20                           | 16 |
-| 🌍 `map 7`                   | 120 | 113                           | 104                           | 93  | 90  | 74  | 66 | 63                           |
-| 🌍 `map 8`                   | 162 | 154 (run into 1-col dead-end) | 151 (run into 1-col dead-end) | 110 | 105 | 87  |
-| 🌍 `map 9`                   | 161 | 161                           | 144                       136 |     | 111 | 119 |
+| MAPs                        | 🥇   | 🥈                                             | 🥉   |
+| --------------------------- | --- | --------------------------------------------- | --- |
+| 🌍 `map 1` (11x7) (full: 45) | 42  | 32                                            | 28  | 27 (run into 1-col dead-end) | 23          | 20  | 19  | 16  | 15  | 13 (run into 1-col dead-end) |
+| 🌍 `map 2`                   | 52  | 46                                            | 42  | 41                           | 37          | 36  | 33  | 31  | 26  | 22                           |
+| 🌍 `map 3`                   | 41  | 40                                            | 34  | 34                           | 30          | 23  | 20  | 10  |
+| 🌍 `map 4`                   | 52  | 42                                            | 34  | 33                           | 29          | 20  | 15  |
+| 🌍 `map 5`                   | 55  | 45                                            | 44  | 33                           | 28          | 25  | 23  | 21  |
+| 🌍 `map 6`                   | 50  | 49                                            | 41  | 32                           | 28          | 27  | 23  | 20  | 16  |
+| 🌍 `map 7`                   | 151 | 142 ![Image](https://i.imgur.com/J0Db3qH.png) | 122 | 120 (fixed)                  | 120         | 117 | 114 | 113 | 104 | 93                           | 90  | 84  | 74  | 66                            | 63                            |
+| 🌍 `map 8`                   | 235 | 231                                           | 215 |                              | 186         | 182 | 216 | 176 | 176 | 163                          | 162 | 161 | 160 | 154 (run into 1-col dead-end) | 151 (run into 1-col dead-end) | 130 | 121 120 | 110 | 105 | 87 |
+| 🌍 `map 8`  (start from 104) | 163 | 153                                           | 150 | 149                          | 124   ｜122 | 114 | 112 |
 
 
 ## How to Use
@@ -57,6 +57,10 @@ Other ideas I've thought of so far are:
 If at one point, the Snake has only two possible ways to go, it means that the snake should always go for the one with more spaces.
 
 + [x] 應該要紀錄目前行走記錄方向。(using `enum`)
+
+
+`one-way-out`:
+Try to implement 上述。
 
 
 ## DSAP期末競賽

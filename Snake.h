@@ -38,7 +38,7 @@ private:
 
 protected:
     // helpers
-    tuple<int, int> getClosestPoint(vector<tuple<int, int>> points);
+    tuple<int, int> getClosestPoint(vector<tuple<int, int, int>> points);
     void addLength(tuple<int, int> nextPos);
     void moveBody(tuple<int, int> nextPos);
     bool isBodyPart(tuple<int, int> pos);
@@ -58,6 +58,7 @@ protected:
         return d if should go down
     */
     Direction hasTwoWays(vector<vector<int>>& map);
+    Direction getWallJudge(tuple<int, int> headPos, vector<vector<int>>& map);
     Direction getTailDirectionWhenCollision(Direction dir);
 
 public:
