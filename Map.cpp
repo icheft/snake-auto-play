@@ -363,23 +363,23 @@ void Map::updateMap()
 {
     for (int i = 0; i < this->map.size(); i++) {
         for (int j = 0; j < this->map[0].size(); j++) {
-            if (this->map[i][j] == 1) {
+            if (this->map[i][j] != -1 && this->map[i][j] != -3) {
                 this->map[i][j] = 0; // FIXME
             }
         }
     }
-    if (!this->hasPoint()) {
-        srand(time(NULL));
-
-        int cnt = rand() % 4 + 1;
-        for (int i = 0; i < cnt; i++) {
-            tuple<int, int> candyPos = make_tuple(rand() % (this->map.size() - 2) + 1, rand() % (this->map[0].size() - 2) + 1);
-            cout << "Updating..." << endl;
-            while (map[get<0>(candyPos)][get<1>(candyPos)] == -3 || map[get<0>(candyPos)][get<1>(candyPos)] == -1) {
-                candyPos = make_tuple(rand() % (this->map.size() - 1) + 1, rand() % (this->map[0].size() - 1) + 1);
-            }
-            map[get<0>(candyPos)][get<1>(candyPos)] = 1;
+    // if (!this->hasPoint()) {
+    srand(time(NULL));
+    int cnt = rand() % 4 + 1;
+    for (int i = 0; i < cnt; i++) {
+        tuple<int, int> candyPos = make_tuple(rand() % (this->map.size() - 2) + 1, rand() % (this->map[0].size() - 2) + 1);
+        cout << "Updating..." << endl;
+        while (map[get<0>(candyPos)][get<1>(candyPos)] == -3 || map[get<0>(candyPos)][get<1>(candyPos)] == -1) {
+            candyPos = make_tuple(rand() % (this->map.size() - 1) + 1, rand() % (this->map[0].size() - 1) + 1);
         }
-        cout << "Map updated! " << endl;
+        int pointVal = rand() % 3 + 1;
+        map[get<0>(candyPos)][get<1>(candyPos)] = pointVal;
     }
+    cout << "Map updated! " << endl;
+    // }
 }
