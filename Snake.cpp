@@ -15,16 +15,16 @@ tuple<T, T> operator-(tuple<T, T> const& t1, tuple<T, T> const& t2)
 }
 
 // protected
-tuple<int, int> Snake::getClosestPoint(vector<tuple<int, int>> points)
+tuple<int, int> Snake::getClosestPoint(vector<tuple<int, int, int>> points)
 {
     tuple<int, int> head = this->position.back(); // get the head
-    double minDis = pow((get<0>(points[0]) - get<0>(head)), 2) + pow((get<1>(points[0]) - get<1>(head)), 2);
+    double minDis = pow((get<0>(points[0]) - get<0>(head)), 2) + pow((get<1>(points[0]) - get<1>(head)), 2) / get<2>(points[0]);
 
-    tuple<int, int> minDisIndex = points[0];
+    tuple<int, int> minDisIndex = make_tuple(get<0>(points[0]), get<1>(points[0]));
     for (int i = 1; i < points.size(); i++) {
-        if (pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2) < minDis) {
-            minDis = pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2);
-            minDisIndex = points[i];
+        if (pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2) / get<2>(points[i]) < minDis) {
+            minDis = pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2) / get<2>(points[i]);
+            minDisIndex = make_tuple(get<0>(points[i]), get<1>(points[i]));
         }
     }
 
@@ -370,10 +370,10 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
     // Implement by yourself
 
     // get every point's position in the map
-    vector<tuple<int, int>> points;
+    vector<tuple<int, int, int>> points;
     for (int i = 0; i < map.size(); i++) {
         for (int j = 0; j < map[0].size(); j++) {
-            if (map[i][j] != 0 && map[i][j] != -3 && map[i][j] != -1) points.push_back(tuple<int, int>(i, j));
+            if (map[i][j] != 0 && map[i][j] != -3 && map[i][j] != -1) points.push_back(tuple<int, int, int>(i, j, map[i][j]));
         }
     }
 

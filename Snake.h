@@ -38,7 +38,7 @@ private:
 
 protected:
     // helpers
-    tuple<int, int> getClosestPoint(vector<tuple<int, int>> points);
+    tuple<int, int> getClosestPoint(vector<tuple<int, int, int>> points);
     void addLength(tuple<int, int> nextPos);
     void moveBody(tuple<int, int> nextPos);
     bool isBodyPart(tuple<int, int> pos);
