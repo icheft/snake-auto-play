@@ -34,22 +34,21 @@ private:
 
     // Add anything else you need
     tuple<int, int> target;
+    bool inPursuit = false;
     int length;
     Direction direction;
+    queue<tuple<int, int>> path;
 
-protected:
+private:
     // helpers
-    tuple<int, int> getClosestPoint(vector<tuple<int, int, int>> points);
+    bool testVirtualSnake(vector<vector<int>> map, tuple<int, int> target, queue<tuple<int, int>>& path);
+    void cleanPath();
+
+    vector<tuple<int, int>> getClosestPoint(vector<tuple<int, int, int>> points);
     void addLength(tuple<int, int> nextPos);
     void moveBody(tuple<int, int> nextPos);
     bool isBodyPart(tuple<int, int> pos);
-
-    int checkLeft();
-    int checkRight();
-    int checkUp();
-    int checkDown();
-
-    int check(char pos, char secondPos);
+    void setDirection(tuple<int, int> nextPos);
 
     /*
         return n if not
