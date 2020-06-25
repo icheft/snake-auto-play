@@ -16,12 +16,14 @@ tuple<T, T> operator-(tuple<T, T> const& t1, tuple<T, T> const& t2)
 
 // private functions
 // === helpers ===
-bool Snake::testVirtualSnake(vector<vector<int>> map, tuple<int, int> target, queue<tuple<int, int>>& path)
+bool Snake::testVirtualSnake(vector<vector<int>> map, tuple<int, int> target, queue<tuple<int, int>>& path, clock_t& time)
 {
     // more like a recursion style.
     // if the virtual snake can succeed from testing, we'd use the test result from the function.
     // otherwise, the testVirtualSnake will return head value.
     // if the result is value at the end of the function, the snake will have to choose another food to eat.
+    clock_t tmpTime1 = clock(); // FIXME: buffer
+
     vector<vector<int>> tmpMap = map;
     queue<tuple<int, int>> tmpPos = this->getStaticPosition();
     while (!tmpPos.empty()) {
@@ -203,18 +205,22 @@ bool Snake::testVirtualSnake(vector<vector<int>> map, tuple<int, int> target, qu
         }
     }
 
+    clock_t tmpTime2 = clock(); // FIXME: buffer
+
+    time += tmpTime2 - tmpTime1; // FIXME: buffer
+
     // move
     path.push(nextPos);
 
     if (nextPos == this->target) {
         // cout << "success" << endl;
         return true;
-    } else if (nextPos == head) {
+    } else if (nextPos == head || time > TIMELIMIT) {
         // cout << "fail" << endl;
         return false;
     } else {
         this->moveBody(nextPos);
-        return testVirtualSnake(map, target, path);
+        return testVirtualSnake(map, target, path, time);
     }
 }
 
@@ -547,7 +553,9 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
             if (!tmpSnake.path.empty()) {
                 tmpSnake.cleanPath();
             }
-            bool result = tmpSnake.testVirtualSnake(map, this->target, tmpSnake.path);
+            clock_t usedTime = 0;
+
+            bool result = tmpSnake.testVirtualSnake(map, this->target, tmpSnake.path, usedTime);
 
             if (result) {
                 this->path = tmpSnake.path;
