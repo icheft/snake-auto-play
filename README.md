@@ -63,6 +63,10 @@ If at one point, the Snake has only two possible ways to go, it means that the s
 Try to implement 上述。
 
 
+`virtual-snake`:
++ [x] 已經有一條 virtual snake，會每個點都跑一遍，看哪個最適合
++ [ ] 要有多條 virtual snake，每個的 if-else 不一樣
+
 ## DSAP期末競賽
 > The following section is copied entirely from the specimen given by the professor. @icheft does not possess any permission upon distributing them. If you are the author of the document and you don't want it to be published, please let me know, and I will remove the content.
 
