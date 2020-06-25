@@ -390,7 +390,7 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
         }
     }
 
-    tuple<int, int> target = getClosestPoint(points);
+    this->target = getClosestPoint(points);
 
     /**
      * Movements:
@@ -428,27 +428,27 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
         this->direction = Direction::DOWN;
     } else {
         Direction tmpDir;
-        if (get<0>(target) - get<0>(head) > 0) {
+        if (get<0>(this->target) - get<0>(head) > 0) {
             if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->down, get<1>(nextPos))) && map[get<0>(nextPos) + this->down][get<1>(nextPos)] != -1) {
                 nextPos = make_tuple(get<0>(nextPos) + this->down, get<1>(nextPos));
                 this->direction = Direction::DOWN;
             } else
                 tmpDir = Direction::DOWN;
-        } else if (get<0>(target) - get<0>(head) < 0) {
+        } else if (get<0>(this->target) - get<0>(head) < 0) {
             if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->up, get<1>(nextPos))) && map[get<0>(nextPos) + this->up][get<1>(nextPos)] != -1) {
                 nextPos = make_tuple(get<0>(nextPos) + this->up, get<1>(nextPos));
                 this->direction = Direction::UP;
             } else {
                 tmpDir = Direction::UP;
             }
-        } else if (get<1>(target) - get<1>(head) > 0) {
+        } else if (get<1>(this->target) - get<1>(head) > 0) {
             if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->right)) && map[get<0>(nextPos)][get<1>(nextPos) + this->right] != -1) {
                 nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->right);
                 this->direction = Direction::RIGHT;
             } else {
                 tmpDir = Direction::RIGHT;
             }
-        } else if (get<1>(target) - get<1>(head) < 0) {
+        } else if (get<1>(this->target) - get<1>(head) < 0) {
             if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->left)) && map[get<0>(nextPos)][get<1>(nextPos) + this->left] != -1) {
                 nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->left);
                 this->direction = Direction::LEFT;
@@ -459,7 +459,7 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
 
         if (nextPos == head) {
             if (tmpDir == Direction::DOWN || tmpDir == Direction::UP) {
-                if (get<1>(target) - get<1>(head) > 0) {
+                if (get<1>(this->target) - get<1>(head) > 0) {
                     if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->right)) && map[get<0>(nextPos)][get<1>(nextPos) + this->right] != -1) {
                         nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->right);
                         this->direction = Direction::RIGHT;
@@ -478,7 +478,7 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
                             this->direction = Direction::LEFT;
                         }
                     }
-                } else if (get<1>(target) - get<1>(head) < 0) {
+                } else if (get<1>(this->target) - get<1>(head) < 0) {
                     if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos), get<1>(nextPos) + this->left)) && map[get<0>(nextPos)][get<1>(nextPos) + this->left] != -1) {
                         nextPos = make_tuple(get<0>(nextPos), get<1>(nextPos) + this->left);
                         this->direction = Direction::LEFT;
@@ -513,7 +513,7 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
                     }
                 }
             } else if (tmpDir == Direction::RIGHT || tmpDir == Direction::LEFT) {
-                if (get<0>(target) - get<0>(head) > 0) {
+                if (get<0>(this->target) - get<0>(head) > 0) {
                     if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->down, get<1>(nextPos))) && map[get<0>(nextPos) + this->down][get<1>(nextPos)] != -1) {
                         nextPos = make_tuple(get<0>(nextPos) + this->down, get<1>(nextPos));
                         this->direction = Direction::DOWN;
@@ -532,7 +532,7 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
                             this->direction = Direction::LEFT;
                         }
                     }
-                } else if (get<0>(target) - get<0>(head) < 0) {
+                } else if (get<0>(this->target) - get<0>(head) < 0) {
                     if (!this->isBodyPart(tuple<int, int>(get<0>(nextPos) + this->up, get<1>(nextPos))) && map[get<0>(nextPos) + this->up][get<1>(nextPos)] != -1) {
                         nextPos = make_tuple(get<0>(nextPos) + this->up, get<1>(nextPos));
                         this->direction = Direction::UP;
@@ -586,8 +586,8 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
 
     // move
 
-    if (nextPos == target) {
-        this->addLength(target);
+    if (nextPos == this->target) {
+        this->addLength(this->target);
     } else
         this->moveBody(nextPos);
 

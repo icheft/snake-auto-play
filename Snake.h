@@ -33,6 +33,7 @@ private:
     queue<tuple<int, int>> position;
 
     // Add anything else you need
+    tuple<int, int> target;
     int length;
     Direction direction;
 
