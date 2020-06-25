@@ -22,7 +22,7 @@ bool Snake::testVirtualSnake(vector<vector<int>> map, tuple<int, int> target, qu
     // if the virtual snake can succeed from testing, we'd use the test result from the function.
     // otherwise, the testVirtualSnake will return head value.
     // if the result is value at the end of the function, the snake will have to choose another food to eat.
-    clock_t tmpTime1 = clock(); // FIXME: buffer
+    // clock_t tmpTime1 = clock(); // FIXME: buffer
 
     vector<vector<int>> tmpMap = map;
     queue<tuple<int, int>> tmpPos = this->getStaticPosition();
@@ -205,17 +205,21 @@ bool Snake::testVirtualSnake(vector<vector<int>> map, tuple<int, int> target, qu
         }
     }
 
-    clock_t tmpTime2 = clock(); // FIXME: buffer
+    // clock_t tmpTime2 = clock(); // FIXME: buffer
 
-    time += tmpTime2 - tmpTime1; // FIXME: buffer
+    // time += tmpTime2 - tmpTime1; // FIXME: buffer
 
     // move
     path.push(nextPos);
+    if (time != 0) {
+        if (nextPos == path.front()) return false;
+    } else
+        time++;
 
     if (nextPos == this->target) {
         // cout << "success" << endl;
         return true;
-    } else if (nextPos == head || time > TIMELIMIT) {
+    } else if (nextPos == head) {
         // cout << "fail" << endl;
         return false;
     } else {
@@ -535,10 +539,16 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
 
     // get every point's position in the map
     if (inPursuit == false) {
+        vector<vector<int>> tmpMap = map;
+        queue<tuple<int, int>> tmpPos = this->getStaticPosition();
+        while (!tmpPos.empty()) {
+            tmpMap[get<0>(tmpPos.front())][get<1>(tmpPos.front())] = -3; //REF: [map change]
+            tmpPos.pop();
+        }
         vector<tuple<int, int, int>> points;
-        for (int i = 0; i < map.size(); i++) {
-            for (int j = 0; j < map[0].size(); j++) {
-                if (map[i][j] != 0 && map[i][j] != -3 && map[i][j] != -1) points.push_back(tuple<int, int, int>(i, j, map[i][j]));
+        for (int i = 0; i < tmpMap.size(); i++) {
+            for (int j = 0; j < tmpMap[0].size(); j++) {
+                if (tmpMap[i][j] != 0 && tmpMap[i][j] != -3 && tmpMap[i][j] != -1) points.push_back(tuple<int, int, int>(i, j, tmpMap[i][j]));
             }
         }
 
@@ -546,7 +556,7 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
         vector<tuple<int, int>> pointsList = getClosestPoint(points);
         for (int i = 0; i < points.size(); i++) {
             this->target = pointsList[i];
-            cout << "target: (" << get<0>(this->target) << ", " << get<1>(this->target) << ")" << endl;
+            // cout << "target: (" << get<0>(this->target) << ", " << get<1>(this->target) << ")" << endl;
             // run testing
             // if only one, then don't run
             Snake tmpSnake(*this);
@@ -589,13 +599,13 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
     tuple<int, int> nextPos = this->path.front();
     this->path.pop();
     this->setDirection(nextPos);
-
+    // cout << "target: (" << get<0>(this->target) << ", " << get<1>(this->target) << ")" << endl;
     if (nextPos == this->target) {
         this->addLength(this->target);
         this->inPursuit = false;
         this->cleanPath();
     } else if (map[get<0>(nextPos)][get<1>(nextPos)] != 0 && map[get<0>(nextPos)][get<1>(nextPos)] != -3 && map[get<0>(nextPos)][get<1>(nextPos)] != -1) {
-        this->addLength(this->target);
+        this->addLength(nextPos);
         this->inPursuit = false;
         this->cleanPath();
     } else
