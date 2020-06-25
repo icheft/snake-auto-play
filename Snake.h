@@ -1,11 +1,13 @@
 #pragma once
 #include <cmath>
+#include <ctime>
 #include <iostream>
 #include <queue>
 #include <string>
 #include <tuple>
 #include <vector>
 
+#define TIMELIMIT 5000
 // Add anything else you need
 
 using namespace std;
@@ -41,7 +43,7 @@ private:
 
 private:
     // helpers
-    bool testVirtualSnake(vector<vector<int>> map, tuple<int, int> target, queue<tuple<int, int>>& path);
+    bool testVirtualSnake(vector<vector<int>> map, tuple<int, int> target, queue<tuple<int, int>>& path, clock_t& time);
     void cleanPath();
 
     vector<tuple<int, int>> getClosestPoint(vector<tuple<int, int, int>> points);
