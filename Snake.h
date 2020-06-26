@@ -43,7 +43,7 @@ private:
 
 private:
     // helpers
-    bool testVirtualSnake(vector<vector<int>> map, tuple<int, int> target, queue<tuple<int, int>>& path, clock_t& time);
+    bool testVirtualSnake(vector<vector<int>> map, tuple<int, int> target, queue<tuple<int, int>>& path, clock_t& time, vector<vector<int>>& record);
     void cleanPath();
 
     vector<tuple<int, int>> getClosestPoint(vector<tuple<int, int, int>> points);
