@@ -297,11 +297,11 @@ int main(int argc, char* argv[])
         int new_head_y = get<1>(new_pos.back());
         cout << i << ": " << get<0>(new_pos.back()) << ", " << get<1>(new_pos.back()) << "|" << map[new_head_x][new_head_y] << "$" << point << "\n";
 
-        if (point >= 238) {
+        if (point >= 150) {
             snake.showMap(map);
             usleep(30000);
-            cin.ignore();
-            printf("\033c");
+            // cin.ignore();
+            // printf("\033c");
         }
 
         // Walk one step
