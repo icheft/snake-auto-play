@@ -635,6 +635,7 @@ void Snake::displayStats() const
 // Testing
 
 queue<tuple<int, int>> Snake::getStaticPosition()
+
 {
     return this->position;
 }
