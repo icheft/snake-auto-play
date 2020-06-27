@@ -18,12 +18,14 @@ tuple<T, T> operator-(tuple<T, T> const& t1, tuple<T, T> const& t2)
 tuple<int, int> Snake::getClosestPoint(vector<tuple<int, int, int>> points)
 {
     tuple<int, int> head = this->position.back(); // get the head
-    double minDis = pow((get<0>(points[0]) - get<0>(head)), 2) + pow((get<1>(points[0]) - get<1>(head)), 2) / get<2>(points[0]);
+    // double minDis = pow((get<0>(points[0]) - get<0>(head)), 2) + pow((get<1>(points[0]) - get<1>(head)), 2) / get<2>(points[0]);
+    double minDis = (abs(get<0>(points[0]) - get<0>(head)) + abs(get<1>(points[0]) - get<1>(head))) / get<2>(points[0]);
 
     tuple<int, int> minDisIndex = make_tuple(get<0>(points[0]), get<1>(points[0]));
     for (int i = 1; i < points.size(); i++) {
-        if (pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2) / get<2>(points[i]) < minDis) {
-            minDis = pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2) / get<2>(points[i]);
+        if ((abs(get<0>(points[i]) - get<0>(head)) + abs(get<1>(points[i]) - get<1>(head))) / get<2>(points[i]) < minDis) {
+            // minDis = pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2) / get<2>(points[i]);
+            minDis = (abs(get<0>(points[i]) - get<0>(head)) + abs(get<1>(points[i]) - get<1>(head))) / get<2>(points[i]);
             minDisIndex = make_tuple(get<0>(points[i]), get<1>(points[i]));
         }
     }
@@ -52,103 +54,6 @@ bool Snake::isBodyPart(tuple<int, int> pos)
             posQ.pop();
     }
     return false;
-}
-int Snake::check(char pos, char secondPos)
-{
-    int cnt = 0;
-    if (pos == 'l' && secondPos == 'd') {
-        queue<tuple<int, int>> posQ = this->position;
-        tuple<int, int> head = this->position.back();
-        while (!posQ.empty()) {
-            if ((get<1>(head) - get<1>(posQ.front())) > 0 && (get<0>(head) - get<0>(posQ.front())) < 0) {
-                cnt++;
-            }
-            posQ.pop();
-        }
-    } else if (pos == 'l' && secondPos == 'u') {
-        queue<tuple<int, int>> posQ = this->position;
-        tuple<int, int> head = this->position.back();
-        while (!posQ.empty()) {
-            if ((get<1>(head) - get<1>(posQ.front())) > 0 && (get<0>(head) - get<0>(posQ.front())) > 0) {
-                cnt++;
-            }
-            posQ.pop();
-        }
-
-    } else if (pos == 'r' && secondPos == 'd') {
-        queue<tuple<int, int>> posQ = this->position;
-        tuple<int, int> head = this->position.back();
-        while (!posQ.empty()) {
-            if ((get<1>(head) - get<1>(posQ.front())) < 0 && (get<0>(head) - get<0>(posQ.front())) < 0) {
-                cnt++;
-            }
-            posQ.pop();
-        }
-    } else if (pos == 'r' && secondPos == 'u') {
-        queue<tuple<int, int>> posQ = this->position;
-        tuple<int, int> head = this->position.back();
-        while (!posQ.empty()) {
-            if ((get<1>(head) - get<1>(posQ.front())) < 0 && (get<0>(head) - get<0>(posQ.front())) > 0) {
-                cnt++;
-            }
-            posQ.pop();
-        }
-    }
-    return cnt;
-}
-
-int Snake::checkLeft()
-{
-    queue<tuple<int, int>> posQ = this->position;
-    tuple<int, int> head = this->position.back();
-    int cnt = 0;
-    while (!posQ.empty()) {
-        if ((get<1>(head) - get<1>(posQ.front())) > 0) {
-            cnt++;
-        }
-        posQ.pop();
-    }
-    return cnt;
-}
-int Snake::checkRight()
-{
-    queue<tuple<int, int>> posQ = this->position;
-    tuple<int, int> head = this->position.back();
-    int cnt = 0;
-    while (!posQ.empty()) {
-        if ((get<1>(head) - get<1>(posQ.front())) < 0) {
-            cnt++;
-        }
-        posQ.pop();
-    }
-    return cnt;
-}
-
-int Snake::checkUp()
-{
-    queue<tuple<int, int>> posQ = this->position;
-    tuple<int, int> head = this->position.back();
-    int cnt = 0;
-    while (!posQ.empty()) {
-        if ((get<0>(head) - get<0>(posQ.front())) > 0) {
-            cnt++;
-        }
-        posQ.pop();
-    }
-    return cnt;
-}
-int Snake::checkDown()
-{
-    queue<tuple<int, int>> posQ = this->position;
-    tuple<int, int> head = this->position.back();
-    int cnt = 0;
-    while (!posQ.empty()) {
-        if ((get<0>(head) - get<0>(posQ.front())) < 0) {
-            cnt++;
-        }
-        posQ.pop();
-    }
-    return cnt;
 }
 
 Direction Snake::getWallJudge(tuple<int, int> headPos, vector<vector<int>>& map)

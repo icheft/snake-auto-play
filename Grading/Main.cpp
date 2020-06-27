@@ -298,7 +298,7 @@ int main(int argc, char* argv[])
         int new_head_y = get<1>(new_pos.back());
         cout << i << ": " << get<0>(new_pos.back()) << ", " << get<1>(new_pos.back()) << "|" << map[new_head_x][new_head_y] << "$" << point << "\n";
 
-<<<<<<< HEAD
+        //
         // if (point >= 99) {
         //     snake.showMap(map);
         //     usleep(30000);
@@ -306,8 +306,6 @@ int main(int argc, char* argv[])
         //     // cin.ignore();
         // }
 
-=======
->>>>>>> 4b5b928995111dfbfce3359ba7b4beb764f42c6e
         // Walk one step
         int one_step_limit = 1;
         one_step_limit -= abs(get<0>(ori_pos.back()) - new_head_x);
