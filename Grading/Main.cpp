@@ -299,12 +299,12 @@ int main(int argc, char* argv[])
         cout << i << ": " << get<0>(new_pos.back()) << ", " << get<1>(new_pos.back()) << "|" << map[new_head_x][new_head_y] << "$" << point << "\n";
 
         //
-        // if (point >= 99) {
-        //     snake.showMap(map);
-        //     usleep(30000);
-        //     // printf("\033c");
-        //     // cin.ignore();
-        // }
+        if (point >= 160) {
+            snake.showMap(map);
+            // usleep(30000);
+            // printf("\033c");
+            // cin.ignore();
+        }
 
         // Walk one step
         int one_step_limit = 1;
