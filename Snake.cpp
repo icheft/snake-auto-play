@@ -18,16 +18,18 @@ tuple<T, T> operator-(tuple<T, T> const& t1, tuple<T, T> const& t2)
 tuple<int, int> Snake::getClosestPoint(vector<tuple<int, int, int>> points)
 {
     tuple<int, int> head = this->position.back(); // get the head
-    double minDis = (abs(get<0>(points[0]) - get<0>(head)) + abs(get<1>(points[0]) - get<1>(head))) / get<2>(points[0]);
+    // double minDis = (abs(get<0>(points[0]) - get<0>(head)) + abs(get<1>(points[0]) - get<1>(head))) / get<2>(points[0]);
     // double minDis = pow((get<0>(points[0]) - get<0>(head)), 2) + pow((get<1>(points[0]) - get<1>(head)), 2) / get<2>(points[0]);
+    double minDis = pow((get<0>(points[0]) - get<0>(head)), 2) / get<2>(points[0]) + pow((get<1>(points[0]) - get<1>(head)), 2);
     // double minDis = max(abs(get<0>(points[0]) - get<0>(head)), abs(get<1>(points[0]) - get<1>(head))) / get<2>(points[0]);
     // double minDis = (pow((get<0>(points[0]) - get<0>(head)), 2) + pow((get<1>(points[0]) - get<1>(head)), 2)) / get<2>(points[0]);
 
     tuple<int, int> minDisIndex = make_tuple(get<0>(points[0]), get<1>(points[0]));
     for (int i = 1; i < points.size(); i++) {
         if ((abs(get<0>(points[i]) - get<0>(head)) + abs(get<1>(points[i]) - get<1>(head))) / get<2>(points[i]) < minDis) {
-            minDis = (abs(get<0>(points[i]) - get<0>(head)) + abs(get<1>(points[i]) - get<1>(head))) / get<2>(points[i]);
+            // minDis = (abs(get<0>(points[i]) - get<0>(head)) + abs(get<1>(points[i]) - get<1>(head))) / get<2>(points[i]);
             // minDis = pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2) / get<2>(points[i]);
+            minDis = pow((get<0>(points[0]) - get<0>(head)), 2) / get<2>(points[0]) + pow((get<1>(points[0]) - get<1>(head)), 2);
             // minDis = max(abs(get<0>(points[0]) - get<0>(head)), abs(get<1>(points[0]) - get<1>(head))) / get<2>(points[0]);
             // minDis = (pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2)) / get<2>(points[i]);
             minDisIndex = make_tuple(get<0>(points[i]), get<1>(points[i]));
