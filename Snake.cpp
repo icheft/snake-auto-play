@@ -33,6 +33,7 @@ void Snake::addLength(tuple<int, int> nextPos)
         this->direction = Direction::RIGHT;
 
     this->position.push(nextPos);
+    this->point++;
 }
 
 void Snake::moveBody(tuple<int, int> nextPos)
@@ -553,12 +554,16 @@ queue<tuple<int, int>> Snake::getClosestPoint(vector<tuple<int, int, int>> point
 
 Snake::Snake(queue<tuple<int, int>> startPosition)
 {
-    position = startPosition;
+    this->point = 0;
+    this->position = startPosition;
 }
 
 queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
 {
     // Implement by yourself
+    if (this->point < 188) {
+        return this->nextPositionWhenPathNotFound(map);
+    }
     if (!take_moves.empty()) {
         // stick to the path
         tuple<int, int> nextHead = take_moves.top();
@@ -633,9 +638,9 @@ int Snake::calculateHValue(pair<int, int> pos, const pair<int, int>& des)
     double x = des.first - pos.first;
     double y = des.second - pos.second;
 
-    // return abs(x) + abs(y); // Manhattan
+    return abs(x) + abs(y); // Manhattan
     // return max(x, y); // Diagonal
-    return pow(x, 2) + pow(y, 2); // Euclidean
+    // return pow(x, 2) + pow(y, 2); // Euclidean
 }
 
 // A Utility Function to trace the path from the source

@@ -48,8 +48,10 @@ private:
         left = -1
     };
     queue<tuple<int, int>> position;
+    int point;
 
-    tuple<int, int> target;
+    tuple<int, int>
+        target;
     Direction direction;
     stack<pair<int, int>> take_moves;
     // queue<tuple<int, int>> path;
