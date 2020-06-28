@@ -633,9 +633,9 @@ int Snake::calculateHValue(pair<int, int> pos, const pair<int, int>& des)
     double x = des.first - pos.first;
     double y = des.second - pos.second;
 
-    return abs(x) + abs(y); // Manhattan
+    // return abs(x) + abs(y); // Manhattan
     // return max(x, y); // Diagonal
-    // return pow(x, 2) + pow(y, 2); // Euclidean
+    return pow(x, 2) + pow(y, 2); // Euclidean
 }
 
 // A Utility Function to trace the path from the source
