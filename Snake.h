@@ -1,13 +1,11 @@
 #pragma once
 #include <cmath>
-#include <ctime>
 #include <iostream>
 #include <queue>
 #include <string>
 #include <tuple>
 #include <vector>
 
-// #define TIMELIMIT 5000
 // Add anything else you need
 
 using namespace std;
@@ -35,22 +33,15 @@ private:
     queue<tuple<int, int>> position;
 
     // Add anything else you need
-    tuple<int, int> target;
-    bool inPursuit = false;
     int length;
     Direction direction;
-    queue<tuple<int, int>> path;
 
-private:
+protected:
     // helpers
-    bool testVirtualSnake(vector<vector<int>> map, tuple<int, int> target, queue<tuple<int, int>>& path, clock_t& time, vector<vector<int>>& record);
-    void cleanPath();
-
-    vector<tuple<int, int>> getClosestPoint(vector<tuple<int, int, int>> points);
+    tuple<int, int> getClosestPoint(vector<tuple<int, int, int>> points);
     void addLength(tuple<int, int> nextPos);
     void moveBody(tuple<int, int> nextPos);
     bool isBodyPart(tuple<int, int> pos);
-    void setDirection(tuple<int, int> nextPos);
 
     /*
         return n if not

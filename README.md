@@ -20,6 +20,16 @@ Freshman programming project, which requires students to write a program to auto
 | 🌍 `map 8`  (start from 104) | 163 | 153                                           | 150 | 149                          | 124   ｜122 | 114 | 112 |
 
 
+### Heuristics
+| MAPs | Manhattan          | 188                      | Diagonal                 | Euclidean                |
+| ---- | ------------------ | ------------------------ | ------------------------ | ------------------------ |
+| 646  | 426 (Invalid step) | 139 (Invalid eat length) | 130 (Invalid eat length) | 139 (Invalid eat length) |
+| 204  | 204 (Invalid step) | 123 (Invalid step)       | 114 (Invalid step)       | 123 (Invalid step)       |
+| 322  | 186 (Invalid step) | 121 (Invalid step)       | 177 (Invalid step)       | 121 (Invalid step)       |
+| 477  | 374 (Invalid step) | 112 (Invalid step)       | 195 (Invalid step)       | 132 (Invalid step)       |
+
+
+
 ## How to Use
 The source code for submission is located at the `submission` branch. The `master` branch is for development use and it provides more information about the project. 
 
