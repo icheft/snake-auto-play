@@ -561,7 +561,7 @@ Snake::Snake(queue<tuple<int, int>> startPosition)
 queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
 {
     // Implement by yourself
-    if (this->point < 187) {
+    if (this->point < 185) {
         return this->nextPositionWhenPathNotFound(map);
     }
     if (!take_moves.empty()) {
