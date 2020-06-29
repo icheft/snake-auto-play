@@ -51,7 +51,7 @@ private:
 
     tuple<int, int> target;
     Direction direction;
-    stack<pair<int, int>> take_moves;
+    stack<pair<int, int>> pathToFood;
     // queue<tuple<int, int>> path;
 
 private:
@@ -73,8 +73,9 @@ private:
 private:
     // a star
     bool isValid(pair<int, int> pos, const vector<vector<int>>& map);
+    bool isValidForTail(pair<int, int> pos, const vector<vector<int>>& map);
     int calculateHValue(pair<int, int> pos, const pair<int, int>& des);
-    pair<stack<pair<int, int>>, bool> aStarSearch(pair<int, int> src, pair<int, int> des, vector<vector<int>> map);
+    pair<stack<pair<int, int>>, bool> aStarSearch(pair<int, int> src, pair<int, int> des, vector<vector<int>> map, int opt);
     queue<tuple<int, int>> getClosestPoint(vector<tuple<int, int, int>> points);
 
 private:

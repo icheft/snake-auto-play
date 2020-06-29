@@ -17,8 +17,8 @@ tuple<T, T> operator-(tuple<T, T> const& t1, tuple<T, T> const& t2)
 // helpers
 void Snake::cleanPath()
 {
-    while (!take_moves.empty()) {
-        take_moves.pop();
+    while (!pathToFood.empty()) {
+        pathToFood.pop();
     }
 }
 
@@ -494,41 +494,41 @@ queue<tuple<int, int>> Snake::getClosestPoint(vector<tuple<int, int, int>> point
     queue<tuple<int, int>> minDisList;
 
     // dis / value
-    tuple<int, int> head = this->position.back(); // get the head
+    // tuple<int, int> head = this->position.back(); // get the head
 
-    for (int round = 0; round < points.size(); round++) {
-        double minDis = pow((get<0>(points[round]) - get<0>(head)), 2) + pow((get<1>(points[round]) - get<1>(head)), 2) / get<2>(points[round]);
-        // double minDis = (pow((get<0>(points[round]) - get<0>(head)), 2) + pow((get<1>(points[round]) - get<1>(head)), 2)) / get<2>(points[round]);
-        // double minDis = (abs(get<0>(points[round]) - get<0>(head)) + abs((get<1>(points[round]) - get<1>(head)))) / get<2>(points[round]);
-        // double minDis = max(abs(get<0>(points[round]) - get<0>(head)), abs((get<1>(points[round]) - get<1>(head)))) / get<2>(points[round]);
+    // for (int round = 0; round < points.size(); round++) {
+    //     double minDis = pow((get<0>(points[round]) - get<0>(head)), 2) + pow((get<1>(points[round]) - get<1>(head)), 2) / get<2>(points[round]);
+    //     // double minDis = (pow((get<0>(points[round]) - get<0>(head)), 2) + pow((get<1>(points[round]) - get<1>(head)), 2)) / get<2>(points[round]);
+    //     // double minDis = (abs(get<0>(points[round]) - get<0>(head)) + abs((get<1>(points[round]) - get<1>(head)))) / get<2>(points[round]);
+    //     // double minDis = max(abs(get<0>(points[round]) - get<0>(head)), abs((get<1>(points[round]) - get<1>(head)))) / get<2>(points[round]);
 
-        tuple<int, int> minDisIndex = make_tuple(get<0>(points[round]), get<1>(points[round]));
-        int minIndex = round;
-        for (int i = round + 1; i < points.size(); i++) {
-            if (pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2) / get<2>(points[i]) < minDis) {
-                // if ((pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2)) / get<2>(points[i]) < minDis) {
-                // if ((abs(get<0>(points[i]) - get<0>(head)) + abs((get<1>(points[i]) - get<1>(head)))) / get<2>(points[i]) < minDis) {
-                // if (max(abs(get<0>(points[i]) - get<0>(head)), abs((get<1>(points[i]) - get<1>(head)))) / get<2>(points[i]) < minDis) {
+    //     tuple<int, int> minDisIndex = make_tuple(get<0>(points[round]), get<1>(points[round]));
+    //     int minIndex = round;
+    //     for (int i = round + 1; i < points.size(); i++) {
+    //         if (pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2) / get<2>(points[i]) < minDis) {
+    //             // if ((pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2)) / get<2>(points[i]) < minDis) {
+    //             // if ((abs(get<0>(points[i]) - get<0>(head)) + abs((get<1>(points[i]) - get<1>(head)))) / get<2>(points[i]) < minDis) {
+    //             // if (max(abs(get<0>(points[i]) - get<0>(head)), abs((get<1>(points[i]) - get<1>(head)))) / get<2>(points[i]) < minDis) {
 
-                minDis = pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2) / get<2>(points[i]);
-                // minDis = (pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2)) / get<2>(points[i]);
-                // minDis = (abs(get<0>(points[i]) - get<0>(head)) + abs((get<1>(points[i]) - get<1>(head)))) / get<2>(points[i]);
-                // minDis = max(abs(get<0>(points[i]) - get<0>(head)), abs((get<1>(points[i]) - get<1>(head)))) / get<2>(points[i]);
+    //             minDis = pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2) / get<2>(points[i]);
+    //             // minDis = (pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2)) / get<2>(points[i]);
+    //             // minDis = (abs(get<0>(points[i]) - get<0>(head)) + abs((get<1>(points[i]) - get<1>(head)))) / get<2>(points[i]);
+    //             // minDis = max(abs(get<0>(points[i]) - get<0>(head)), abs((get<1>(points[i]) - get<1>(head)))) / get<2>(points[i]);
 
-                minDisIndex = make_tuple(get<0>(points[i]), get<1>(points[i]));
-                minIndex = i;
-            }
-        }
-        minDisList.push(minDisIndex);
-        if (minIndex != round) {
-            tuple<int, int, int> tmp = points[round];
-            points[round] = points[minIndex];
-            points[minIndex] = tmp;
-        }
-    }
+    //             minDisIndex = make_tuple(get<0>(points[i]), get<1>(points[i]));
+    //             minIndex = i;
+    //         }
+    //     }
+    //     minDisList.push(minDisIndex);
+    //     if (minIndex != round) {
+    //         tuple<int, int, int> tmp = points[round];
+    //         points[round] = points[minIndex];
+    //         points[minIndex] = tmp;
+    //     }
+    // }
 
     // value
-    /*
+
     for (int round = 0; round < points.size(); round++) {
         int maxPoint = get<2>(points[round]);
         tuple<int, int> maxPointIndex = make_tuple(get<0>(points[round]), get<1>(points[round]));
@@ -547,7 +547,6 @@ queue<tuple<int, int>> Snake::getClosestPoint(vector<tuple<int, int, int>> point
             points[maxIndex] = tmp;
         }
     }
-    */
     return minDisList;
 }
 
@@ -559,53 +558,69 @@ Snake::Snake(queue<tuple<int, int>> startPosition)
 queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
 {
     // Implement by yourself
-    if (!take_moves.empty()) {
-        // stick to the path
-        tuple<int, int> nextHead = take_moves.top();
-        int x, y;
-        tie(x, y) = take_moves.top();
-        take_moves.pop();
-        if (map[x][y] == 0) {
-            this->moveBody(nextHead);
-        } else {
-            this->addLength(nextHead);
-            this->cleanPath();
-        }
-        return this->position;
-    } else {
-        // record Snake's position on map, making them obstacles / blocks
-        // FIXME
-        // vector<vector<int>> tmpMap = map;
-        queue<tuple<int, int>> tmpPos = this->position;
-        while (!tmpPos.empty()) {
-            map[get<0>(tmpPos.front())][get<1>(tmpPos.front())] = -3; //REF: [map change]
-            tmpPos.pop();
-        }
+    // record Snake's position on map, making them obstacles / blocks
+    // FIXME
+    // vector<vector<int>> tmpMap = map;
+    queue<tuple<int, int>> tmpPos = this->position;
+    while (!tmpPos.empty()) {
+        map[get<0>(tmpPos.front())][get<1>(tmpPos.front())] = -3; //REF: [map change]
+        tmpPos.pop();
+    }
 
-        // get point
-        vector<tuple<int, int, int>> points;
-        for (int i = 0; i < map.size(); i++) {
-            for (int j = 0; j < map[0].size(); j++) {
-                if (map[i][j] != 0 && map[i][j] != -3 && map[i][j] != -1) points.push_back(tuple<int, int, int>(i, j, map[i][j]));
+    // get point
+    vector<tuple<int, int, int>> points;
+    for (int i = 0; i < map.size(); i++) {
+        for (int j = 0; j < map[0].size(); j++) {
+            if (map[i][j] != 0 && map[i][j] != -3 && map[i][j] != -1) points.push_back(tuple<int, int, int>(i, j, map[i][j]));
+        }
+    }
+
+    queue<tuple<int, int>> pointsList = getClosestPoint(points);
+
+    vector<vector<int>> tmpMap = map;
+
+    // find path
+    bool success = false;
+    Snake tmpSnake(*this);
+    stack<pair<int, int>> pathToTail;
+    while (success == false && !pointsList.empty()) {
+        tuple<int, int> head = tmpSnake.position.back();
+        cout << "tmp snake is created" << endl;
+        tie(tmpSnake.pathToFood, success) = tmpSnake.aStarSearch(make_pair(get<0>(head), get<1>(head)), make_pair(get<0>(pointsList.front()), get<1>(pointsList.front())), tmpMap, 0);
+
+        pointsList.pop();
+        if (!success) this->cleanPath();
+    }
+
+    if (success) {
+        this->pathToFood = tmpSnake.pathToFood;
+        cout << "tmp snake found food successfully" << endl;
+        while (!tmpSnake.pathToFood.empty()) {
+            tuple<int, int> nextHead = tmpSnake.pathToFood.top();
+            int x, y;
+            tie(x, y) = tmpSnake.pathToFood.top();
+            tmpSnake.pathToFood.pop();
+            if (map[x][y] == 0) {
+                tmpSnake.moveBody(nextHead);
+            } else {
+                tmpSnake.addLength(nextHead);
+                // tmpSnake.cleanPath();
             }
         }
-
-        queue<tuple<int, int>> pointsList = getClosestPoint(points);
-
-        // find path
-        bool success = false;
-        while (success == false && !pointsList.empty()) {
-            tuple<int, int> head = position.back();
-            tie(take_moves, success) = aStarSearch(make_pair(get<0>(head), get<1>(head)), make_pair(get<0>(pointsList.front()), get<1>(pointsList.front())), map);
-            pointsList.pop();
-            if (!success) this->cleanPath();
-        }
-
+        tmpSnake.cleanPath();
+        // check longest path to tail
+        cout << "tmp snake found food" << endl;
+        tuple<int, int> head = tmpSnake.position.back();
+        tuple<int, int> tail = tmpSnake.position.front();
+        tie(pathToTail, success) = tmpSnake.aStarSearch(make_pair(get<0>(head), get<1>(head)), make_pair(get<0>(tail), get<1>(tail)), tmpMap, 1);
+        cout << "tmp snake finding tail" << endl;
+        // if exists
         if (success) {
-            tuple<int, int> nextHead = take_moves.top();
+            cout << "tmp snake found tail successfully" << endl;
+            tuple<int, int> nextHead = pathToFood.top();
             int x, y;
-            tie(x, y) = take_moves.top();
-            take_moves.pop();
+            tie(x, y) = pathToFood.top();
+            pathToFood.pop();
             if (map[x][y] == 0) {
                 this->moveBody(nextHead);
             } else {
@@ -614,9 +629,48 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
             }
             return this->position;
         } else {
-            // clean
-            this->cleanPath();
+            cout << "tmp snake not found tail successfully" << endl;
 
+            tuple<int, int> head = this->position.back();
+            tuple<int, int> tail = this->position.front();
+            tie(pathToTail, success) = this->aStarSearch(make_pair(get<0>(head), get<1>(head)), make_pair(get<0>(tail), get<1>(tail)), tmpMap, 1);
+            tuple<int, int> nextHead = pathToTail.top();
+            int x, y;
+            tie(x, y) = pathToTail.top();
+            pathToTail.pop();
+            if (map[x][y] == 0) {
+                this->moveBody(nextHead);
+            } else {
+                this->addLength(nextHead);
+                this->cleanPath();
+            }
+            return this->position;
+        }
+        // if doesn't exist
+        // else follow the longest path to tail
+    } else {
+        tuple<int, int> head = this->position.back();
+        tuple<int, int> tail = this->position.front();
+        tie(pathToTail, success) = this->aStarSearch(make_pair(get<0>(head), get<1>(head)), make_pair(get<0>(tail), get<1>(tail)), map, 1);
+        if (success) {
+            cout << "follow the longest path to tail" << endl;
+            tuple<int, int> nextHead = pathToTail.top();
+            int x, y;
+            tie(x, y) = pathToTail.top();
+            pathToTail.pop();
+            if (map[x][y] == 0) {
+                this->moveBody(nextHead);
+            } else {
+                this->addLength(nextHead);
+                this->cleanPath();
+            }
+            return this->position;
+        }
+        // if can eat the tail
+        // clean
+        else {
+            // can't even reach the tail (ready to get fucked up)
+            this->cleanPath();
             // use the old way
             return this->nextPositionWhenPathNotFound(map);
         }
@@ -626,6 +680,15 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
 bool Snake::isValid(pair<int, int> pos, const vector<vector<int>>& map)
 {
     return (map[pos.first][pos.second] != -1 && map[pos.first][pos.second] != -3);
+}
+
+bool Snake::isValidForTail(pair<int, int> pos, const vector<vector<int>>& map)
+{
+    if (make_tuple(pos.first, pos.second) == this->position.back()) return true;
+    else if (make_tuple(pos.first, pos.second) == this->position.front())
+        return true;
+    else
+        return (map[pos.first][pos.second] != -1 && map[pos.first][pos.second] != -3);
 }
 
 int Snake::calculateHValue(pair<int, int> pos, const pair<int, int>& des)
@@ -659,7 +722,7 @@ stack<pair<int, int>> tracePath(const vector<vector<cell>>& cellDetails, const p
     return Path;
 }
 
-pair<stack<pair<int, int>>, bool> Snake::aStarSearch(pair<int, int> src, pair<int, int> des, vector<vector<int>> map)
+pair<stack<pair<int, int>>, bool> Snake::aStarSearch(pair<int, int> src, pair<int, int> des, vector<vector<int>> map, int opt)
 {
     // Create a closed list and initialise it to false which means
     // that no cell has been included yet
@@ -700,174 +763,349 @@ pair<stack<pair<int, int>>, bool> Snake::aStarSearch(pair<int, int> src, pair<in
     // We set this boolean value as false as initially
     // the destination is not reached.
     // bool foundDest = false; // not used
+    if (opt == 0) {
+        // shortest path
+        while (!openList.empty()) {
+            pPair p = *(openList.begin());
 
-    while (!openList.empty()) {
-        pPair p = *(openList.begin());
+            // Remove this vertex from the open list
+            openList.erase(openList.begin());
 
-        // Remove this vertex from the open list
-        openList.erase(openList.begin());
+            // Add this vertex to the closed list
+            i = p.second.first;
+            j = p.second.second;
+            closedList[i][j] = true;
 
-        // Add this vertex to the closed list
-        i = p.second.first;
-        j = p.second.second;
-        closedList[i][j] = true;
+            // To store the 'g', 'h' and 'f' of the 4 successors
+            double gNew, hNew, fNew;
 
-        // To store the 'g', 'h' and 'f' of the 4 successors
-        double gNew, hNew, fNew;
+            Pair grid;
 
-        Pair grid;
+            //----------- 1st Successor (DOWN) ------------
 
-        //----------- 1st Successor (DOWN) ------------
-
-        // Only process this cell if this is a valid one
-        grid = Pair(i + 1, j);
-        if (isValid(grid, map)) {
-            if (grid == des) {
-                // Set the Parent of the destination cell
-                cellDetails[grid.first][grid.second].parent_i = i;
-                cellDetails[grid.first][grid.second].parent_j = j;
-
-                return make_pair(tracePath(cellDetails, des), true);
-            }
-            // If the successor is already on the closed then ignore it.
-            // Else do the following
-            else if (closedList[grid.first][grid.second] == false) {
-                gNew = cellDetails[i][j].g + 1;
-                hNew = calculateHValue(grid, des);
-                fNew = gNew + hNew;
-
-                // If it isn’t on the open list, add it to
-                // the open list. Make the current square
-                // the parent of this square. Record the
-                // f, g, and h costs of the square cell
-                //                OR
-                // If it is on the open list already, check
-                // to see if this path to that square is better,
-                // using 'f' cost as the measure.
-                if (cellDetails[grid.first][grid.second].f == INT_MAX || cellDetails[grid.first][grid.second].f > fNew) {
-                    openList.insert(make_pair(fNew, grid));
-                    // Update the details of this cell
-                    cellDetails[grid.first][grid.second].f = fNew;
-                    cellDetails[grid.first][grid.second].g = gNew;
-                    cellDetails[grid.first][grid.second].h = hNew;
+            // Only process this cell if this is a valid one
+            grid = Pair(i + 1, j);
+            if (isValid(grid, map)) {
+                if (grid == des) {
+                    // Set the Parent of the destination cell
                     cellDetails[grid.first][grid.second].parent_i = i;
                     cellDetails[grid.first][grid.second].parent_j = j;
+
+                    return make_pair(tracePath(cellDetails, des), true);
+                }
+                // If the successor is already on the closed then ignore it.
+                // Else do the following
+                else if (closedList[grid.first][grid.second] == false) {
+                    gNew = cellDetails[i][j].g + 1;
+                    hNew = calculateHValue(grid, des);
+                    fNew = gNew + hNew;
+
+                    // If it isn’t on the open list, add it to
+                    // the open list. Make the current square
+                    // the parent of this square. Record the
+                    // f, g, and h costs of the square cell
+                    //                OR
+                    // If it is on the open list already, check
+                    // to see if this path to that square is better,
+                    // using 'f' cost as the measure.
+                    if (cellDetails[grid.first][grid.second].f == INT_MAX || cellDetails[grid.first][grid.second].f > fNew) {
+                        openList.insert(make_pair(fNew, grid));
+                        // Update the details of this cell
+                        cellDetails[grid.first][grid.second].f = fNew;
+                        cellDetails[grid.first][grid.second].g = gNew;
+                        cellDetails[grid.first][grid.second].h = hNew;
+                        cellDetails[grid.first][grid.second].parent_i = i;
+                        cellDetails[grid.first][grid.second].parent_j = j;
+                    }
+                }
+            }
+            //----------- 2nd Successor (UP) ------------
+
+            // Only process this cell if this is a valid one
+            grid = Pair(i - 1, j);
+            if (isValid(grid, map)) {
+                if (grid == des) {
+                    // Set the Parent of the destination cell
+                    cellDetails[grid.first][grid.second].parent_i = i;
+                    cellDetails[grid.first][grid.second].parent_j = j;
+
+                    return make_pair(tracePath(cellDetails, des), true);
+                }
+
+                // If the successor is already on the closed
+                // list or if it is blocked, then ignore it.
+                // Else do the following
+                else if (closedList[grid.first][grid.second] == false) {
+                    gNew = cellDetails[i][j].g + 1;
+                    hNew = calculateHValue(grid, des);
+                    fNew = gNew + hNew;
+
+                    // If it isn’t on the open list, add it to
+                    // the open list. Make the current square
+                    // the parent of this square. Record the
+                    // f, g, and h costs of the square cell
+                    //                OR
+                    // If it is on the open list already, check
+                    // to see if this path to that square is better,
+                    // using 'f' cost as the measure.
+                    if (cellDetails[grid.first][grid.second].f == INT_MAX || cellDetails[grid.first][grid.second].f > fNew) {
+                        openList.insert(make_pair(fNew, grid));
+                        // Update the details of this cell
+                        cellDetails[grid.first][grid.second].f = fNew;
+                        cellDetails[grid.first][grid.second].g = gNew;
+                        cellDetails[grid.first][grid.second].h = hNew;
+                        cellDetails[grid.first][grid.second].parent_i = i;
+                        cellDetails[grid.first][grid.second].parent_j = j;
+                    }
+                }
+            }
+            //----------- 3rd Successor (RIGHT) ------------
+
+            // Only process this cell if this is a valid one
+            grid = Pair(i, j + 1);
+            if (isValid(grid, map)) {
+                if (grid == des) {
+                    // Set the Parent of the destination cell
+                    cellDetails[grid.first][grid.second].parent_i = i;
+                    cellDetails[grid.first][grid.second].parent_j = j;
+                    return make_pair(tracePath(cellDetails, des), true);
+                }
+                // If the successor is already on the closed then ignore it.
+                // Else do the following
+                else if (closedList[grid.first][grid.second] == false) {
+                    gNew = cellDetails[i][j].g + 1;
+                    hNew = calculateHValue(grid, des);
+                    fNew = gNew + hNew;
+
+                    // If it isn’t on the open list, add it to
+                    // the open list. Make the current square
+                    // the parent of this square. Record the
+                    // f, g, and h costs of the square cell
+                    //                OR
+                    // If it is on the open list already, check
+                    // to see if this path to that square is better,
+                    // using 'f' cost as the measure.
+                    if (cellDetails[grid.first][grid.second].f == INT_MAX || cellDetails[grid.first][grid.second].f > fNew) {
+                        openList.insert(make_pair(fNew, grid));
+                        // Update the details of this cell
+                        cellDetails[grid.first][grid.second].f = fNew;
+                        cellDetails[grid.first][grid.second].g = gNew;
+                        cellDetails[grid.first][grid.second].h = hNew;
+                        cellDetails[grid.first][grid.second].parent_i = i;
+                        cellDetails[grid.first][grid.second].parent_j = j;
+                    }
+                }
+            }
+
+            //----------- 4th Successor (LEFT) ------------
+
+            // Only process this cell if this is a valid one
+            grid = Pair(i, j - 1);
+            if (isValid(grid, map)) {
+                if (grid == des) {
+                    // Set the Parent of the destination cell
+                    cellDetails[grid.first][grid.second].parent_i = i;
+                    cellDetails[grid.first][grid.second].parent_j = j;
+
+                    return make_pair(tracePath(cellDetails, des), true);
+                }
+                // If the successor is already on the closed then ignore it.
+                // Else do the following
+                else if (closedList[grid.first][grid.second] == false) {
+                    gNew = cellDetails[i][j].g + 1;
+                    hNew = calculateHValue(grid, des);
+                    fNew = gNew + hNew;
+
+                    // If it isn’t on the open list, add it to
+                    // the open list. Make the current square
+                    // the parent of this square. Record the
+                    // f, g, and h costs of the square cell
+                    //                OR
+                    // If it is on the open list already, check
+                    // to see if this path to that square is better,
+                    // using 'f' cost as the measure.
+                    if (cellDetails[grid.first][grid.second].f == INT_MAX || cellDetails[grid.first][grid.second].f > fNew) {
+                        openList.insert(make_pair(fNew, grid));
+                        // Update the details of this cell
+                        cellDetails[grid.first][grid.second].f = fNew;
+                        cellDetails[grid.first][grid.second].g = gNew;
+                        cellDetails[grid.first][grid.second].h = hNew;
+                        cellDetails[grid.first][grid.second].parent_i = i;
+                        cellDetails[grid.first][grid.second].parent_j = j;
+                    }
                 }
             }
         }
-        //----------- 2nd Successor (UP) ------------
+    } else if (opt == 1) {
+        // longest path
+        while (!openList.empty()) {
+            pPair p = *(openList.begin());
 
-        // Only process this cell if this is a valid one
-        grid = Pair(i - 1, j);
-        if (isValid(grid, map)) {
-            if (grid == des) {
-                // Set the Parent of the destination cell
-                cellDetails[grid.first][grid.second].parent_i = i;
-                cellDetails[grid.first][grid.second].parent_j = j;
+            // Remove this vertex from the open list
+            openList.erase(openList.begin());
 
-                return make_pair(tracePath(cellDetails, des), true);
-            }
+            // Add this vertex to the closed list
+            i = p.second.first;
+            j = p.second.second;
+            closedList[i][j] = true;
 
-            // If the successor is already on the closed
-            // list or if it is blocked, then ignore it.
-            // Else do the following
-            else if (closedList[grid.first][grid.second] == false) {
-                gNew = cellDetails[i][j].g + 1;
-                hNew = calculateHValue(grid, des);
-                fNew = gNew + hNew;
+            // To store the 'g', 'h' and 'f' of the 4 successors
+            double gNew, hNew, fNew;
 
-                // If it isn’t on the open list, add it to
-                // the open list. Make the current square
-                // the parent of this square. Record the
-                // f, g, and h costs of the square cell
-                //                OR
-                // If it is on the open list already, check
-                // to see if this path to that square is better,
-                // using 'f' cost as the measure.
-                if (cellDetails[grid.first][grid.second].f == INT_MAX || cellDetails[grid.first][grid.second].f > fNew) {
-                    openList.insert(make_pair(fNew, grid));
-                    // Update the details of this cell
-                    cellDetails[grid.first][grid.second].f = fNew;
-                    cellDetails[grid.first][grid.second].g = gNew;
-                    cellDetails[grid.first][grid.second].h = hNew;
+            Pair grid;
+
+            //----------- 1st Successor (DOWN) ------------
+
+            // Only process this cell if this is a valid one
+            grid = Pair(i + 1, j);
+            if (isValidForTail(grid, map)) {
+                if (grid == des) {
+                    // Set the Parent of the destination cell
                     cellDetails[grid.first][grid.second].parent_i = i;
                     cellDetails[grid.first][grid.second].parent_j = j;
+
+                    return make_pair(tracePath(cellDetails, des), true);
+                }
+                // If the successor is already on the closed then ignore it.
+                // Else do the following
+                else if (closedList[grid.first][grid.second] == false) {
+                    gNew = cellDetails[i][j].g + 1;
+                    hNew = calculateHValue(grid, des);
+                    fNew = gNew + hNew;
+
+                    // If it isn’t on the open list, add it to
+                    // the open list. Make the current square
+                    // the parent of this square. Record the
+                    // f, g, and h costs of the square cell
+                    //                OR
+                    // If it is on the open list already, check
+                    // to see if this path to that square is better,
+                    // using 'f' cost as the measure.
+                    if (cellDetails[grid.first][grid.second].f == INT_MAX || cellDetails[grid.first][grid.second].f > fNew) {
+                        openList.insert(make_pair(fNew, grid));
+                        // Update the details of this cell
+                        cellDetails[grid.first][grid.second].f = fNew;
+                        cellDetails[grid.first][grid.second].g = gNew;
+                        cellDetails[grid.first][grid.second].h = hNew;
+                        cellDetails[grid.first][grid.second].parent_i = i;
+                        cellDetails[grid.first][grid.second].parent_j = j;
+                    }
                 }
             }
-        }
-        //----------- 3rd Successor (RIGHT) ------------
+            //----------- 2nd Successor (UP) ------------
 
-        // Only process this cell if this is a valid one
-        grid = Pair(i, j + 1);
-        if (isValid(grid, map)) {
-            if (grid == des) {
-                // Set the Parent of the destination cell
-                cellDetails[grid.first][grid.second].parent_i = i;
-                cellDetails[grid.first][grid.second].parent_j = j;
-                return make_pair(tracePath(cellDetails, des), true);
-            }
-            // If the successor is already on the closed then ignore it.
-            // Else do the following
-            else if (closedList[grid.first][grid.second] == false) {
-                gNew = cellDetails[i][j].g + 1;
-                hNew = calculateHValue(grid, des);
-                fNew = gNew + hNew;
-
-                // If it isn’t on the open list, add it to
-                // the open list. Make the current square
-                // the parent of this square. Record the
-                // f, g, and h costs of the square cell
-                //                OR
-                // If it is on the open list already, check
-                // to see if this path to that square is better,
-                // using 'f' cost as the measure.
-                if (cellDetails[grid.first][grid.second].f == INT_MAX || cellDetails[grid.first][grid.second].f > fNew) {
-                    openList.insert(make_pair(fNew, grid));
-                    // Update the details of this cell
-                    cellDetails[grid.first][grid.second].f = fNew;
-                    cellDetails[grid.first][grid.second].g = gNew;
-                    cellDetails[grid.first][grid.second].h = hNew;
+            // Only process this cell if this is a valid one
+            grid = Pair(i - 1, j);
+            if (isValidForTail(grid, map)) {
+                if (grid == des) {
+                    // Set the Parent of the destination cell
                     cellDetails[grid.first][grid.second].parent_i = i;
                     cellDetails[grid.first][grid.second].parent_j = j;
+
+                    return make_pair(tracePath(cellDetails, des), true);
+                }
+
+                // If the successor is already on the closed
+                // list or if it is blocked, then ignore it.
+                // Else do the following
+                else if (closedList[grid.first][grid.second] == false) {
+                    gNew = cellDetails[i][j].g + 1;
+                    hNew = calculateHValue(grid, des);
+                    fNew = gNew + hNew;
+
+                    // If it isn’t on the open list, add it to
+                    // the open list. Make the current square
+                    // the parent of this square. Record the
+                    // f, g, and h costs of the square cell
+                    //                OR
+                    // If it is on the open list already, check
+                    // to see if this path to that square is better,
+                    // using 'f' cost as the measure.
+                    if (cellDetails[grid.first][grid.second].f == INT_MAX || cellDetails[grid.first][grid.second].f > fNew) {
+                        openList.insert(make_pair(fNew, grid));
+                        // Update the details of this cell
+                        cellDetails[grid.first][grid.second].f = fNew;
+                        cellDetails[grid.first][grid.second].g = gNew;
+                        cellDetails[grid.first][grid.second].h = hNew;
+                        cellDetails[grid.first][grid.second].parent_i = i;
+                        cellDetails[grid.first][grid.second].parent_j = j;
+                    }
                 }
             }
-        }
+            //----------- 3rd Successor (RIGHT) ------------
 
-        //----------- 4th Successor (LEFT) ------------
-
-        // Only process this cell if this is a valid one
-        grid = Pair(i, j - 1);
-        if (isValid(grid, map)) {
-            if (grid == des) {
-                // Set the Parent of the destination cell
-                cellDetails[grid.first][grid.second].parent_i = i;
-                cellDetails[grid.first][grid.second].parent_j = j;
-
-                return make_pair(tracePath(cellDetails, des), true);
-            }
-            // If the successor is already on the closed then ignore it.
-            // Else do the following
-            else if (closedList[grid.first][grid.second] == false) {
-                gNew = cellDetails[i][j].g + 1;
-                hNew = calculateHValue(grid, des);
-                fNew = gNew + hNew;
-
-                // If it isn’t on the open list, add it to
-                // the open list. Make the current square
-                // the parent of this square. Record the
-                // f, g, and h costs of the square cell
-                //                OR
-                // If it is on the open list already, check
-                // to see if this path to that square is better,
-                // using 'f' cost as the measure.
-                if (cellDetails[grid.first][grid.second].f == INT_MAX || cellDetails[grid.first][grid.second].f > fNew) {
-                    openList.insert(make_pair(fNew, grid));
-                    // Update the details of this cell
-                    cellDetails[grid.first][grid.second].f = fNew;
-                    cellDetails[grid.first][grid.second].g = gNew;
-                    cellDetails[grid.first][grid.second].h = hNew;
+            // Only process this cell if this is a valid one
+            grid = Pair(i, j + 1);
+            if (isValidForTail(grid, map)) {
+                if (grid == des) {
+                    // Set the Parent of the destination cell
                     cellDetails[grid.first][grid.second].parent_i = i;
                     cellDetails[grid.first][grid.second].parent_j = j;
+                    return make_pair(tracePath(cellDetails, des), true);
+                }
+                // If the successor is already on the closed then ignore it.
+                // Else do the following
+                else if (closedList[grid.first][grid.second] == false) {
+                    gNew = cellDetails[i][j].g + 1;
+                    hNew = calculateHValue(grid, des);
+                    fNew = gNew + hNew;
+
+                    // If it isn’t on the open list, add it to
+                    // the open list. Make the current square
+                    // the parent of this square. Record the
+                    // f, g, and h costs of the square cell
+                    //                OR
+                    // If it is on the open list already, check
+                    // to see if this path to that square is better,
+                    // using 'f' cost as the measure.
+                    if (cellDetails[grid.first][grid.second].f == INT_MAX || cellDetails[grid.first][grid.second].f > fNew) {
+                        openList.insert(make_pair(fNew, grid));
+                        // Update the details of this cell
+                        cellDetails[grid.first][grid.second].f = fNew;
+                        cellDetails[grid.first][grid.second].g = gNew;
+                        cellDetails[grid.first][grid.second].h = hNew;
+                        cellDetails[grid.first][grid.second].parent_i = i;
+                        cellDetails[grid.first][grid.second].parent_j = j;
+                    }
+                }
+            }
+
+            //----------- 4th Successor (LEFT) ------------
+
+            // Only process this cell if this is a valid one
+            grid = Pair(i, j - 1);
+            if (isValidForTail(grid, map)) {
+                if (grid == des) {
+                    // Set the Parent of the destination cell
+                    cellDetails[grid.first][grid.second].parent_i = i;
+                    cellDetails[grid.first][grid.second].parent_j = j;
+
+                    return make_pair(tracePath(cellDetails, des), true);
+                }
+                // If the successor is already on the closed then ignore it.
+                // Else do the following
+                else if (closedList[grid.first][grid.second] == false) {
+                    gNew = cellDetails[i][j].g + 1;
+                    hNew = calculateHValue(grid, des);
+                    fNew = gNew + hNew;
+
+                    // If it isn’t on the open list, add it to
+                    // the open list. Make the current square
+                    // the parent of this square. Record the
+                    // f, g, and h costs of the square cell
+                    //                OR
+                    // If it is on the open list already, check
+                    // to see if this path to that square is better,
+                    // using 'f' cost as the measure.
+                    if (cellDetails[grid.first][grid.second].f == INT_MAX || cellDetails[grid.first][grid.second].f > fNew) {
+                        openList.insert(make_pair(fNew, grid));
+                        // Update the details of this cell
+                        cellDetails[grid.first][grid.second].f = fNew;
+                        cellDetails[grid.first][grid.second].g = gNew;
+                        cellDetails[grid.first][grid.second].h = hNew;
+                        cellDetails[grid.first][grid.second].parent_i = i;
+                        cellDetails[grid.first][grid.second].parent_j = j;
+                    }
                 }
             }
         }
