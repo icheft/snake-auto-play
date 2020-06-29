@@ -300,8 +300,8 @@ int main(int argc, char* argv[])
 
         //
         // if (point >= 160) {
-        snake.showMap(map);
-        usleep(30000);
+        // snake.showMap(map);
+        // usleep(30000);
         // printf("\033c");
         // cin.ignore();
         // }

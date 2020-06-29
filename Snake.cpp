@@ -585,7 +585,7 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
     stack<pair<int, int>> pathToTail;
     while (success == false && !pointsList.empty()) {
         tuple<int, int> head = tmpSnake.position.back();
-        cout << "tmp snake is created" << endl;
+        // cout << "tmp snake is created" << endl;
         tie(tmpSnake.pathToFood, success) = tmpSnake.aStarSearch(make_pair(get<0>(head), get<1>(head)), make_pair(get<0>(pointsList.front()), get<1>(pointsList.front())), tmpMap, 0);
 
         pointsList.pop();
@@ -594,7 +594,7 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
 
     if (success) {
         this->pathToFood = tmpSnake.pathToFood;
-        cout << "tmp snake found food successfully" << endl;
+        // cout << "tmp snake found food successfully" << endl;
         while (!tmpSnake.pathToFood.empty()) {
             tuple<int, int> nextHead = tmpSnake.pathToFood.top();
             int x, y;
@@ -609,14 +609,13 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
         }
         tmpSnake.cleanPath();
         // check longest path to tail
-        cout << "tmp snake found food" << endl;
+        // cout << "tmp snake found food" << endl;
         tuple<int, int> head = tmpSnake.position.back();
         tuple<int, int> tail = tmpSnake.position.front();
         tie(pathToTail, success) = tmpSnake.aStarSearch(make_pair(get<0>(head), get<1>(head)), make_pair(get<0>(tail), get<1>(tail)), tmpMap, 1);
-        cout << "tmp snake finding tail" << endl;
+        // cout << "tmp snake finding tail" << endl;
         // if exists
         if (success) {
-            cout << "tmp snake found tail successfully" << endl;
             tuple<int, int> nextHead = pathToFood.top();
             int x, y;
             tie(x, y) = pathToFood.top();
@@ -629,22 +628,7 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
             }
             return this->position;
         } else {
-            cout << "tmp snake not found tail successfully" << endl;
-
-            tuple<int, int> head = this->position.back();
-            tuple<int, int> tail = this->position.front();
-            tie(pathToTail, success) = this->aStarSearch(make_pair(get<0>(head), get<1>(head)), make_pair(get<0>(tail), get<1>(tail)), tmpMap, 1);
-            tuple<int, int> nextHead = pathToTail.top();
-            int x, y;
-            tie(x, y) = pathToTail.top();
-            pathToTail.pop();
-            if (map[x][y] == 0) {
-                this->moveBody(nextHead);
-            } else {
-                this->addLength(nextHead);
-                this->cleanPath();
-            }
-            return this->position;
+            return this->nextPositionWhenPathNotFound(map);
         }
         // if doesn't exist
         // else follow the longest path to tail
@@ -653,7 +637,7 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
         tuple<int, int> tail = this->position.front();
         tie(pathToTail, success) = this->aStarSearch(make_pair(get<0>(head), get<1>(head)), make_pair(get<0>(tail), get<1>(tail)), map, 1);
         if (success) {
-            cout << "follow the longest path to tail" << endl;
+            // cout << "follow the longest path to tail" << endl;
             tuple<int, int> nextHead = pathToTail.top();
             int x, y;
             tie(x, y) = pathToTail.top();
