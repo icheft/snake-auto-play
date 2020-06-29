@@ -48,6 +48,7 @@ private:
         left = -1
     };
     queue<tuple<int, int>> position;
+    int point;
 
     tuple<int, int> target;
     Direction direction;
@@ -76,7 +77,7 @@ private:
     bool isValidForTail(pair<int, int> pos, const vector<vector<int>>& map);
     int calculateHValue(pair<int, int> pos, const pair<int, int>& des);
     pair<stack<pair<int, int>>, bool> aStarSearch(pair<int, int> src, pair<int, int> des, vector<vector<int>> map, int opt);
-    queue<tuple<int, int>> getClosestPoint(vector<tuple<int, int, int>> points);
+    queue<tuple<int, int>> getClosestPoint(vector<tuple<int, int, int>> points, bool found);
 
 private:
     // helpers

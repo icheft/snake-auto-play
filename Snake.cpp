@@ -33,6 +33,7 @@ void Snake::addLength(tuple<int, int> nextPos)
         this->direction = Direction::RIGHT;
 
     this->position.push(nextPos);
+    this->point++;
 }
 
 void Snake::moveBody(tuple<int, int> nextPos)
@@ -284,7 +285,7 @@ queue<tuple<int, int>> Snake::nextPositionWhenPathNotFound(vector<vector<int>> m
         }
     }
 
-    tuple<int, int> target = getClosestPoint(points).front();
+    tuple<int, int> target = getClosestPoint(points, true).back();
 
     /**
      * Movements:
@@ -488,63 +489,64 @@ queue<tuple<int, int>> Snake::nextPositionWhenPathNotFound(vector<vector<int>> m
     return this->position;
 }
 // a star
-queue<tuple<int, int>> Snake::getClosestPoint(vector<tuple<int, int, int>> points)
+queue<tuple<int, int>> Snake::getClosestPoint(vector<tuple<int, int, int>> points, bool found)
 {
 
     queue<tuple<int, int>> minDisList;
 
     // dis / value
-    // tuple<int, int> head = this->position.back(); // get the head
+    if (found == false) {
+        tuple<int, int> head = this->position.back(); // get the head
 
-    // for (int round = 0; round < points.size(); round++) {
-    //     double minDis = pow((get<0>(points[round]) - get<0>(head)), 2) + pow((get<1>(points[round]) - get<1>(head)), 2) / get<2>(points[round]);
-    //     // double minDis = (pow((get<0>(points[round]) - get<0>(head)), 2) + pow((get<1>(points[round]) - get<1>(head)), 2)) / get<2>(points[round]);
-    //     // double minDis = (abs(get<0>(points[round]) - get<0>(head)) + abs((get<1>(points[round]) - get<1>(head)))) / get<2>(points[round]);
-    //     // double minDis = max(abs(get<0>(points[round]) - get<0>(head)), abs((get<1>(points[round]) - get<1>(head)))) / get<2>(points[round]);
+        for (int round = 0; round < points.size(); round++) {
+            double minDis = pow((get<0>(points[round]) - get<0>(head)), 2) + pow((get<1>(points[round]) - get<1>(head)), 2) / get<2>(points[round]);
+            // double minDis = (pow((get<0>(points[round]) - get<0>(head)), 2) + pow((get<1>(points[round]) - get<1>(head)), 2)) / get<2>(points[round]);
+            // double minDis = (abs(get<0>(points[round]) - get<0>(head)) + abs((get<1>(points[round]) - get<1>(head)))) / get<2>(points[round]);
+            // double minDis = max(abs(get<0>(points[round]) - get<0>(head)), abs((get<1>(points[round]) - get<1>(head)))) / get<2>(points[round]);
 
-    //     tuple<int, int> minDisIndex = make_tuple(get<0>(points[round]), get<1>(points[round]));
-    //     int minIndex = round;
-    //     for (int i = round + 1; i < points.size(); i++) {
-    //         if (pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2) / get<2>(points[i]) < minDis) {
-    //             // if ((pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2)) / get<2>(points[i]) < minDis) {
-    //             // if ((abs(get<0>(points[i]) - get<0>(head)) + abs((get<1>(points[i]) - get<1>(head)))) / get<2>(points[i]) < minDis) {
-    //             // if (max(abs(get<0>(points[i]) - get<0>(head)), abs((get<1>(points[i]) - get<1>(head)))) / get<2>(points[i]) < minDis) {
+            tuple<int, int> minDisIndex = make_tuple(get<0>(points[round]), get<1>(points[round]));
+            int minIndex = round;
+            for (int i = round + 1; i < points.size(); i++) {
+                if (pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2) / get<2>(points[i]) < minDis) {
+                    // if ((pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2)) / get<2>(points[i]) < minDis) {
+                    // if ((abs(get<0>(points[i]) - get<0>(head)) + abs((get<1>(points[i]) - get<1>(head)))) / get<2>(points[i]) < minDis) {
+                    // if (max(abs(get<0>(points[i]) - get<0>(head)), abs((get<1>(points[i]) - get<1>(head)))) / get<2>(points[i]) < minDis) {
 
-    //             minDis = pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2) / get<2>(points[i]);
-    //             // minDis = (pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2)) / get<2>(points[i]);
-    //             // minDis = (abs(get<0>(points[i]) - get<0>(head)) + abs((get<1>(points[i]) - get<1>(head)))) / get<2>(points[i]);
-    //             // minDis = max(abs(get<0>(points[i]) - get<0>(head)), abs((get<1>(points[i]) - get<1>(head)))) / get<2>(points[i]);
+                    minDis = pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2) / get<2>(points[i]);
+                    // minDis = (pow((get<0>(points[i]) - get<0>(head)), 2) + pow((get<1>(points[i]) - get<1>(head)), 2)) / get<2>(points[i]);
+                    // minDis = (abs(get<0>(points[i]) - get<0>(head)) + abs((get<1>(points[i]) - get<1>(head)))) / get<2>(points[i]);
+                    // minDis = max(abs(get<0>(points[i]) - get<0>(head)), abs((get<1>(points[i]) - get<1>(head)))) / get<2>(points[i]);
 
-    //             minDisIndex = make_tuple(get<0>(points[i]), get<1>(points[i]));
-    //             minIndex = i;
-    //         }
-    //     }
-    //     minDisList.push(minDisIndex);
-    //     if (minIndex != round) {
-    //         tuple<int, int, int> tmp = points[round];
-    //         points[round] = points[minIndex];
-    //         points[minIndex] = tmp;
-    //     }
-    // }
-
-    // value
-
-    for (int round = 0; round < points.size(); round++) {
-        int maxPoint = get<2>(points[round]);
-        tuple<int, int> maxPointIndex = make_tuple(get<0>(points[round]), get<1>(points[round]));
-        int maxIndex = round;
-        for (int i = round + 1; i < points.size(); i++) {
-            if (get<2>(points[i]) > maxPoint) {
-                maxPoint = get<2>(points[i]);
-                maxPointIndex = make_tuple(get<0>(points[i]), get<1>(points[i]));
-                maxIndex = i;
+                    minDisIndex = make_tuple(get<0>(points[i]), get<1>(points[i]));
+                    minIndex = i;
+                }
+            }
+            minDisList.push(minDisIndex);
+            if (minIndex != round) {
+                tuple<int, int, int> tmp = points[round];
+                points[round] = points[minIndex];
+                points[minIndex] = tmp;
             }
         }
-        minDisList.push(maxPointIndex);
-        if (maxIndex != round) {
-            tuple<int, int, int> tmp = points[round];
-            points[round] = points[maxIndex];
-            points[maxIndex] = tmp;
+    } else {
+        // value
+        for (int round = 0; round < points.size(); round++) {
+            int maxPoint = get<2>(points[round]);
+            tuple<int, int> maxPointIndex = make_tuple(get<0>(points[round]), get<1>(points[round]));
+            int maxIndex = round;
+            for (int i = round + 1; i < points.size(); i++) {
+                if (get<2>(points[i]) > maxPoint) {
+                    maxPoint = get<2>(points[i]);
+                    maxPointIndex = make_tuple(get<0>(points[i]), get<1>(points[i]));
+                    maxIndex = i;
+                }
+            }
+            minDisList.push(maxPointIndex);
+            if (maxIndex != round) {
+                tuple<int, int, int> tmp = points[round];
+                points[round] = points[maxIndex];
+                points[maxIndex] = tmp;
+            }
         }
     }
     return minDisList;
@@ -552,7 +554,8 @@ queue<tuple<int, int>> Snake::getClosestPoint(vector<tuple<int, int, int>> point
 
 Snake::Snake(queue<tuple<int, int>> startPosition)
 {
-    position = startPosition;
+    this->point = 0;
+    this->position = startPosition;
 }
 
 queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
@@ -575,7 +578,7 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
         }
     }
 
-    queue<tuple<int, int>> pointsList = getClosestPoint(points);
+    queue<tuple<int, int>> pointsList = getClosestPoint(points, true);
 
     vector<vector<int>> tmpMap = map;
 
@@ -642,7 +645,9 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
             int x, y;
             tie(x, y) = pathToTail.top();
             pathToTail.pop();
-            if (map[x][y] == 0) {
+            if (map[x][y] == -3 || map[x][y] == -1) {
+                return this->nextPositionWhenPathNotFound(map);
+            } else if (map[x][y] == 0) {
                 this->moveBody(nextHead);
             } else {
                 this->addLength(nextHead);
