@@ -33,7 +33,6 @@ void Snake::addLength(tuple<int, int> nextPos)
         this->direction = Direction::RIGHT;
 
     this->position.push(nextPos);
-    this->point++;
 }
 
 void Snake::moveBody(tuple<int, int> nextPos)
@@ -483,6 +482,7 @@ queue<tuple<int, int>> Snake::nextPositionWhenPathNotFound(vector<vector<int>> m
 
     if (nextPos == target) {
         this->addLength(target);
+        this->point += map[get<0>(target)][get<1>(target)];
     } else
         this->moveBody(nextPos);
 
@@ -574,6 +574,7 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
             this->moveBody(nextHead);
         } else {
             this->addLength(nextHead);
+            this->point += map[get<0>(nextHead)][get<1>(nextHead)];
             this->cleanPath();
         }
         return this->position;
@@ -615,6 +616,7 @@ queue<tuple<int, int>> Snake::nextPosition(vector<vector<int>> map)
                 this->moveBody(nextHead);
             } else {
                 this->addLength(nextHead);
+                this->point += map[get<0>(nextHead)][get<1>(nextHead)];
                 this->cleanPath();
             }
             return this->position;
