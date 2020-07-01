@@ -12,7 +12,7 @@ Freshman programming project, which requires students to write a program to auto
     + [IM Final Project Snake Game AI](https://github.com/easonyu0203/IM-final-project)
 
 ## Disclaimer
-I do not own any ideas nor the source code of the grading system in this project. Also, unlike others Snake AI, this projects aims at a simpler (the hard way) implementation of the AI.
+I do not own any ideas nor the source code of the grading system in this project. Also, unlike others Snake AI, this projects aims at a simpler (the hard way) implementation of the AI. **Note that I also use this repository for development and testing, thus the repo won't be that organized and clean.**
 
 The repo is open-source, but it is mainly for the students who are taking the course IM 1010 in Spring 2020 at the National Taiwan University. All implementation is located at `Snake.cpp` and `Snake.h`, so if you are not part of the class, you can still get something out of it (this is not ideally implemented though). 
 
