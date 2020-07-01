@@ -1,5 +1,4 @@
 IM\ 1010\ Final\ Project\ Submission\ Template
-*pdf
 *.out
 *.zip
 src/
@@ -20,3 +19,7 @@ Colors*
 
 ## macOS ##
 .vscode/
+
+## Misc ##
+pwd
+Final-Project-Spec.md
