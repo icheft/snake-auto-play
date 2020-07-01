@@ -3,9 +3,12 @@ Freshman programming project, which requires students to write a program to auto
 
 + Score board (valid till `6/30`): [Google Spreadsheets (dm me for the password)](https://thinfi.com/r0zn)
 + Submission on COOL:  [Shortcut (Internal Usage Only)](https://cool.ntu.edu.tw/courses/765/assignments/14537)
++ Spec: [Final Project.pdf (dm me for the password)](./Final%20Project.pdf)
 
 ## Disclaimer
 I do not own any ideas nor the source code of the grading system in this project. Also, unlike others Snake AI, this projects aims at a simpler (the hard way) implementation of the AI.
+
+The repo is open-source, but it is mainly for the students who are taking the course IM 1010 in Spring 2020 at the National Taiwan University. All implementation is located at `Snake.cpp` and `Snake.h`, so if you are not part of the class, you can still get something out of it (this is not ideally implemented though). 
 
 At first, I was trying to use only `if-else` statements to complete the task. It turned out that the snake was able to reach up to `188` points in the end at TA's grading system (points varied as the map generated different foods each time).
 
