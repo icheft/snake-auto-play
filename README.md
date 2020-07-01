@@ -1,6 +1,8 @@
 # IM 1010 Final Project
 Freshman programming project, which requires students to write a program to automate the game-play of the classic snake game.
 
+![Image](https://i.imgur.com/rPtOcAM.png)
+
 + Score board (valid till `6/30`): [Google Spreadsheets (dm me for the password)](https://thinfi.com/r0zn)
 + Submission on COOL:  [Shortcut (Internal Usage Only)](https://cool.ntu.edu.tw/courses/765/assignments/14537)
 + Spec: [Final Project.pdf (dm me for the password)](./Final%20Project.pdf)
